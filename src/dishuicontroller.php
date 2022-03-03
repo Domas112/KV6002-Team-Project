@@ -5,54 +5,48 @@ class DishUIController
     public function __construct($function)
     {
         if($function == "view"){
-            $this->generateViewDish();
+            $this->generateViewDishUI();
         }
         else if($function == "add"){
-            $this->generateAddDish();
+            $this->generateAddDishUI();
         }
     }
 
-    private function generateViewDish(){
-        $viewPage = <<<EOT
-            <h1>View All Dish</h1>
-            <p>View all available dishes</p>
-EOT;
+    //UI Generating Function
+    private function generateViewDishUI(){
+        $viewPage = $this->generateTitle("View All Dish");
+        $viewPage .= $this->generateSubtitle("View and manage all available dish");
         $viewPage .= $this->generateDishTable();
 
         echo $viewPage;
     }
 
-    private function generateAddDish(){
-        $addPage = <<<EOT
-            <h1>Add</h1>
-            <form method="post">
-                <label>Name:</label>
-                <input type="text" name="name" id="name"><br>
-                <label>Description:</label>
-                <textarea name="description" id="description"></textarea><br>
-                <label>Category:</label>
-EOT;
-        $addPage .= $this->generateCategoryDropdown();
-        $addPage .= <<<EOT
-                <br>
-                <label>Ingredient:</label>
-                <input type="text" name="ingredient" id="ingredient"><br>
-                <label>Image Path:</label>
-                <input type="text" name="imgPath" id="imgPath"><br>
-                <label>Price:</label>
-                <input type="text" name="price" id="price"><br>
-                <input type="submit" value="Add Dish">
-            </form>
-EOT;
-
+    private function generateAddDishUI(){
+        $addPage = $this->generateTitle("Add New Dish");
+        $addPage .= $this->generateSubtitle("Adding new dish into the system");
+        $addPage .= $this->generateDishManageForm();
         echo $addPage;
 
-        if(isset($_POST['value'])){
-            $addDish = new DishDBHandler();
-            $dish = new Dish();
-            $dish->setDishName($_POST['value']);
-            $addDish->addDish($dish);
+        if(isset($_POST['submit'])){
+//            if(!$this->checkEmptyForm()){
+//                echo "Form filled!";
+//            }else{
+//                echo "Form could not be empty!";
+//            }
+            if(empty($_POST['description'])){
+                echo "Empty!";
+            }
+//            $addDB = new DishDBHandler();
         }
+    }
+
+    //UI Elements Function
+    private function generateTitle($title){
+        return "<h1>$title</h1>";
+    }
+
+    private function generateSubtitle($subtitle){
+        return "<p>$subtitle</p>";
     }
 
     private function generateDishTable(){
@@ -105,4 +99,46 @@ EOT;
 
         return $categoryDropdown;
     }
+
+    private function generateDishManageForm(){
+        $dishForm = <<<EOT
+            <form name="dishForm" method="post" enctype="multipart/form-data">
+                <label>Name:</label>
+                <input type="text" name="name" required><br>
+                <label>Description:</label>
+                <textarea name="description" required></textarea><br>
+                <label>Category:</label>
+EOT;
+        $dishForm .= $this->generateCategoryDropdown();
+        $dishForm .= <<<EOT
+                <br>
+                <label>Ingredient:</label>
+                <input type="text" name="ingredient" required><br>
+                <label>Image Path:</label>
+                <input type="file" name="imgPath"><br>
+                <label>Price:</label>
+                <input type="text" name="price" required><br>
+                <input type="submit" name="submit" value="Add Dish">
+            </form>
+EOT;
+        return $dishForm;
+    }
+
+    //System Function
+    private function uploadImage(){
+        $image = $_FILES['imgPath']['tmp_name'];
+        return base64_encode(file_get_contents(addslashes($image)));
+
+        //Note:
+        //Image could be retrieved using "<img width='200px' height='200px' src=\"data:image;base64,".$rows['testValue']."\"/>";
+    }
+
+    private function checkEmptyForm(){
+        if(empty($_POST['name']) || empty($_POST['description'] || empty($_POST['ingredient']) || empty($_POST['price']) || empty($_FILES['imgPath']['name']))){
+            echo true;
+        }else{
+            echo false;
+        }
+    }
+
 }

@@ -9,7 +9,7 @@ class DishDBHandler extends Database
 
     public function addDish($dish)
     {
-        $query = "INSERT INTO Test (testValue) VALUES (:test)";
+        $query = "INSERT INTO dish (testValue) VALUES (:test)";
         $parameter = ["test" => $dish->getDishName()];
         $this->executeSQL($query, $parameter);
     }
