@@ -2,15 +2,15 @@
 
 class Dish
 {
-    private $dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImgPath, $dishAvailability, $dishPrice;
+    private $dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImg, $dishAvailability, $dishPrice;
 
-    public function __construct($dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImgPath, $dishAvailability,$dishPrice){
+    public function __construct($dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImg, $dishAvailability,$dishPrice){
         $this->setDishID($dishID);
         $this->setDishName($dishName);
         $this->setDishDescription($dishDescription);
         $this->setDishCategory($dishCategory);
         $this->setDishIngredient($dishIngredient);
-        $this->setDishImgPath($dishImgPath);
+        $this->setDishImg($dishImg);
         $this->setDishAvailability($dishAvailability);
         $this->setDishPrice($dishPrice);
     }
@@ -55,12 +55,12 @@ class Dish
         return $this->dishIngredient;
     }
 
-    public function setDishImgPath($dishImgPath){
-        $this->dishImgPath = $dishImgPath;
+    public function setDishImg($dishImg){
+        $this->dishImg = $dishImg;
     }
 
-    public function getDishImgPath(){
-        return $this->dishImgPath;
+    public function getDishImg(){
+        return $this->dishImg;
     }
 
     public function setDishAvailability($dishAvailability){

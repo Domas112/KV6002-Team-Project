@@ -6,17 +6,15 @@
     <head>
         <title>Dish Management</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../style.css">
     </head>
     <body>  
         <ul>
-            <li><a href="?function=view">View</a></li>
-            <li><a href="?function=add">Add</a></li>
+            <li><a href="/kv6002/dishmanagement.php/view">View</a></li>
+            <li><a href="/kv6002/dishmanagement.php/add">Add</a></li>
         </ul>
 <?php
-    if(isset($_GET["function"])){
-        $dishUI = new DishUIController($_GET["function"]);
-    }
+    $dishUI = new DishUIController();
 ?>
     </body>
 </html>
