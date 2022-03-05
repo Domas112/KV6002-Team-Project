@@ -18,50 +18,11 @@
             <h1 class='col-11'>Helloworld</h1>
             <button class='border border-dark btn btn-info col-1'>My orders</button>
         </div>
+
     </header>
     <main class='container p-5'>
-        <!-- <dish-component 
-            id="first"
-            title="Title"
-            price="5.99"
-            description="This dish is very good and has some ingridients in it"
-            image-path="../resources/images/dish_1.jpg"
-            
-            ></dish-component> -->
-        <dishes-list></dishes-list>
-        <!-- <div id='${this.id}' class='row border border-dark'>
-            <div class='col-2'>
-                <dish-amount-button></dish-amount-button>
-            </div>
-            <h1 class='col-6'>
-                ${this.title}
-            </h1>
-            <p class='dish-price col-2'>
-                £${this.price}  
-            </p>
-
-            <div class='col-2'>
-                <div class='dropdown'>
-                    <button id='btn-${this.id}' class='border btn btn-primary' type='button' data-bs-toggle='collapse' data-bs-target='.extra-content' aria-expanded='false' aria-controls='extra-content'>
-                        ${this.btnText}
-                    </button>
-                </div>
-            </div>
-
-            <div class='container collapsing show col-12 extra-content' id='test'>
-
-                <div class='row card-body'>
-
-                    <div class='col'>
-                        <img class='dish-image' src='../resources/images/dish_1.jpg'>
-                    </div>
-
-                    <div class='col dish-extra-info'>
-                        ${this.description}                        
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        <dishes-component></dishes-component>
+        <checkout-component></checkout-component>
     </main>        
     <footer>
         <p>Amaysia</p>

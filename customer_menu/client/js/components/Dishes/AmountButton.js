@@ -1,9 +1,7 @@
-export class DishAmountButton extends HTMLElement{
+export class AmountButton extends HTMLElement{
 
     constructor(){
         super();
-        this.amount = 0;
-        this.attachShadow({mode:'open'})
     }
 
     get amount(){return this.getAttribute('amount');}
@@ -14,7 +12,7 @@ export class DishAmountButton extends HTMLElement{
     set amountId(val){this.setAttribute('amountid',val);}
 
     static get observedAttributes(){
-        return ["id", "amountid", "amount"];
+        return ["id", "amount"];
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
@@ -29,46 +27,33 @@ export class DishAmountButton extends HTMLElement{
     }
 
     addEventListeners(){
-        let increaseBtn = this.shadowRoot.querySelector(`#incBtn-${this.id}`);
+        let increaseBtn = this.querySelector(`#incBtn-${this.id}`);
         increaseBtn.addEventListener('click', ()=>{
             this.amount++;
+            this.parentElement.amount++;
+            
         })
 
-        let decreaseBtn = this.shadowRoot.querySelector(`#dcrBtn-${this.id}`);
+        let decreaseBtn = this.querySelector(`#dcrBtn-${this.id}`);
         decreaseBtn.addEventListener('click', ()=>{
             if(this.amount > 0){
                 this.amount--;
             }
         })
+
     }
 
 
     render(){
-        this.shadowRoot.innerHTML = `
-            <style>
-                .row-format{
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-contents: center;
-
-                }
-                .row-format>button{
-                    height:50%;
-                }
-
-                h2{
-                    margin: 0 1% 0 1%;
-                }
-            </style>
+        this.innerHTML = `
             <div class='row-format'>
-                <button id='dcrBtn-${this.id}' class='btn btn-danger'>
+                <button id='dcrBtn-${this.id}' class='btn btn-danger dcrBtn'>
                 -   
                 </button>
-                    <h2 id='${this.amountId}'>
-                    ${this.amount}
+                    <h2 class='amount' id='amount-${this.id}'>
+                        ${this.amount}
                     </h2>
-                <button id='incBtn-${this.id}' class='btn btn-success'>
+                <button id='incBtn-${this.id}' class='btn btn-success incBtn'>
                 +
                 </button>
             </div>

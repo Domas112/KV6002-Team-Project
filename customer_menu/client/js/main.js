@@ -1,10 +1,20 @@
-import {DishComponent} from './components/DishComponent.js';
-import {DishAmountButton} from './components/DishAmountButton.js';
-import { DishesList } from './components/DishesList.js';
+import { Dish } from './components/Dishes/Dish.js';
+import { AmountButton} from './components/Dishes/AmountButton.js';
+import { DishesList } from './components/Dishes/DishesList.js';
+
+import {Checkout} from './components/Checkout/Checkout.js';
 
 window.addEventListener('load', ()=>{
-    window.customElements.define('dish-amount-button', DishAmountButton);
-    window.customElements.define('dish-component', DishComponent);
-    window.customElements.define('dishes-list', DishesList);
-    
-})
+    defineElements();    
+    const main = document.querySelector('main'); 
+  
+
+});
+
+
+function defineElements(){
+    window.customElements.define('amount-button', AmountButton);
+    window.customElements.define('dish-component', Dish);
+    window.customElements.define('dishes-component', DishesList);
+    window.customElements.define('checkout-component', Checkout);
+}

@@ -8,23 +8,22 @@ export class DishesList extends HTMLElement{
                         'title': 'dish name',
                         'price': '5.99',
                         'description': 'this dish is very tasty and definitely has some ingredients in it',
-                        'imagePath': '../resources/images/dish_1.jpg',
+                        'imagePath': '../resources/images/dish_1.jpg'
                     },
                     {
                         'id': '2',
                         'title': 'new name',
                         'price': '11.99',
                         'description': 'this dish is very tasty as well and probably, definitely has some ingredients in it',
-                        'imagePath': '../resources/images/dish_1.jpg',
+                        'imagePath': '../resources/images/dish_1.jpg'
                     }
                 ]
         }
 
     }
-
-
+    
     static get observedAttributes(){
-        return [];
+        return ["amount"];
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
@@ -44,7 +43,7 @@ export class DishesList extends HTMLElement{
                     title="${element.title}"
                     price="${element.price}"
                     description="${element.description}"
-                    image-path="${element.imagePath}" 
+                    image-path="${element.imagePath}"
                 />
             `;
            
