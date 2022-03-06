@@ -4,6 +4,7 @@ export class Dish extends HTMLElement{
         super();
         this.btnText = 'Open';
         this.amount = 0;
+        this.ordered = false;
     }
 
     get id(){return this.getAttribute('id')};
@@ -16,6 +17,8 @@ export class Dish extends HTMLElement{
     set btnText(val){this.setAttribute('btn-text',val);}
     get amount(){return this.getAttribute('amount');}
     set amount(val){this.setAttribute('amount',val);}
+    get ordered(){return this.getAttribute('ordered');}
+    set ordered(val){this.setAttribute('ordered',val);}
 
     static get observedAttributes(){
         return ['btn-text', 'amount'];
@@ -38,12 +41,15 @@ export class Dish extends HTMLElement{
             
             this.addAmountListeners();
         }
+
+        this.checkIfOrdered();
     }
 
     connectedCallback(){
         this.render();
         this.addButtonTxtListeners();
         this.addAmountListeners();
+        this.checkIfOrdered();
     }
 
     addButtonTxtListeners(){
@@ -55,12 +61,34 @@ export class Dish extends HTMLElement{
 
     addAmountListeners(){
         const amountButtonElement = this.querySelector(`amount-button`);
+        const checkoutElement = document.querySelector('checkout-component');
         amountButtonElement.children[0].querySelector(`#dcrBtn-amount-btn-${this.id}`).addEventListener('click', ()=>{
-            this.amount--;
+            if(this.amount>0){
+                this.amount--;
+                let totalItemsNumber = parseInt(checkoutElement.getAttribute('total-items-number'));
+                checkoutElement.setAttribute('total-items-number',totalItemsNumber-1);
+    
+                let totalCost = parseFloat(checkoutElement.getAttribute('total-cost'));
+                checkoutElement.setAttribute('total-cost', (totalCost-parseFloat(this.price)).toFixed(2));
+            }
         });
         amountButtonElement.children[0].querySelector(`#incBtn-amount-btn-${this.id}`).addEventListener('click', ()=>{
             this.amount++;
+            let totalItemsNumber = parseInt(checkoutElement.getAttribute('total-items-number'));
+            checkoutElement.setAttribute('total-items-number',totalItemsNumber+1);
+
+            
+            let totalCost = parseFloat(checkoutElement.getAttribute('total-cost'));
+            checkoutElement.setAttribute('total-cost', (totalCost+parseFloat(this.price)).toFixed(2));
         });
+    }
+
+    checkIfOrdered(){
+        if(this.amount > 0 ){
+            this.ordered = true;
+        }else{
+            this.ordered = false;
+        }
     }
 
     render(){

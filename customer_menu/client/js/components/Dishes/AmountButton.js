@@ -2,6 +2,7 @@ export class AmountButton extends HTMLElement{
 
     constructor(){
         super();
+        this.tracked = false;
     }
 
     get amount(){return this.getAttribute('amount');}
@@ -16,6 +17,7 @@ export class AmountButton extends HTMLElement{
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
+        
         this.render();
         this.addEventListeners();
     }
