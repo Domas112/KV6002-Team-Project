@@ -16,24 +16,17 @@ class DishUIController
         else if($this->path == "edit"){
             $this->generateEditDishUI();
         }
-    }
-
-    private function setPath(){
-        $this->path = parse_url($_SERVER["REQUEST_URI"])['path'];
-        $this->path = str_replace($this->basepath, "", $this->path);
-        $this->path = trim($this->path,"/");
-        $this->path = strtolower($this->path);
-    }
-
-    public function getPath(){
-        return $this->path;
+        else if($this->path == "delete"){
+            $this->generateDeleteDishUI();
+        }
     }
 
     //UI Generating Function
     private function generateViewDishUI(){
         $viewPage = $this->generateTitle("View All Dish");
         $viewPage .= $this->generateSubtitle("View and manage all available dish");
-        $viewPage .= $this->generateDishTable();
+        $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
+        $viewPage .= "<script type='text/javascript' src='../js/retrieveAllDish.js'></script>";
 
         echo $viewPage;
     }
@@ -46,9 +39,10 @@ class DishUIController
         echo $addPage;
 
         if(isset($_POST['submit'])){
-            $addNewDish = new DishDBHandler();
+            $dishDB = new DishDBHandler();
+
             $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$_POST['ingredient'],$this->uploadImage(),"1",$_POST['price']);
-            $addNewDish->addDish($dish);
+            $dishDB->addDish($dish);
         }
     }
 
@@ -57,8 +51,8 @@ class DishUIController
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         $editDish = "";
         if(isset($_GET['id'])){
-            $retrieveDishData = new DishDBHandler();
-            $result = $retrieveDishData->retrieveOneDish($_GET['id']);
+            $dishDB = new DishDBHandler();
+            $result = $dishDB->retrieveOneDish($_GET['id']);
             foreach($result as $row){
                 $editDish = new Dish($row['dishID'],$row['dishName'],$row['dishDescription'],$row['dishCategoryID'],
                                  $row['dishIngredient'],$row['dishImg'],$row['dishAvailability'],$row['dishPrice']);
@@ -71,6 +65,33 @@ class DishUIController
         echo $editPage;
     }
 
+    private function generateDeleteDishUI(){
+        $deletePage = $this->generateTitle("Delete Dish");
+        if(isset($_GET['id'])){
+            $deletePage .= $this->generateSubtitle("Are you sure you want to delete this dish?");
+            $deletePage .= $this->generateSubtitle("Selected dish ID: ".$_GET['id']);
+
+            $deletePage .= <<<EOT
+            <form name="deletionForm" method="post">
+                <input type="submit" name="yes" value="Yes">
+                <input type="button" name="no" value="No" onclick="location.href='/kv6002/dishmanagement.php/view';">
+            </form>
+EOT;
+        }else{
+            $deletePage .= $this->generateSubtitle("No data has been selected!");
+        }
+
+
+        echo $deletePage;
+
+        if(isset($_POST['yes'])){
+            $dishDB = new DishDBHandler();
+            if($dishDB->deleteDish($_GET['id'])){
+                header('Location: /kv6002/dishmanagement.php/view');
+            };
+        }
+    }
+
     //UI Elements Function
     private function generateTitle($title){
         return "<h1>$title</h1>";
@@ -78,51 +99,6 @@ class DishUIController
 
     private function generateSubtitle($subtitle){
         return "<p>$subtitle</p>";
-    }
-
-    private function generateDishTable(){
-        //Generating table header
-        $table = <<<EOT
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Dish ID</th>
-                        <th>Dish Name</th>
-                        <th>Dish Description</th>
-                        <th>Dish Category</th>
-                        <th>Dish Price</th>
-                        <th>Dish Image</th>
-                        <th>Dish Availability</th>
-                        <th>Management</th>
-                    </tr>
-EOT;
-
-        //Initialise DB Handler
-        $viewDish = new DishDBHandler();
-
-        //Retrieve data from database
-        $result = $viewDish->retrieveDish();
-
-        //Append table with retrieved data
-        foreach($result as $rows){
-            $dish = new Dish($rows['dishID'],$rows['dishName'],$rows['dishDescription'],$rows['dishCategoryID'],$rows['dishIngredient'],$rows['dishImg'],$rows['dishAvailability'],$rows['dishPrice']);
-            $table .= <<<EOT
-                <tr>
-                    <td>{$dish->getDishID()}</td>
-                    <td>{$dish->getDishName()}</td>
-                    <td>{$dish->getDishDescription()}</td>
-                    <td>{$dish->getDishCategory()}</td>
-                    <td>{$dish->getDishPrice()}</td>
-                    <td><img width='auto' height='200px' src='data:image;base64,{$dish->getDishImg()}'/></td>
-                    <td>{$this->availabilityInterpreter($dish->getDishAvailability())}</td>
-                    <td>
-                        <li><a href="/kv6002/dishmanagement.php/edit?id={$dish->getDishID()}">Edit</a></li>
-                    </td>
-                </tr>
-EOT;
-        }
-
-        return $table;
     }
 
     private function generateDishManageForm($dish){
@@ -163,13 +139,12 @@ EOT;
 
     //System Function
     private function uploadImage(){
-        if(!empty($_FILES)){
+        if(!is_uploaded_file($_FILES['imgPath']['tmp_name'])){
+            return null;
+        }else{
             $image = $_FILES['imgPath']['tmp_name'];
             return base64_encode(file_get_contents(addslashes($image)));
-        }else{
-            return null;
         }
-
 
         //Note:
         //Image could be retrieved using "<img width='200px' height='200px' src=\"data:image;base64,".$rows['testValue']."\"/>";
@@ -204,11 +179,14 @@ EOT;
         }
     }
 
-    private function availabilityInterpreter($availability){
-        if($availability == 1){
-            return "Available";
-        }else if($availability == 0){
-            return "Not Available";
-        }
+    private function setPath(){
+        $this->path = parse_url($_SERVER["REQUEST_URI"])['path'];
+        $this->path = str_replace($this->basepath, "", $this->path);
+        $this->path = trim($this->path,"/");
+        $this->path = strtolower($this->path);
+    }
+
+    public function getPath(){
+        return $this->path;
     }
 }
