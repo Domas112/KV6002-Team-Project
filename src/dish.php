@@ -2,14 +2,13 @@
 
 class Dish
 {
-    private $dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImg, $dishAvailability, $dishPrice;
+    private $dishID, $dishName, $dishDescription, $dishCategory, $dishImg, $dishAvailability, $dishPrice;
 
-    public function __construct($dishID, $dishName, $dishDescription, $dishCategory, $dishIngredient, $dishImg, $dishAvailability,$dishPrice){
+    public function __construct($dishID, $dishName, $dishDescription, $dishCategory, $dishImg, $dishAvailability,$dishPrice){
         $this->setDishID($dishID);
         $this->setDishName($dishName);
         $this->setDishDescription($dishDescription);
         $this->setDishCategory($dishCategory);
-        $this->setDishIngredient($dishIngredient);
         $this->setDishImg($dishImg);
         $this->setDishAvailability($dishAvailability);
         $this->setDishPrice($dishPrice);
@@ -45,14 +44,6 @@ class Dish
 
     public function getDishCategory(){
         return $this->dishCategory;
-    }
-
-    public function setDishIngredient($dishIngredient){
-        $this->dishIngredient = $dishIngredient;
-    }
-
-    public function getDishIngredient(){
-        return $this->dishIngredient;
     }
 
     public function setDishImg($dishImg){

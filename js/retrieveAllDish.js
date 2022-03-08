@@ -24,7 +24,6 @@ window.addEventListener('load',function(){
                         "<th>Name</th>\n" +
                         "<th>Description</th>\n" +
                         "<th>Category</th>\n" +
-                        "<th>Ingredient</th>\n" +
                         "<th>Price</th>\n" +
                         "<th>Image</th>\n" +
                         "<th>Availability</th>\n" +
@@ -36,7 +35,6 @@ window.addEventListener('load',function(){
                             "<td>"+json[x].dishName+"</td>\n" +
                             "<td>"+json[x].dishDescription+"</td>\n" +
                             "<td>"+json[x].dishCategoryID+"</td>\n" +
-                            "<td>"+json[x].dishIngredient+"</td>\n" +
                             "<td>"+json[x].dishPrice+"</td>\n" +
                             "<td>"+generateImage(json[x].dishImg)+"</td>\n" +
                             "<td>"+interpretAvailability(json[x].dishAvailability)+"</td>\n" +

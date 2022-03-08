@@ -41,7 +41,7 @@ class DishUIController
         if(isset($_POST['submit'])){
             $dishDB = new DishDBHandler();
 
-            $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$_POST['ingredient'],$this->uploadImage(),"1",$_POST['price']);
+            $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$this->uploadImage(),"1",$_POST['price']);
             $dishDB->addDish($dish);
         }
     }
@@ -51,13 +51,8 @@ class DishUIController
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         $editDish = "";
         if(isset($_GET['id'])){
-            $dishDB = new DishDBHandler();
-            $result = $dishDB->retrieveOneDish($_GET['id']);
-            foreach($result as $row){
-                $editDish = new Dish($row['dishID'],$row['dishName'],$row['dishDescription'],$row['dishCategoryID'],
-                                 $row['dishIngredient'],$row['dishImg'],$row['dishAvailability'],$row['dishPrice']);
-            }
-            $editPage .= $this->generateDishManageForm($editDish);
+            $editPage .= $this->generateDishManageForm();
+            $editPage .= "<script type='text/javascript' src='../js/retrieveOneDish.js'></script>";
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
         }
@@ -101,36 +96,34 @@ EOT;
         return "<p>$subtitle</p>";
     }
 
-    private function generateDishManageForm($dish){
+    private function generateDishManageForm(){
         $dishForm = <<<EOT
             <form name="dishForm" method="post" enctype="multipart/form-data">
                 <label>Name:</label>
-                <input type="text" name="name" {$this->setValue($dish, "name")} required><br>
+                <input type="text" name="name" id="name" required><br>
                 <label>Description:</label>
-                <textarea name="description" required>{$this->setValue($dish, "description")}</textarea><br>
+                <textarea name="description" id="description" required></textarea><br>
                 <label>Category:</label>
 EOT;
-        $dishForm .= $this->generateCategoryDropdown($this->setValue($dish, "category"));
+        $dishForm .= $this->generateCategoryDropdown();
         $dishForm .= <<<EOT
                 <br>
-                <label>Ingredient:</label>
-                <input type="text" name="ingredient" {$this->setValue($dish, "ingredient")} required><br>
                 <label>Image Path:</label>
                 <input type="file" name="imgPath"><br>
                 <label>Price:</label>
-                <input type="text" name="price" {$this->setValue($dish, "price")} required><br>
+                <input type="text" name="price" id="price" required><br>
                 <input type="submit" name="submit" value="Add Dish">
             </form>
 EOT;
         return $dishForm;
     }
 
-    private function generateCategoryDropdown($selected){
+    private function generateCategoryDropdown(){
         $category = new CategoryDBHandler();
         $result = $category->retrieveAllCategory();
         $categoryDropdown = "<select name=\"category\" id=\"category\">";
         foreach($result as $rows){
-            $categoryDropdown .= "<option value=\"{$rows['CategoryID']}\" {$this->isSelected($selected, $rows['CategoryID'])}>{$rows['CategoryName']}</option>";
+            $categoryDropdown .= "<option value=\"{$rows['categoryID']}\">{$rows['categoryName']}</option>";
         }
         $categoryDropdown .= "</select>";
 
