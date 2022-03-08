@@ -5,14 +5,15 @@ export class Dish extends HTMLElement{
         this.btnText = 'Open';
         this.amount = 0;
         this.ordered = false;
+        this.image = '';
+        
     }
 
     get id(){return this.getAttribute('id')};
     get title(){return this.getAttribute('title');}
     get price(){return this.getAttribute('price');}
     get description(){return this.getAttribute('description');}
-    get imagePath(){return this.getAttribute('image-path');}
-
+    
     get btnText(){return this.getAttribute('btn-text');}
     set btnText(val){this.setAttribute('btn-text',val);}
     get amount(){return this.getAttribute('amount');}
@@ -22,6 +23,14 @@ export class Dish extends HTMLElement{
 
     static get observedAttributes(){
         return ['btn-text', 'amount'];
+    }
+
+    async getDishes(){
+        let results = await fetch(`../../customer_menu/backend/apis/Dishes.php?id=${this.id}&&image=1`)
+                            .then(res=>res.json())
+                            .catch(err=>console.error(err));
+        
+        return results;
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
@@ -45,7 +54,8 @@ export class Dish extends HTMLElement{
         this.checkIfOrdered();
     }
 
-    connectedCallback(){
+    async connectedCallback(){
+        this.image = await this.getDishes();
         this.render();
         this.addButtonTxtListeners();
         this.addAmountListeners();
@@ -116,7 +126,7 @@ export class Dish extends HTMLElement{
                 <div class='row card-body'>
 
                     <div class='col'>
-                        <img class='dish-image' src='${this.imagePath}'>
+                        <img class='dish-image' src='data:image;base64,${this.image}'>
                     </div>
 
                     <div class='col dish-extra-info'>
