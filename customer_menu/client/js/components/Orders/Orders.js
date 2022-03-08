@@ -1,91 +1,43 @@
-export class Orders extends HTMLElement{
+export class OrdersSum extends HTMLElement{
     constructor(){
         super();
-        this.orders = [];
+        this.totalCost = 0;
+        this.totalItemsNumber = 0;
     }
+
+    get totalCost(){return this.getAttribute('total-cost');}
+    set totalCost(val){this.setAttribute('total-cost',val);}
+
+    get totalItemsNumber(){return this.getAttribute('total-items-number');}
+    set totalItemsNumber(val){this.setAttribute('total-items-number',val);}
 
     static get observedAttributes(){
-        return [];
+        return ["total-items-number", "total-cost"];
     }
 
-    attributeChangedCallback(){
-        console.log('updated');
+    attributeChangedCallback(props, newVal, oldVal){
         this.render();
-        this.querySelector('#open-orders').addEventListener('click', ()=>{
-            this.getOrders();
-        });
     }
 
     connectedCallback(){
         this.render();
-        this.querySelector('#open-orders').addEventListener('click', ()=>{
-            this.getOrders();
-        });
-    }
-
-    getOrders(){
-        const dishes = document.querySelectorAll('dish-component');
-        console.log(dishes);
-
-        dishes.forEach(element=>{
-            console.log(element);
-            if(element.getAttribute('ordered') == 'true'){
-                let id = element.getAttribute('id');
-                let title = element.getAttribute('title');
-                let price = element.getAttribute('price');
-                let amount = element.getAttribute('amount');
-                //TODO MAKE SURE THERE ARE NO DUPLICATES. 
-                //EITHER BY MAKING THIS INTO OBJECTS OR SOMEHOW CHECKING FOR DUPES 
-                this.orders.push({
-                    id: id, 
-                    title : title,
-                    price : price,
-                    amount : amount
-                });
-                console.log(this.orders);
-            }
-        })
-
-        this.render();
     }
 
     render(){
-        console.log(this.orders.length);
-        if(this.orders.length == 0){
-            this.innerHTML = `
-                <button id='open-orders'>
-                    Open orders
-                </button>
-            `;
-        }else{
-            let placeholder = `
-                            <button id='open-orders'>
-                                Open orders
-                            </button>
-                            <div class="container">
-                        `;
-            this.orders.forEach(order=>{
-                console.log(order);
-                placeholder += `                    
-                        <div class='row'>
-                            <div class='col'>
-                                ${order.title}
-                            </div>
-                            <div class='col'>
-                                ${order.price}
-                            </div>
-                            <div class='col'>
-                                ${order.amount}
-                            </div>
-                        </div>`;
-            })
-            placeholder += `</div>`;
-
-            this.innerHTML = placeholder;
-        }
-
-        this.querySelector('#open-orders').addEventListener('click', ()=>{
-            this.getOrders();
-        });
+        this.innerHTML = `
+            <div id='checkout' class='container>
+                <div class='row'>
+                    <p class='col'> 
+                        total items: ${this.totalItemsNumber}
+                    </p>
+                    <p class='col'>
+                        total cost: ${this.totalCost}
+                    </p>
+                    <button class='col btn btn-warning'>
+                        Submit order
+                    </button>
+                </div>
+            </div>
+        `;
     }
 }
