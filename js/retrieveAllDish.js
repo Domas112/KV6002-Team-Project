@@ -31,7 +31,8 @@ window.addEventListener('load',function(){
                         "<th>Management</th>\n" +
                         "</tr>";
                     for(var x in json){
-                        $viewDishTable += "<tr>\n" +
+                        $viewDishTable +=
+                            "<tr>\n" +
                             "<td>"+json[x].dishID+"</td>\n" +
                             "<td>"+json[x].dishName+"</td>\n" +
                             "<td>"+json[x].dishDescription+"</td>\n" +
@@ -41,9 +42,9 @@ window.addEventListener('load',function(){
                             "<td>"+interpretAvailability(parseInt(json[x].dishAvailability))+"</td>\n" +
                             "<td>\n" +
                             "<li><a href=\"/kv6002/dishmanagement.php/edit?id="+json[x].dishID+"\">Edit</a></li>\n" +
-                            "<li><a href=\"/kv6002/dishmanagement.php/delete?id="+json[x].dishID+"&imgID="+json[x].dishImg+"\">Delete</a></li>\n" +
+                            "<li><a href=\"/kv6002/dishmanagement.php/delete?id="+json[x].dishID+"\">Delete</a></li>\n" +
                             "<li><a href=\"/kv6002/dishmanagement.php/availability?id="+json[x].dishID+"\">Change Availability</a></li>\n" +
-                            "</td>" +
+                            "</td>\n" +
                             "</tr>\n";
                     }
                     $viewDishTable +=
@@ -61,14 +62,6 @@ window.addEventListener('load',function(){
 
     retrieveAll();
 })
-//
-// function generateImage(imgData){
-//     if(imgData != null){
-//         return "<img width='350px' height='200px' src='data:image;base64,"+imgData+"'/>";
-//     }else{
-//         return "<img width='350px' height='200px' src='../assets/not-available.jpg'/>";
-//     }
-// }
 
 function interpretAvailability(availability){
     if(availability === 0){

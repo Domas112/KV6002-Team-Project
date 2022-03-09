@@ -10,7 +10,7 @@ class DishUIElement
         return "<p>$subtitle</p>";
     }
 
-    protected function generateDishManageForm(){
+    protected function generateDishManageForm($mode){
         $dishForm = <<<EOT
             <form name="dishForm" method="post" enctype="multipart/form-data">
                 <label>Name:</label>
@@ -26,7 +26,7 @@ EOT;
                 <input type="file" name="imgPath"><br>
                 <label>Price:</label>
                 <input type="text" name="price" id="price" required><br>
-                <input type="submit" name="submit" value="Add Dish">
+                <input type="submit" name="submit" value="{$this->submitTextChange($mode)}">
             </form>
 EOT;
         return $dishForm;
@@ -46,5 +46,13 @@ EOT;
 
     protected function includeJavascript($scriptPath){
         return "<script type='text/javascript' src='".$scriptPath."'></script>";
+    }
+
+    private function submitTextChange($mode){
+        if($mode == "add"){
+            return "Add Dish";
+        }else if($mode == "edit"){
+            return "Edit Dish";
+        }
     }
 }

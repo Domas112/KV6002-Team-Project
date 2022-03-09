@@ -25,4 +25,10 @@ class ImageDBHandler extends Database
             return $row['imageID'];
         }
     }
+
+    public function updateImage($id, $img){
+        $query = "UPDATE image SET imageData = :img WHERE imageID = :id";
+        $parameter = ["img" => $img, "id" => $id];
+        $this->executeSQL($query,$parameter);
+    }
 }

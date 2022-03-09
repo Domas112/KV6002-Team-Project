@@ -37,7 +37,7 @@ class DishUIController extends DishUIElement
     private function generateAddDishUI(){
         $addPage = $this->generateTitle("Add New Dish");
         $addPage .= $this->generateSubtitle("Adding new dish into the system");
-        $addPage .= $this->generateDishManageForm();
+        $addPage .= $this->generateDishManageForm("add");
 
         echo $addPage;
 
@@ -52,10 +52,18 @@ class DishUIController extends DishUIElement
         $editPage = $this->generateTitle("Edit Dish");
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         if(isset($_GET['id'])){
-            $editPage .= $this->generateDishManageForm();
+            $editPage .= $this->generateDishManageForm("edit");
             $editPage .= $this->includeJavascript("../js/retrieveOneDish.js");
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
+        }
+
+        if(isset($_POST['submit'])){
+            $dishDB = new DishDBHandler();
+            $dish = new Dish($_GET['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$_POST['price']);
+            if($dishDB->editDish($dish)){
+                header('Location: /kv6002/dishmanagement.php/view');
+            }
         }
 
         echo $editPage;
@@ -82,9 +90,9 @@ EOT;
 
         if(isset($_POST['yes'])){
             $dishDB = new DishDBHandler();
-            if($dishDB->deleteDish($_GET['id'],$_GET['imgID'])){
+            if($dishDB->deleteDish($_GET['id'])){
                 header('Location: /kv6002/dishmanagement.php/view');
-            };
+            }
         }
     }
 
