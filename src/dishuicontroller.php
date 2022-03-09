@@ -1,6 +1,6 @@
 <?php
 
-class DishUIController
+class DishUIController extends DishUIElement
 {
     private $path;
     private $basepath = FOODMANAGEMENT_BASEPATH;
@@ -24,12 +24,12 @@ class DishUIController
         }
     }
 
-    //UI Generating Function
+    //UI Generating
     private function generateViewDishUI(){
         $viewPage = $this->generateTitle("View All Dish");
         $viewPage .= $this->generateSubtitle("View and manage all available dish");
         $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
-        $viewPage .= "<script type='text/javascript' src='../js/retrieveAllDish.js'></script>";
+        $viewPage .= $this->includeJavascript("../js/retrieveAllDish.js");
 
         echo $viewPage;
     }
@@ -37,14 +37,13 @@ class DishUIController
     private function generateAddDishUI(){
         $addPage = $this->generateTitle("Add New Dish");
         $addPage .= $this->generateSubtitle("Adding new dish into the system");
-        $addPage .= $this->generateDishManageForm(null);
+        $addPage .= $this->generateDishManageForm();
 
         echo $addPage;
 
         if(isset($_POST['submit'])){
             $dishDB = new DishDBHandler();
-            $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$this->uploadImage(),"1",$_POST['price']);
-            $dishDB->uploadDishImage($dish->getDishImg());
+            $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),"1",$_POST['price']);
             $dishDB->addDish($dish);
         }
     }
@@ -54,7 +53,7 @@ class DishUIController
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm();
-            $editPage .= "<script type='text/javascript' src='../js/retrieveOneDish.js'></script>";
+            $editPage .= $this->includeJavascript("../js/retrieveOneDish.js");
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
         }
@@ -109,70 +108,21 @@ EOT;
         echo $availabilityPage;
     }
 
-    //UI Elements Function
-    private function generateTitle($title){
-        return "<h1>$title</h1>";
-    }
-
-    private function generateSubtitle($subtitle){
-        return "<p>$subtitle</p>";
-    }
-
-    private function generateDishManageForm(){
-        $dishForm = <<<EOT
-            <form name="dishForm" method="post" enctype="multipart/form-data">
-                <label>Name:</label>
-                <input type="text" name="name" id="name" required><br>
-                <label>Description:</label>
-                <textarea name="description" id="description" required></textarea><br>
-                <label>Category:</label>
-EOT;
-        $dishForm .= $this->generateCategoryDropdown();
-        $dishForm .= <<<EOT
-                <br>
-                <label>Image Path:</label>
-                <input type="file" name="imgPath"><br>
-                <label>Price:</label>
-                <input type="text" name="price" id="price" required><br>
-                <input type="submit" name="submit" value="Add Dish">
-            </form>
-EOT;
-        return $dishForm;
-    }
-
-    private function generateCategoryDropdown(){
-        $category = new CategoryDBHandler();
-        $result = $category->retrieveAllCategory();
-        $categoryDropdown = "<select name=\"category\" id=\"category\">";
-        foreach($result as $rows){
-            $categoryDropdown .= "<option value=\"{$rows['categoryID']}\">{$rows['categoryName']}</option>";
-        }
-        $categoryDropdown .= "</select>";
-
-        return $categoryDropdown;
-    }
-
-    //System Function
-    private function uploadImage(){
+    //Conversion
+    private function imageToBlob(){
         if(!is_uploaded_file($_FILES['imgPath']['tmp_name'])){
             return 1;
         }else{
             $image = $_FILES['imgPath']['tmp_name'];
             return base64_encode(file_get_contents(addslashes($image)));
         }
-
-        //Note:
-        //Image could be retrieved using "<img width='200px' height='200px' src=\"data:image;base64,".$rows['testValue']."\"/>";
     }
 
+    //Request
     private function setPath(){
         $this->path = parse_url($_SERVER["REQUEST_URI"])['path'];
         $this->path = str_replace($this->basepath, "", $this->path);
         $this->path = trim($this->path,"/");
         $this->path = strtolower($this->path);
-    }
-
-    public function getPath(){
-        return $this->path;
     }
 }
