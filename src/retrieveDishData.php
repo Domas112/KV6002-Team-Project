@@ -16,7 +16,10 @@ catch (Exception $e){
 function retrieveAllDish(){
     $database = new Database();
     try{
-        $result = $database->executeSQL("SELECT * FROM dish")->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM dish
+                  INNER JOIN image
+                  ON image.imageID = dish.dishImg";
+        $result = $database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
         header("Content-Type: application/json; charset=UTF-8");
         return json_encode($result);
     }

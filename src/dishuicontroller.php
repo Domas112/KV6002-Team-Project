@@ -19,6 +19,9 @@ class DishUIController
         else if($this->path == "delete"){
             $this->generateDeleteDishUI();
         }
+        else if($this->path == "availability"){
+            $this->generateAvailabilityUI();
+        }
     }
 
     //UI Generating Function
@@ -40,8 +43,8 @@ class DishUIController
 
         if(isset($_POST['submit'])){
             $dishDB = new DishDBHandler();
-
             $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$this->uploadImage(),"1",$_POST['price']);
+            $dishDB->uploadDishImage($dish->getDishImg());
             $dishDB->addDish($dish);
         }
     }
@@ -49,7 +52,6 @@ class DishUIController
     private function generateEditDishUI(){
         $editPage = $this->generateTitle("Edit Dish");
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
-        $editDish = "";
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm();
             $editPage .= "<script type='text/javascript' src='../js/retrieveOneDish.js'></script>";
@@ -81,10 +83,30 @@ EOT;
 
         if(isset($_POST['yes'])){
             $dishDB = new DishDBHandler();
-            if($dishDB->deleteDish($_GET['id'])){
+            if($dishDB->deleteDish($_GET['id'],$_GET['imgID'])){
                 header('Location: /kv6002/dishmanagement.php/view');
             };
         }
+    }
+
+    private function generateAvailabilityUI()
+    {
+        $availabilityPage = $this->generateTitle("Change Dish Availability");
+        if(isset($_GET['id'])){
+            $availabilityPage .= $this->generateSubtitle("Are you sure you want to change the availability of the selected dish?");
+            $availabilityPage .= $this->generateSubtitle("Selected dish ID: " . $_GET['id']);
+
+            $availabilityPage .= <<<EOT
+            <form name="deletionForm" method="post">
+                <input type="submit" name="yes" value="Yes">
+                <input type="button" name="no" value="No" onclick="location.href='/kv6002/dishmanagement.php/view';">
+            </form>
+EOT;
+        }else{
+            $availabilityPage .= $this->generateSubtitle("No data has been selected!");
+        }
+
+        echo $availabilityPage;
     }
 
     //UI Elements Function
@@ -133,7 +155,7 @@ EOT;
     //System Function
     private function uploadImage(){
         if(!is_uploaded_file($_FILES['imgPath']['tmp_name'])){
-            return null;
+            return 1;
         }else{
             $image = $_FILES['imgPath']['tmp_name'];
             return base64_encode(file_get_contents(addslashes($image)));
@@ -141,35 +163,6 @@ EOT;
 
         //Note:
         //Image could be retrieved using "<img width='200px' height='200px' src=\"data:image;base64,".$rows['testValue']."\"/>";
-    }
-
-    private function isSelected($retrievedCatID, $generatedCatID){
-        if($retrievedCatID == $generatedCatID){
-            return "selected";
-        }else{
-            return null;
-        }
-    }
-
-    private function setValue($dishObj, $dataSelector){
-        if($dishObj != null){
-            switch($dataSelector){
-                case "name":
-                    return "value=\"{$dishObj->getDishName()}\"";
-                case "description":
-                    return $dishObj->getDishDescription();
-                case "category":
-                    return $dishObj->getDishCategory();
-                case "ingredient":
-                    return "value=\"{$dishObj->getDishIngredient()}\"";
-                case "price":
-                    return "value=\"{$dishObj->getDishPrice()}\"";
-                default:
-                    return null;
-            }
-        }else{
-            return null;
-        }
     }
 
     private function setPath(){

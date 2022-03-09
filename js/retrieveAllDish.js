@@ -17,7 +17,8 @@ window.addEventListener('load',function(){
             )
             .then(
                 function(json){
-                    let $viewDishTable = "<table>\n" +
+                    let $viewDishTable =
+                        "<table>\n" +
                         "<tbody>\n" +
                         "<tr>\n" +
                         "<th>ID</th>\n" +
@@ -36,15 +37,16 @@ window.addEventListener('load',function(){
                             "<td>"+json[x].dishDescription+"</td>\n" +
                             "<td>"+json[x].dishCategoryID+"</td>\n" +
                             "<td>"+json[x].dishPrice+"</td>\n" +
-                            "<td>"+generateImage(json[x].dishImg)+"</td>\n" +
+                            "<td><img width='350px' height='200px' src='data:image;base64,"+json[x].imageData+"'/></td>\n" +
                             "<td>"+interpretAvailability(json[x].dishAvailability)+"</td>\n" +
                             "<td>\n" +
                             "<li><a href=\"/kv6002/dishmanagement.php/edit?id="+json[x].dishID+"\">Edit</a></li>\n" +
-                            "<li><a href=\"/kv6002/dishmanagement.php/delete?id="+json[x].dishID+"\">Delete</a></li>\n" +
+                            "<li><a href=\"/kv6002/dishmanagement.php/delete?id="+json[x].dishID+"&imgID="+json[x].dishImg+"\">Delete</a></li>\n" +
                             "</td>" +
                             "</tr>\n";
                     }
-                    $viewDishTable += "</tbody>\n" +
+                    $viewDishTable +=
+                        "</tbody>\n" +
                         "</table>";
                     document.getElementById("dishDataTable").innerHTML = $viewDishTable;
                 }
@@ -58,14 +60,14 @@ window.addEventListener('load',function(){
 
     retrieveAll();
 })
-
-function generateImage(imgData){
-    if(imgData != null){
-        return "<img width='350px' height='200px' src='data:image;base64,"+imgData+"'/>";
-    }else{
-        return "<img width='350px' height='200px' src='../assets/not-available.jpg'/>";
-    }
-}
+//
+// function generateImage(imgData){
+//     if(imgData != null){
+//         return "<img width='350px' height='200px' src='data:image;base64,"+imgData+"'/>";
+//     }else{
+//         return "<img width='350px' height='200px' src='../assets/not-available.jpg'/>";
+//     }
+// }
 
 function interpretAvailability(availability){
     if(availability === 0){
