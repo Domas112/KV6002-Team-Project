@@ -36,9 +36,19 @@ class DishDBHandler extends Database
             $imageDB->deleteImage($imgID);
         }
 
-        $query="DELETE FROM dish WHERE dishID = :id";
+        $query = "DELETE FROM dish WHERE dishID = :id";
         $parameter = ["id" => $id];
         $this->executeSQL($query,$parameter);
         return true;
+    }
+
+    public function updateDishAvailability($id){
+        $query = "UPDATE dish SET dishAvailability = !dishAvailability WHERE dishID = :id";
+        $parameter = ["id" => $id];
+        if($this->executeSQL($query,$parameter)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

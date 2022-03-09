@@ -106,6 +106,13 @@ EOT;
         }
 
         echo $availabilityPage;
+
+        if(isset($_POST['yes'])){
+            $dishDB = new DishDBHandler();
+            if($dishDB->updateDishAvailability($_GET['id'])){
+                header('Location: /kv6002/dishmanagement.php/view');
+            }
+        }
     }
 
     //Conversion

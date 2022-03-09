@@ -38,10 +38,11 @@ window.addEventListener('load',function(){
                             "<td>"+json[x].dishCategoryID+"</td>\n" +
                             "<td>"+json[x].dishPrice+"</td>\n" +
                             "<td><img width='350px' height='200px' src='data:image;base64,"+json[x].imageData+"'/></td>\n" +
-                            "<td>"+interpretAvailability(json[x].dishAvailability)+"</td>\n" +
+                            "<td>"+interpretAvailability(parseInt(json[x].dishAvailability))+"</td>\n" +
                             "<td>\n" +
                             "<li><a href=\"/kv6002/dishmanagement.php/edit?id="+json[x].dishID+"\">Edit</a></li>\n" +
                             "<li><a href=\"/kv6002/dishmanagement.php/delete?id="+json[x].dishID+"&imgID="+json[x].dishImg+"\">Delete</a></li>\n" +
+                            "<li><a href=\"/kv6002/dishmanagement.php/availability?id="+json[x].dishID+"\">Change Availability</a></li>\n" +
                             "</td>" +
                             "</tr>\n";
                     }
