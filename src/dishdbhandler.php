@@ -1,6 +1,7 @@
 <?php
 class DishDBHandler extends Database
 {
+
     public function addDish($dish)
     {
         $imgID = "";
@@ -36,34 +37,44 @@ class DishDBHandler extends Database
 
     public function editDish($dish,$removedOption)
     {
+        $imgID = $this->retrieveDishImageID($dish->getDishID());
+
         if($dish->getDishImg() != 1){
             $imageDB = new ImageDBHandler();
-            $imageDB->updateImage($this->retrieveDishImageID($dish->getDishID()), $dish->getDishImg());
+            if($imgID != 1){
+                $imageDB->updateImage($imgID,$dish->getDishImg());
+            }else{
+                if($imageDB->uploadImage($dish->getDishImg())){
+                    $imgID = $imageDB->retrieveImageID($dish->getDishImg());
+                }
+            }
         }
 
-        $query = "UPDATE dish SET dishName = :name, 
+        $query = "UPDATE dish SET dishName = :name,
                                   dishDescription = :description,
-                                  dishCategoryID = :category
+                                  dishCategoryID = :category,
+                                  dishImg = :dishImg
                   WHERE dishID = :id";
         $parameter = ["id" => $dish->getDishID(),
                       "name" => $dish->getDishName(),
                       "description" => $dish->getDishDescription(),
-                      "category" => $dish->getDishCategory()];
+                      "category" => $dish->getDishCategory(),
+                      "dishImg" => $imgID];
         $this->executeSQL($query, $parameter);
 
-        //Remove option if existed dish option has been removed
+        //Remove option if existed dish option has been removed on submit
         if($removedOption != null){
             $optionDB = new DishOptionDBHandler();
             $optionDB->deleteDishOption($dish->getDishID(),$removedOption);
         }
 
-        //Edit dish option information to existed dish
+        //Edit dish option information to existed dish on submit
         if($dish->getRetrievedID() != null){
             $optionDB = new DishOptionDBHandler();
             $optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
         }
 
-        //Add new dish option if it doesn't exist
+        //Add new dish option if it doesn't exist on submit
         $dishOption = $dish->getDishOption();
         $dishPrice = $dish-> getDishPrice();
         if($dishOption != null && $dishPrice != null){
