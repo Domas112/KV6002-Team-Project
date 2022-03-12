@@ -51,14 +51,25 @@ class DishDBHandler extends Database
                       "category" => $dish->getDishCategory()];
         $this->executeSQL($query, $parameter);
 
+        //Remove option if existed dish option has been removed
         if($removedOption != null){
             $optionDB = new DishOptionDBHandler();
             $optionDB->deleteDishOption($dish->getDishID(),$removedOption);
         }
 
+        //Edit dish option information to existed dish
         if($dish->getRetrievedID() != null){
             $optionDB = new DishOptionDBHandler();
             $optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
+        }
+
+        //Add new dish option if it doesn't exist
+        $dishOption = $dish->getDishOption();
+        $dishPrice = $dish-> getDishPrice();
+        if($dishOption != null && $dishPrice != null){
+            $dishID = $this->retrieveDishID($dish->getDishName(),$dish->getDishDescription());
+            $optionDB = new DishOptionDBHandler();
+            $optionDB->uploadDishOption($dishID,$dishOption,$dishPrice);
         }
     }
 
