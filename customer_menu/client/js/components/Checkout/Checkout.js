@@ -2,6 +2,7 @@ export class Checkout extends HTMLElement{
     constructor(){
         super();
         this.orders = {};
+        this.finalSum = 0;
     }
 
     get modalId(){return this.getAttribute('modal-id');}
@@ -54,14 +55,13 @@ export class Checkout extends HTMLElement{
     }
 
     render(){
-        console.log(Object.keys(this.orders).length);
-        if(Object.keys(this.orders).length === 0){
+if(Object.keys(this.orders).length === 0){
             this.innerHTML = `
             <div class="modal-content">
         
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                    <h2>You haven't ordered anything yet</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
             </div>
@@ -70,32 +70,33 @@ export class Checkout extends HTMLElement{
             let placeholder = `
                 <div class="modal-content">
                     <div class='modal-header'>
-                        <h2>These are the items you ordered</h2>
-                        <p>Please double-check before placing an order!</p>
+                        <h2>Your order</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">  
                         <table class='table'>
-                        <thead>
-                            <tr>
-                                <th scole='col'>
-                                    Title
-                                </th>
-                                <th scole='col'>
-                                    Price(£)
-                                </th>
-                                <th scole='col'>
-                                    Amount ordered
-                                </th>
-                                <th scole='col'>
-                                    Total cost
-                                </th>
-                            </tr>
-                        </thead
-                        <tbody>
+                            <thead>
+                                <tr>
+                                    <th scole='col'>
+                                        Title
+                                    </th>
+                                    <th scole='col'>
+                                        Price(£)
+                                    </th>
+                                    <th scole='col'>
+                                        Amount ordered
+                                    </th>
+                                    <th scole='col'>
+                                        Total cost
+                                    </th>
+                                </tr>
+                            </thead
+                            <tbody>
                         `
                         
                         for (const orderId in this.orders) {
+                            this.finalSum += this.orders[orderId].price * this.orders[orderId].amount;
                             placeholder += `
                             <tr>
                                 <th scope='row'>
@@ -114,10 +115,14 @@ export class Checkout extends HTMLElement{
                     `; 
                 }
 
-            placeholder += `    <button> close </button>
-                        
-                            </tbody>
+            placeholder += `</tbody> 
+                            
+                          </table>
                         </div>
+                        <div class='px-5'>
+                            <p class='text-right'>The final cost is ${this.finalSum}</p>
+                        </div>
+                        <button type="button" class="btn btn-warning" id='order-button'>Order</button>
                         
                 </div>
           `

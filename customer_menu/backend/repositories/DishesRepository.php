@@ -9,7 +9,9 @@
 
         public function SelectAll(){
             $sql = <<<END
-                SELECT d.*, c.categoryName as dishCategoryName
+                SELECT 
+                    d.dishID, d.dishName, d.dishDescription, d.dishPrice, d.dishCategoryID, d.dishAvailability,
+                    c.categoryName as dishCategoryName
                 FROM dishes d
                 JOIN categories c
                 ON d.dishCategoryID = c.categoryID;
@@ -20,7 +22,9 @@
 
         public function SelectAllByCategory($category){
             $sql = <<<END
-                SELECT d.*, c.categoryName as dishCategoryName
+                SELECT
+                    d.dishID, d.dishName, d.dishDescription, d.dishCategoryID, d.dishPrice, d.dishAvailability,
+                    c.categoryName as dishCategoryName
                 FROM dishes d
                 JOIN categories c
                 ON d.dishCategoryID = c.categoryID
@@ -32,12 +36,14 @@
 
         public function SelectImageByDishId($id){
             $sql = <<<END
-                SELECT dishImg
-                FROM dishes
-                WHERE dishID = :dishID
+                SELECT i.imageData as dishImage
+                FROM images i
+                JOIN dishes d
+                ON i.imageID = d.dishImageID
+                WHERE d.dishID = :dishID;
             END;
             $result = $this->db->executeSQL($sql, array('dishID'=>$id));
-            return $result->fetchAll()[0]['dishImg'];
+            return $result->fetchAll()[0]['dishImage'];
         }
     }
 

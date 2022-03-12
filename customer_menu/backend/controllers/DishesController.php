@@ -19,6 +19,7 @@
 
         function getImageByDishId($id){
             $image = $this->dishesRepo->SelectImageByDishId($id);
+            
             return json_encode($image);
         }
 

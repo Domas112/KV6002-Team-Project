@@ -6,7 +6,7 @@ export class DishesList extends HTMLElement{
     }
 
     async getDishes(){
-        let results = await fetch(`../../customer_menu/backend/apis/Dishes.php?category=${this.category}`)
+        let results = await fetch(`../../customer_menu/backend/api/Dishes.php?category=${this.category}`)
                             .then(res=>res.json())
                             .catch(err=>console.error(err));
         

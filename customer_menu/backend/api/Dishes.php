@@ -1,6 +1,6 @@
 <?php
-    // require_once(dirname(__DIR__)."/controllers/DishesController.php");
     require_once("../controllers/DishesController.php");
+    // header("Content-Type: Content-Type: application/json");
 
     $controller = new DishesController();
 
@@ -8,7 +8,7 @@
         echo $controller->getDishesByCategory($_GET['category']);
     }elseif(isset($_GET['id']) && isset($_GET['image'])) {
         if($_GET['image']==1){
-            echo $controller->getImageByDishId($_GET['id']); 
+            print_r($controller->getImageByDishId($_GET['id'])); 
         }
     }
     else{

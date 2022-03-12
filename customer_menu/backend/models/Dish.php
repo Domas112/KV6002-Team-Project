@@ -7,7 +7,6 @@
         public $dishPrice;
         public $dishCategoryID;
         public $dishCategoryName;
-        public $dishImg;
         public $dishAvailability;
     }
 

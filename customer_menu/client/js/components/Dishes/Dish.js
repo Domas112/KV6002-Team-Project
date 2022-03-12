@@ -26,7 +26,8 @@ export class Dish extends HTMLElement{
     }
 
     async getDishes(){
-        let results = await fetch(`../../customer_menu/backend/apis/Dishes.php?id=${this.id}&&image=1`)
+        //TODO ATTEMPT TO ONLY LOAD THE IMAGE ONCE THE "OPEN DISH INFO" IS CALLED
+        let results = await fetch(`../../customer_menu/backend/api/Dishes.php?id=${this.id}&&image=1`)
                             .then(res=>res.json())
                             .catch(err=>console.error(err));
         
@@ -38,7 +39,6 @@ export class Dish extends HTMLElement{
         if(prop === 'btn-text'){
             
             this.render();
-            
             if(this.btnText === 'Close'){
                 this.querySelector(`#btn-${this.id}`).click();
             }
@@ -71,25 +71,13 @@ export class Dish extends HTMLElement{
 
     addAmountListeners(){
         const amountButtonElement = this.querySelector(`amount-button`);
-        const checkoutElement = document.querySelector('checkout-component');
         amountButtonElement.children[0].querySelector(`#dcrBtn-amount-btn-${this.id}`).addEventListener('click', ()=>{
             if(this.amount>0){
                 this.amount--;
-                let totalItemsNumber = parseInt(checkoutElement.getAttribute('total-items-number'));
-                checkoutElement.setAttribute('total-items-number',totalItemsNumber-1);
-    
-                let totalCost = parseFloat(checkoutElement.getAttribute('total-cost'));
-                checkoutElement.setAttribute('total-cost', (totalCost-parseFloat(this.price)).toFixed(2));
             }
         });
         amountButtonElement.children[0].querySelector(`#incBtn-amount-btn-${this.id}`).addEventListener('click', ()=>{
             this.amount++;
-            let totalItemsNumber = parseInt(checkoutElement.getAttribute('total-items-number'));
-            checkoutElement.setAttribute('total-items-number',totalItemsNumber+1);
-
-            
-            let totalCost = parseFloat(checkoutElement.getAttribute('total-cost'));
-            checkoutElement.setAttribute('total-cost', (totalCost+parseFloat(this.price)).toFixed(2));
         });
     }
 
