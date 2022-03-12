@@ -14,15 +14,24 @@ class DishDBHandler extends Database
             $imgID .= 1;
         }
 
-        $query = "INSERT INTO dish (dishName, dishDescription, dishCategoryID, dishImg, dishAvailability, dishPrice)
-                  VALUES (:name, :description, :category, :img, :availability, :price)";
+        //Adding new dish into Dish table
+        $query = "INSERT INTO dish (dishName, dishDescription, dishCategoryID, dishImg, dishAvailability)
+                  VALUES (:name, :description, :category, :img, :availability)";
         $parameter = ["name" => $dish->getDishName(),
                       "description" => $dish->getDishDescription(),
                       "category" => $dish->getDishCategory(),
                       "img" => $imgID,
-                      "availability" => 1,
-                      "price" => $dish->getDishPrice()];
+                      "availability" => 1];
         $this->executeSQL($query, $parameter);
+
+        //Adding new dish additional option into DishOption table
+        $dishOption = $dish->getDishOption();
+        $dishPrice = $dish-> getDishPrice();
+        if($dishOption != null && $dishPrice != null){
+            $dishID = $this->retrieveDishID($dish->getDishName(),$dish->getDishDescription());
+            $optionDB = new DishOptionDBHandler();
+            $optionDB->uploadDishOption($dishID,$dishOption,$dishPrice);
+        }
     }
 
     public function editDish($dish)
@@ -34,18 +43,17 @@ class DishDBHandler extends Database
 
         $query = "UPDATE dish SET dishName = :name, 
                                   dishDescription = :description,
-                                  dishCategoryID = :category,
-                                  dishPrice = :price
+                                  dishCategoryID = :category
                   WHERE dishID = :id";
         $parameter = ["id" => $dish->getDishID(),
                       "name" => $dish->getDishName(),
                       "description" => $dish->getDishDescription(),
-                      "category" => $dish->getDishCategory(),
-                      "price" => $dish->getDishPrice()];
-        if($this->executeSQL($query, $parameter)){
-            return true;
-        }else{
-            return false;
+                      "category" => $dish->getDishCategory()];
+        $this->executeSQL($query, $parameter);
+
+        if($dish->getRetrievedID() != null){
+            $optionDB = new DishOptionDBHandler();
+            $optionDB->editDishOption($dish->getRetrievedID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
         }
     }
 
@@ -80,6 +88,15 @@ class DishDBHandler extends Database
         $result = $this->executeSQL($query,$parameter);
         foreach($result as $row){
             return $row['dishImg'];
+        }
+    }
+
+    private function retrieveDishID($dishName,$dishDescription){
+        $query = "SELECT dishID FROM dish WHERE dishName = :name AND dishDescription = :description";
+        $parameter = ["name" => $dishName, "description" => $dishDescription];
+        $result = $this->executeSQL($query,$parameter);
+        foreach($result as $row){
+            return $row['dishID'];
         }
     }
 }

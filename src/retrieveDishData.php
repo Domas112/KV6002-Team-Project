@@ -31,7 +31,10 @@ function retrieveAllDish(){
 function retrieveOneDish($id){
     $database = new Database();
     try{
-        $query = "SELECT * FROM dish WHERE dishID = :id";
+        $query = "SELECT dish.dishID, dish.dishName, dish.dishDescription, dish.dishCategoryID, dish.dishImg, dishOption.optionID, dishOption.optionName, dishOption.optionPrice
+                  FROM dish
+                  LEFT JOIN dishOption ON (dish.dishID = dishOption.dishID)
+                  WHERE dish.dishID = :id";
         $parameter = ["id" => $id];
         $result = $database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
         header("Content-Type: application/json; charset=UTF-8");

@@ -17,3 +17,17 @@ td img{
     margin-left: auto;
     margin-right: auto;
 }
+
+#dishForm-child{
+    background-color: #ffdf91;
+    padding:10px 20px;
+}
+
+input,textarea,select{
+    margin-left: 10px;
+}
+
+#newOption{
+    background-color: #ffdf91;
+    padding:10px 20px;
+}

@@ -34,16 +34,18 @@ class DishUIController extends DishUIElement
         echo $viewPage;
     }
 
-    private function generateAddDishUI(){
+    private function generateAddDishUI()
+    {
         $addPage = $this->generateTitle("Add New Dish");
         $addPage .= $this->generateSubtitle("Adding new dish into the system");
         $addPage .= $this->generateDishManageForm("add");
+        $addPage .= $this->includeJavascript("../js/optionDynamicForm.js");
 
         echo $addPage;
 
-        if(isset($_POST['submit'])){
+        if (isset($_POST['submit'])) {
             $dishDB = new DishDBHandler();
-            $dish = new Dish(null,$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),"1",$_POST['price']);
+            $dish = new Dish(null, $_POST['name'], $_POST['description'], $_POST['category'], $this->imageToBlob(), null, $this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
             $dishDB->addDish($dish);
         }
     }
@@ -53,6 +55,7 @@ class DishUIController extends DishUIElement
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm("edit");
+            $editPage .= $this->includeJavascript("../js/optionDynamicForm.js");
             $editPage .= $this->includeJavascript("../js/retrieveOneDish.js");
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
@@ -60,10 +63,11 @@ class DishUIController extends DishUIElement
 
         if(isset($_POST['submit'])){
             $dishDB = new DishDBHandler();
-            $dish = new Dish($_GET['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$_POST['price']);
-            if($dishDB->editDish($dish)){
-                header('Location: /kv6002/dishmanagement.php/view');
-            }
+            $dish = new Dish($_GET['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
+            $dish->setRetrievedOption($this->checkEmptyOption("retrievedOption"));
+            $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
+            $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
+            $dishDB->editDish($dish);
         }
 
         echo $editPage;
@@ -123,13 +127,46 @@ EOT;
         }
     }
 
-    //Conversion
     private function imageToBlob(){
         if(!is_uploaded_file($_FILES['imgPath']['tmp_name'])){
             return 1;
         }else{
             $image = $_FILES['imgPath']['tmp_name'];
             return base64_encode(file_get_contents(addslashes($image)));
+        }
+    }
+
+    private function checkEmptyOption($value){
+        if($value == "optionName"){
+            if(isset($_POST['optionName'])){
+                return $_POST['optionName'];
+            }else{
+                return null;
+            }
+        }else if($value == "optionPrice"){
+            if(isset($_POST['price'])){
+                return $_POST['price'];
+            }else{
+                return null;
+            }
+        }else if($value == "retrievedOption"){
+            if(isset($_POST['retrievedName'])){
+                return $_POST['retrievedName'];
+            }else{
+                return null;
+            }
+        }else if($value == "retrievedPrice"){
+            if(isset($_POST['retrievedPrice'])){
+                return $_POST['retrievedPrice'];
+            }else{
+                return null;
+            }
+        }else if($value == "retrievedID"){
+            if(isset($_POST['retrievedID'])){
+                return $_POST['retrievedID'];
+            }else{
+                return null;
+            }
         }
     }
 

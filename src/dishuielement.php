@@ -13,19 +13,30 @@ class DishUIElement
     protected function generateDishManageForm($mode){
         $dishForm = <<<EOT
             <form name="dishForm" method="post" enctype="multipart/form-data">
-                <label>Name:</label>
-                <input type="text" name="name" id="name" required><br>
-                <label>Description:</label>
-                <textarea name="description" id="description" required></textarea><br>
-                <label>Category:</label>
+                <div id="dishForm-child">
+                    <label>Name:</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div id="dishForm-child">
+                    <label style="float:left">Description:</label>
+                    <textarea name="description" id="description" required></textarea>
+                </div>
+                <div id="dishForm-child">
+                    <label>Category:</label>
 EOT;
         $dishForm .= $this->generateCategoryDropdown();
         $dishForm .= <<<EOT
-                <br>
-                <label>Image Path:</label>
-                <input type="file" name="imgPath"><br>
-                <label>Price:</label>
-                <input type="text" name="price" id="price" required><br>
+                </div>
+                <div id="dishForm-child">
+                    <label>Image Path:</label>
+                    <input type="file" name="imgPath">
+                </div>
+                <br><br>
+                <div class="option">
+                    <input type="button" id="addOption" value="Add New Option">
+                    {$this->generateHiddenInput($mode)}
+                </div>
+                <br><br>
                 <input type="submit" name="submit" value="{$this->submitTextChange($mode)}">
             </form>
 EOT;
@@ -53,6 +64,14 @@ EOT;
             return "Add Dish";
         }else if($mode == "edit"){
             return "Edit Dish";
+        }
+    }
+
+    private function generateHiddenInput($mode){
+        if($mode == "add"){
+            return null;
+        }else if($mode == "edit"){
+            return "<input type='hidden' id='deletedOption'>";
         }
     }
 }
