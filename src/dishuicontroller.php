@@ -67,7 +67,7 @@ class DishUIController extends DishUIElement
             $dish->setRetrievedOption($this->checkEmptyOption("retrievedOption"));
             $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
             $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
-            $dishDB->editDish($dish);
+            $dishDB->editDish($dish,$this->checkEmptyOption("removedOption"));
         }
 
         echo $editPage;
@@ -164,6 +164,12 @@ EOT;
         }else if($value == "retrievedID"){
             if(isset($_POST['retrievedID'])){
                 return $_POST['retrievedID'];
+            }else{
+                return null;
+            }
+        }else if($value == "removedOption"){
+            if(isset($_POST['deletedOption'])){
+                return $_POST['deletedOption'];
             }else{
                 return null;
             }

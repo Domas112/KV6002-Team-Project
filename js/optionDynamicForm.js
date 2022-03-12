@@ -14,7 +14,8 @@ $("document").ready(function(){
 
     $("div.option").on('click','#removeRetrievedOption',function(){
         deletedOption.push($(this).closest('#newOption').find("input[type='hidden']").val());
-        $(divOption).find("input[name='deletedOption']").val(deletedOption);
+        let result = JSON.stringify(deletedOption);
+        $(divOption).find("input[id='deletedOption']").val(result);
         $(this).closest('#newOption').remove();
     });
 })

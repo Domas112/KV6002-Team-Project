@@ -34,7 +34,7 @@ class DishDBHandler extends Database
         }
     }
 
-    public function editDish($dish)
+    public function editDish($dish,$removedOption)
     {
         if($dish->getDishImg() != 1){
             $imageDB = new ImageDBHandler();
@@ -51,9 +51,14 @@ class DishDBHandler extends Database
                       "category" => $dish->getDishCategory()];
         $this->executeSQL($query, $parameter);
 
+        if($removedOption != null){
+            $optionDB = new DishOptionDBHandler();
+            $optionDB->deleteDishOption($dish->getDishID(),$removedOption);
+        }
+
         if($dish->getRetrievedID() != null){
             $optionDB = new DishOptionDBHandler();
-            $optionDB->editDishOption($dish->getRetrievedID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
+            $optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
         }
     }
 

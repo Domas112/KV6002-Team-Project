@@ -11,12 +11,20 @@ class DishOptionDBHandler extends Database
         }
     }
 
-    public function editDishOption($optionID,$optionName,$optionPrice){
+    public function editDishOption($optionID,$dishID,$optionName,$optionPrice){
         foreach($optionID as $index => $id){
             $query = "UPDATE dishOption SET optionName = :optionName,
                                             optionPrice = :optionPrice
-                      WHERE optionID = :id";
-            $parameter = ["id" => $id, "optionName" => $optionName[$index], "optionPrice" => $optionPrice[$index]];
+                      WHERE optionID = :id AND dishID = :dishID";
+            $parameter = ["id" => $id, "dishID" => $dishID, "optionName" => $optionName[$index], "optionPrice" => $optionPrice[$index]];
+            $this->executeSQL($query, $parameter);
+        }
+    }
+
+    public function deleteDishOption($dishID, $optionID){
+        foreach(json_decode($optionID) as $id){
+            $query = "DELETE FROM dishOption WHERE optionID = :id AND dishID = :dishID";
+            $parameter = ["id" => $id, "dishID" => $dishID];
             $this->executeSQL($query, $parameter);
         }
     }

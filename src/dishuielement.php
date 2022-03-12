@@ -71,7 +71,7 @@ EOT;
         if($mode == "add"){
             return null;
         }else if($mode == "edit"){
-            return "<input type='hidden' id='deletedOption'>";
+            return "<input type='hidden' id='deletedOption' name='deletedOption'>";
         }
     }
 }
