@@ -30,6 +30,9 @@ class DishUIController extends DishUIElement
         $viewPage .= $this->generateSubtitle("View and manage all available dish");
         $viewPage .= "Search: <input type='text' id='search' name='search'>";
         $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
+        //!TEMPORARY!
+        $viewPage .= "<input type='button' name='next' value='Next'>";
+        $viewPage .= "<input type='button' name='previous' value='Previous'>";
         $viewPage .= $this->includeJavascript("../js/retrieveDish.js");
 
         echo $viewPage;
