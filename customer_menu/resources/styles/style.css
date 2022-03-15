@@ -18,7 +18,7 @@ main{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
 
 }
 .amount{
@@ -38,6 +38,7 @@ main{
     overflow: auto;
     white-space: nowrap;
     scrollbar-color: none;
+    border-bottom: 2px solid black ;
 }
 .scrollmenu::-webkit-scrollbar {
     display: none;
@@ -49,4 +50,10 @@ main{
 
 .scrollmenu > button:hover{
     background-color: rgb(174, 187, 231);
+}
+
+.scrollmenu > button:active{
+    background-color: rgb(174, 187, 231);
+
+
 }

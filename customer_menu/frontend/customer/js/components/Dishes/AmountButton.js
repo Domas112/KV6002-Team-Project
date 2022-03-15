@@ -7,8 +7,8 @@ export class AmountButton extends HTMLElement{
 
     get amount(){return this.getAttribute('amount');}
     set amount(val){this.setAttribute('amount',val);}
-    get id(){return this.getAttribute('id');}
-    set id(val){this.setAttribute('id',val);}
+    get dishId(){return this.getAttribute('id');}
+    set dishId(val){this.setAttribute('id',val);}
     get amountId(){return this.getAttribute('amountid');}
     set amountId(val){this.setAttribute('amountid',val);}
 
@@ -29,14 +29,14 @@ export class AmountButton extends HTMLElement{
     }
 
     addEventListeners(){
-        let increaseBtn = this.querySelector(`#incBtn-${this.id}`);
+        let increaseBtn = this.querySelector(`#incBtn-${this.dishId}`);
         increaseBtn.addEventListener('click', ()=>{
             this.amount++;
             this.parentElement.amount++;
             
         })
 
-        let decreaseBtn = this.querySelector(`#dcrBtn-${this.id}`);
+        let decreaseBtn = this.querySelector(`#dcrBtn-${this.dishId}`);
         decreaseBtn.addEventListener('click', ()=>{
             if(this.amount > 0){
                 this.amount--;
@@ -49,13 +49,13 @@ export class AmountButton extends HTMLElement{
     render(){
         this.innerHTML = `
             <div class='row-format'>
-                <button id='dcrBtn-${this.id}' class='btn btn-danger dcrBtn'>
+                <button id='dcrBtn-${this.dishId}' class='btn btn-light dcrBtn'>
                 -   
                 </button>
-                    <h2 class='amount' id='amount-${this.id}'>
+                    <h2 class='amount' id='amount-${this.dishId}'>
                         ${this.amount}
                     </h2>
-                <button id='incBtn-${this.id}' class='btn btn-success incBtn'>
+                <button id='incBtn-${this.dishId}' class='btn btn-light incBtn'>
                 +
                 </button>
             </div>

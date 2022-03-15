@@ -6,7 +6,7 @@ export class DishesList extends HTMLElement{
     }
 
     async getDishes(){
-        let results = await fetch(`../../customer_menu/backend/api/Dishes.php?category=${this.category}`)
+        let results = await fetch(`../../backend/api/Dishes.php?category=${this.category}&&dishes=1`)
                             .then(res=>res.json())
                             .catch(err=>console.error(err));
         
@@ -32,14 +32,11 @@ export class DishesList extends HTMLElement{
 
     render(){
         
-        console.log(this.dishes);
         for (const dish of this.dishes) {
-            console.log(dish);
             this.innerHTML+=`
                 <dish-component
                     id="${dish.dishID}"
                     title="${dish.dishName}"
-                    price="${dish.dishPrice}"
                     description="${dish.dishDescription}"
                 />
             `;

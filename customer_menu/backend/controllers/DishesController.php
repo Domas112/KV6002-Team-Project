@@ -8,8 +8,13 @@
         }
 
         function getAllDishes(){
-            $dishes = $this->dishesRepo->SelectAll();
+            $dishes = $this->dishesRepo->SelectAllDishes();
             return json_encode($dishes);
+        }
+
+        function getAllDishOptions($dishId){
+            $dishOptions = $this->dishesRepo->SelectAllDishOptions($dishId);
+            return json_encode($dishOptions);
         }
 
         function getDishesByCategory($category){
@@ -17,10 +22,16 @@
             return json_encode($dishes);
         }
 
-        function getImageByDishId($id){
-            $image = $this->dishesRepo->SelectImageByDishId($id);
+        function getImageByDishId($dishId){
+            $image = $this->dishesRepo->SelectImageByDishId($dishId);
             
             return json_encode($image);
+        }
+
+        function getCategories(){
+            $categories = $this->dishesRepo->SelectAllCategories();
+
+            return json_encode($categories);
         }
 
 
