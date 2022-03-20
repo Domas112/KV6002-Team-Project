@@ -4,11 +4,13 @@
 
     $controller = new DishesController();
 
-    if(isset($_GET['category']) && isset($_GET['dishes'])){
+    if(isset($_GET['category'])){
 
-        if($_GET['dishes'] == 1){
+        if(isset($_GET['dishes'])){
             echo $controller->getDishesByCategory($_GET['category']);
-        }else{
+            
+        }
+        else{
             echo $controller->getCategories();
         }
         

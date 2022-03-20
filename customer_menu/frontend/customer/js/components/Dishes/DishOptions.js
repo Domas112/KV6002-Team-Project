@@ -95,13 +95,12 @@ export class DishOptions extends HTMLElement{
 
         if(prop == 'current-dish-amount'){
             const checkoutComponent = document.querySelector(`checkout-component`);
-            console.log(this.currentOptionId);
-            console.log(this.currentDishAmount);
             checkoutComponent.setAttribute('new-order-name', this.parent.getAttribute('title'));
             checkoutComponent.setAttribute('new-order-option-name', this.currentOptionName);
             checkoutComponent.setAttribute('new-order-price', this.currentOptionPrice);
             checkoutComponent.setAttribute('new-order-amount', this.currentDishAmount);
-            checkoutComponent.setAttribute('new-order-id', this.currentOptionId);
+            checkoutComponent.setAttribute('new-dish-id', this.dishId);
+            checkoutComponent.setAttribute('new-option-id', this.currentOptionId);
             this.addAmountListeners();
         }
     }

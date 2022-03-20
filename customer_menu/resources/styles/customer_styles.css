@@ -3,8 +3,12 @@ body{
     background-color:rgb(240, 240, 240);
 }
 
+header{
+    background-color:rgb(240, 240, 240);
+}
+
 main{
-    margin-top: 10%;
+    margin-top: 2%;
 }
 
 .dish-image{

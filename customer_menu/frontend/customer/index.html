@@ -8,73 +8,35 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
     
-    <link rel='stylesheet' href='../../resources/styles/style.css'>
+    <link rel='stylesheet' href='../../resources/styles/customer_styles.css'>
 
 </head>
 <body class=''>
-    <header class='container mt-2'>
-        <div class='row'>
-            <div class="col">
+    <div class="modal" id="checkout-modal">
+        <div class="modal-dialog">
+                <checkout-component></checkout-component>
+        </div>
+    </div>
+    <header class='container pt-4 sticky-top'>
+        <div class='row '>
+            <div class="col-8">
 
               <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
             </div>
-            <div class="col">
+            <div class="col-4 ">
               <button id="open-checkout" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkout-modal">
                 Checkout
               </button> 
             </div>
         </div>
 
-        <div class="modal" id="checkout-modal">
-            <div class="modal-dialog">
-                    <checkout-component></checkout-component>
-            </div>
-        </div>
-        
-          
-        
-          
+        <categories-carousel-component></categories-carousel-component>
 
-    </header>
+      </header>
     <main class='container'>
-        <div class="carousel carousel-dark slide" data-bs-interval="false">
-          <div class="category-indicators scrollmenu">
-            <!-- <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">Category 1</button>
-            <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="1" aria-label="Slide 2">Category 2</button>
-            <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="2" aria-label="Slide 2">Category 3</button>
-            <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="3" aria-label="Slide 2">Category 4</button>
-            <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="4" aria-label="Slide 3">Category 5</button>
-            <button type="button" data-bs-target="#categoricalDishesCarousel" data-bs-slide-to="5" aria-label="Slide 3">Category 6</button> -->
-          </div>
-        </div>
-
-
         <div id="categoricalDishesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
           <div class="carousel-inner pt-1">
-            <!-- <div class="carousel-item active">
-              <h2> Category 1</h2>
-              <dishes-component category="1"></dishes-component>
-            </div>
-            <div class="carousel-item">
-              <h2> Category 2</h2>
-              <dishes-component category="2"></dishes-component>
-            </div>
-            <div class="carousel-item">
-              <h2> Category 3</h2>
-              <dishes-component category="3"></dishes-component>  
-            </div>
-            <div class="carousel-item">
-              <h2> Category 4</h2>
-              <dishes-component category="4"></dishes-component>  
-            </div>
-            <div class="carousel-item">
-              <h2> Category 5</h2>
-              <dishes-component category="5"></dishes-component>  
-            </div>
-            <div class="carousel-item">
-              <h2> Category 6</h2>
-              <dishes-component category="6"></dishes-component>  
-            </div> -->
+
           </div>
         </div>
 

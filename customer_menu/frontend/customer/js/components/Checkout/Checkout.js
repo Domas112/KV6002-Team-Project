@@ -4,7 +4,8 @@ export class Checkout extends HTMLElement{
         this.orders = {};
         this.finalSum = 0;
 
-        this.newOrderId;
+        this.newDishId;
+        this.newOptionId;
         this.newOrderName;
         this.newOrderOptionName;
         this.newOrderPrice;
@@ -12,12 +13,14 @@ export class Checkout extends HTMLElement{
 
     }
 
-    get newOrderId(){return this.getAttribute('new-order-id');}
-    set newOrderId(val){this.setAttribute('new-order-id',val);}
+    get newOptionId(){return this.getAttribute('new-option-id');}
+    set newOptionId(val){this.setAttribute('new-option-id',val);}
     get newOrderName(){return this.getAttribute('new-order-name');}
     set newOrderName(val){this.setAttribute('new-order-name',val);}
     get newOrderOptionName(){return this.getAttribute('new-order-option-name');}
     set newOrderOptionName(val){this.setAttribute('new-order-option-name',val);}
+    get newDishId(){return this.getAttribute('new-dish-id');}
+    set newDishId(val){this.setAttribute('new-dish-id',val);}
     get newOrderPrice(){return this.getAttribute('new-order-price');}
     set newOrderPrice(val){this.setAttribute('new-order-price',val);}
     get newOrderAmount(){return this.getAttribute('new-order-amount');}
@@ -27,24 +30,53 @@ export class Checkout extends HTMLElement{
     set modalId(val){this.setAttribute('modal-id',val);}
 
     static get observedAttributes(){
-        return ["new-order-id"];
+        return ["new-option-id"];
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
-        console.log('updated');
-        if(prop == 'new-order-id'){
+        if(prop == 'new-option-id'){
             if(this.newOrderAmount != 0){
-                this.orders[this.newOrderId] = {
-                dishName:this.newOrderName,
-                dishPrice:this.newOrderPrice,
-                dishOptionName:this.newOrderOptionName,
-                dishAmount:this.newOrderAmount,
+                this.orders[this.newOptionId] = {
+                    dishId : this.newDishId,
+                    dishOptionId : this.newOptionId,
+                    dishName : this.newOrderName,
+                    dishPrice : this.newOrderPrice,
+                    dishOptionName : this.newOrderOptionName,
+                    dishAmount : this.newOrderAmount
                 }
             }else{
-                delete this.orders[this.newOrderId];
+                delete this.orders[this.newOptionId];
             }
         }
         this.render();
+        let checkoutButton = this.querySelector('#checkout-button');
+        if(checkoutButton != null){
+
+            checkoutButton.addEventListener('click', ()=>{
+                let parsedOrders = [];
+
+                for (const key in this.orders) {
+                    let order = {
+                        dishId : this.orders[key].dishId,
+                        optionId : this.orders[key].dishOptionId,
+                        amount : this.orders[key].dishAmount,
+                    }
+                    parsedOrders.push(order);
+                }
+                let body = JSON.stringify(parsedOrders);
+                console.log(body);
+                fetch('../../backend/api/Orders.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: body
+                })
+                .then(res=>res.json())
+                .then(res=>console.log(res))
+                .catch(err=>console.error(err));
+            });
+        }
     }
 
     connectedCallback(){
@@ -54,6 +86,8 @@ export class Checkout extends HTMLElement{
     updateOrderedList(){
         this.render();
     }
+
+    
 
     render(){
         this.finalSum = 0;
@@ -76,15 +110,12 @@ export class Checkout extends HTMLElement{
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
-                    <div class="modal-body">  
-                        <table class='table'>
+                    <div class="modal-body px-2">  
+                        <table class='table px-2'>
                             <thead>
                                 <tr>
                                     <th scole='col'>
                                         Title
-                                    </th>
-                                    <th scole='col'>
-                                        Option
                                     </th>
                                     <th scole='col'>
                                         Price(£)
@@ -93,7 +124,7 @@ export class Checkout extends HTMLElement{
                                         Amount ordered
                                     </th>
                                     <th scole='col'>
-                                        Total cost
+                                        Total cost(£)
                                     </th>
                                 </tr>
                             </thead
@@ -105,11 +136,8 @@ export class Checkout extends HTMLElement{
                             placeholder += `
                             <tr>
                                 <th scope='row'>
-                                    ${this.orders[key].dishName}
+                                    ${this.orders[key].dishName} (${this.orders[key].dishOptionName})
                                 </th>
-                                <td>
-                                    ${this.orders[key].dishOptionName}
-                                </td>
                                 <td>
                                     ${this.orders[key].dishPrice}
                                 </td>
@@ -128,9 +156,9 @@ export class Checkout extends HTMLElement{
                           </table>
                         </div>
                         <div class='px-5'>
-                            <p class='text-right'>The final cost is ${this.finalSum.toFixed(2)}</p>
+                            <p class='text-right'>The final cost is £${this.finalSum.toFixed(2)}</p>
                         </div>
-                        <button type="button" class="btn btn-warning" id='order-button'>Order</button>
+                        <button type="button" class="btn btn-warning" id='checkout-button'>Order</button>
                         
                 </div>
           `

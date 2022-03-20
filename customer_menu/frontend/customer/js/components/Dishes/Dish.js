@@ -32,35 +32,14 @@ export class Dish extends HTMLElement{
     }
     
     attributeChangedCallback(prop, oldVal, newVal){
-
-        // if(prop === 'btn-text'){
-            
-        //     this.render();
-        //     if(this.btnText === 'Close'){
-        //         this.querySelector(`#btn-${this.id}`).click();
-        //     }
-        //     this.addButtonTxtListeners();
-        //     this.addAmountListeners();
-        // }
-
         this.checkIfOrdered();
     }
 
     async connectedCallback(){
         this.image = await this.getImage();
         this.render();
-        this.addButtonTxtListeners();
         this.checkIfOrdered();
     }
-
-    addButtonTxtListeners(){
-        // const btn = this.querySelector(`#btn-${this.id}`);
-        // btn.addEventListener('click', ()=>{
-        //     this.btnText = this.btnText === 'Open' ? 'Close' : 'Open';
-        // })
-    }
-
-
 
     checkIfOrdered(){
         if(this.amount > 0 ){
@@ -72,32 +51,35 @@ export class Dish extends HTMLElement{
 
     render(){
         this.innerHTML=` 
-        <div id='${this.dishId}' class='row border border-dark'>
+        <div id='${this.dishId}' class='row border-bottom border-dark mt-1 py-2'>
             
             
             <div class='col-6'>
                 <dish-options id='dish-options-${this.dishId}' dish-id='${this.dishId}'>
                 </dish-options>
             </div>
-            <h1 class='col-4'>
-                ${this.title}
-            </h1>
-            <div class='col-2'>
+            <div class='col-6 float-right'>
+            
+                <h3>
+                    ${this.title}
+                </h3>
+
                 <div class='dropdown'>
                     <button id='btn-${this.dishId}' class='border btn btn-primary' type='button' data-bs-toggle='collapse' data-bs-target='.extra-content-${this.dishId}' aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
                         Description
                     </button>
                 </div>
+
             </div>
             <div class='container collapse col-12 extra-content-${this.dishId}'>
 
                 <div class='row card-body'>
 
-                    <div class='col'>
+                    <div class='col-8'>
                         <img class='dish-image' src='data:image;base64,${this.image}'>
                     </div>
 
-                    <div class='col dish-extra-info'>
+                    <div class='col-4 dish-extra-info'>
                         ${this.description}                        
                     </div>
                 </div>
