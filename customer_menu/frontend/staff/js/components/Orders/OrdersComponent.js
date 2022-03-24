@@ -2,18 +2,7 @@ export class OrdersComponent extends HTMLElement{
     constructor(){
         super();
 
-        this.orders = [
-            {
-                dishName: "test dish 1",
-                dishOption: "Regular",
-                dishPrice : 5.99,
-            },
-            {
-                dishName: "test dish 2",
-                dishOption: "Regular",
-                dishPrice : 5.99,
-            }
-        ];
+        this.orders = [];
 
     }
 
@@ -21,21 +10,37 @@ export class OrdersComponent extends HTMLElement{
 
     }
 
-    connectedCallback(){
+    async connectedCallback(){
+        await this.populateOrders();
+        setInterval(async () => {
+            await this.populateOrders();
+            console.log('timeout');
+        }, 10000);
+        this.render();
+    }
+
+    async populateOrders(){
+        this.orders = await fetch(`../../backend/api/Orders.php?get_orders`)
+            .then(res=>res.json())
+            .catch(err=>console.error(err));
+
+        console.log(this.orders);
         this.render();
     }
 
     render(){
-        let placeholder = `
+    let placeholder = ``;
+    for(const tableId in this.orders){
+        placeholder += `
             <div class="row border-top border-dark pt-2">
                 <div class="col-2">
                     <h2>
-                        Table #20
+                        Table ${tableId}
                     </h2>
                 </div>
                 <div class="col-2">
                     <div class='dropdown'>
-                        <button class='border btn btn-primary' type='button' data-bs-toggle='collapse' data-bs-target='.table-orders' aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
+                        <button class='border btn btn-primary' type='button' data-bs-toggle='collapse' data-bs-target='#table-${tableId}-orders' aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
                             Description
                         </button>
                     </div>
@@ -49,50 +54,51 @@ export class OrdersComponent extends HTMLElement{
                         Remove
                     </button>
                 </div>
-                <div class='container collapse col-12 table-orders'>
+                <div id="table-${tableId}-orders" class='container collapse col-12'>
                             
-                <div class='row card-body'>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col" >
-                                    Dish title
-                                </th>
-                                <th scope="col">
-                                    Option
-                                </th>
-                                <th scope="col">
-                                    Completed
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
+                    <div class='row card-body'>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" >
+                                        Dish title
+                                    </th>
+                                    <th scope="col">
+                                        Option
+                                    </th>
+                                    <th scope="col">
+                                        Completed
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
 
-        this.orders.forEach(order=>{
+            this.orders[tableId].forEach(order=>{
+                placeholder+=`
+                                <tr>
+                                    <td scope='row'>
+                                        ${order.dishName}
+                                    </td>
+                                    <td>
+                                        ${order.optionName}
+                                    </td>
+                                    <td>
+                                        <input type='checkbox' ${order.completed==1?"checked":""} />
+                                    </td>
+                                </tr>
+                `;
+            });
+
             placeholder+=`
-                <tr>
-                    <td scope='row'>
-                        ${order.dishName}
-                    </td>
-                    <td>
-                        ${order.dishOption}
-                    </td>
-                    <td>
-                        <input type='checkbox' />
-                    </td>
-                </tr>
-            `;
-        })
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;    
+        }
         
 
-        placeholder+=`
-                        </tbody>
-                    </table>
-                </div>
-                
-                </div>
-        </div>
-        `;
 
         this.innerHTML = placeholder;
     }

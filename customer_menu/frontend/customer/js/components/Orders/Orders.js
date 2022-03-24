@@ -1,43 +1,100 @@
-export class OrdersSum extends HTMLElement{
+export class Orders extends HTMLElement{
     constructor(){
         super();
-        this.totalCost = 0;
-        this.totalItemsNumber = 0;
+        this.orders = [];
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.tableId = urlParams.get('tableId');
     }
 
-    get totalCost(){return this.getAttribute('total-cost');}
-    set totalCost(val){this.setAttribute('total-cost',val);}
-
-    get totalItemsNumber(){return this.getAttribute('total-items-number');}
-    set totalItemsNumber(val){this.setAttribute('total-items-number',val);}
+    get orderChanged (){return this.getAttribute('order-changed')};
+    set orderChanged (val){this.setAttribute('order-changed',val)};
 
     static get observedAttributes(){
-        return ["total-items-number", "total-cost"];
+        return ['order-changed']
     }
 
-    attributeChangedCallback(props, newVal, oldVal){
+    async attributeChangedCallback(prop, oldVal, newVal){
         this.render();
     }
 
-    connectedCallback(){
+    async connectedCallback(){
+        await this.populateOrders()
         this.render();
+    }
+
+    async populateOrders(){
+        this.orders = await fetch(`../../backend/api/Orders.php?get_orders_by_table_id&id=${this.tableId}`)
+        .then(res=>res.json())
+        .catch(err=>console.error(err));
+
+        if(Object.keys(this.orders).length != 0){
+            document.querySelector('#open-orders').style.display="block";
+        }
     }
 
     render(){
-        this.innerHTML = `
-            <div id='checkout' class='container>
-                <div class='row'>
-                    <p class='col'> 
-                        total items: ${this.totalItemsNumber}
-                    </p>
-                    <p class='col'>
-                        total cost: ${this.totalCost}
-                    </p>
-                    <button class='col btn btn-warning'>
-                        Submit order
-                    </button>
-                </div>
+        let placeholder = `
+        <div class="modal-content">
+            <div class='modal-header'>
+                <h2>You have ordered</h2>
+                <button id="modal-close-btn" type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
+            <div class="modal-body px-2">  
+                <table class='table px-2'>
+                    <thead>
+                        <tr>
+                            <th scole='col'>
+                                Title
+                            </th>
+                            <th scole='col'>
+                                Price(£)
+                            </th>
+                            <th scole='col'>
+                                Amount ordered
+                            </th>
+                            <th scole='col'>
+                                Total cost(£)
+                            </th>
+                            <th scope='col'>
+                                Completed
+                            </th>
+                        </tr>
+                    </thead
+                    <tbody>
+                    `;
+
+                this.orders.forEach(order=> {
+                    this.finalSum +=  order.optionPrice * order.amount;
+                    placeholder += `
+                    <tr>
+                        <th scope='row'>
+                            ${order.dishName} (${order.optionName})
+                        </th>
+                        <td>
+                            ${order.optionPrice}
+                        </td>
+                        <td>
+                            ${order.amount}
+                        </td>
+                        <td>
+                            ${(order.optionPrice * order.amount).toFixed(2)}
+                        </td>
+                        <td>
+                            ${order.completed?"Yes":"No"}
+                        </td>
+                    </tr>
+                `; 
+            });
+
+        placeholder += `
+                    </tbody>
+                </table>
+            </div>
+        </div>
         `;
+
+        this.innerHTML = placeholder;
     }
 }

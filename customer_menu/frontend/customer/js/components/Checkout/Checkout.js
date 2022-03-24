@@ -11,6 +11,9 @@ export class Checkout extends HTMLElement{
         this.newOrderPrice;
         this.newOrderAmount;
 
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.tableId = urlParams.get('tableId');
     }
 
     get newOptionId(){return this.getAttribute('new-option-id');}
@@ -34,6 +37,9 @@ export class Checkout extends HTMLElement{
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
+        console.log(prop);
+        console.log(newVal);
+
         if(prop == 'new-option-id'){
             if(this.newOrderAmount != 0){
                 this.orders[this.newOptionId] = {
@@ -48,7 +54,9 @@ export class Checkout extends HTMLElement{
                 delete this.orders[this.newOptionId];
             }
         }
+        
         this.render();
+        
         let checkoutButton = this.querySelector('#checkout-button');
         if(checkoutButton != null){
 
@@ -57,6 +65,7 @@ export class Checkout extends HTMLElement{
 
                 for (const key in this.orders) {
                     let order = {
+                        tableId: this.tableId,
                         dishId : this.orders[key].dishId,
                         optionId : this.orders[key].dishOptionId,
                         amount : this.orders[key].dishAmount,
@@ -64,41 +73,43 @@ export class Checkout extends HTMLElement{
                     parsedOrders.push(order);
                 }
                 let body = JSON.stringify(parsedOrders);
-                console.log(body);
-                fetch('../../backend/api/Orders.php', {
+                fetch('../../backend/api/Orders.php?post_order', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
                     },
                     body: body
                 })
-                .then(res=>res.json())
-                .then(res=>console.log(res))
+                .then(res=>{
+                    if(res.status == 200){
+                        console.log('success');
+                        window.location.href = window.location.href;
+                    }
+                    console.log(res.status);
+                })
                 .catch(err=>console.error(err));
             });
+
         }
     }
 
     connectedCallback(){
         this.render();
+        
     }
 
     updateOrderedList(){
         this.render();
     }
 
-    
-
     render(){
         this.finalSum = 0;
         if(Object.keys(this.orders).length === 0){
             this.innerHTML = `
             <div class="modal-content">
-        
-                <!-- Modal Header -->
                 <div class="modal-header">
                     <h2>You haven't ordered anything yet</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button id="modal-close-btn" type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
             </div>
             `;
@@ -107,7 +118,7 @@ export class Checkout extends HTMLElement{
                 <div class="modal-content">
                     <div class='modal-header'>
                         <h2>Your order</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button id="modal-close-btn" type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body px-2">  

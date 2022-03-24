@@ -16,7 +16,9 @@ main{
     height: 100%;
     
 }
-
+#open-orders{
+    display: none;
+}
 
 .row-format{
     display: flex;

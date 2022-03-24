@@ -1,4 +1,4 @@
-export class CategoriesCarouselComponent extends HTMLElement{
+export class CategoriesCarousel extends HTMLElement{
     constructor(){
         super();
     }
@@ -12,14 +12,11 @@ export class CategoriesCarouselComponent extends HTMLElement{
         fetch('../../backend/api/Dishes.php?category')
             .then(res=>res.json())
             .then(res=>{
-                console.log(res[0].categoryName);
                 let carouselContentPlaceholder = `
-                
                     <div class="carousel-item active">
                         <h2>${res[0].categoryName}</h2>
                         <dishes-component category="${res[0].categoryID}"></dishes-component>
                     </div>
-                
                 `;
                 let carouselIndicatorsPlaceholder = `
                     <button 

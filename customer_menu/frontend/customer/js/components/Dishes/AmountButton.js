@@ -52,7 +52,7 @@ export class AmountButton extends HTMLElement{
                 <button id='dcrBtn-${this.dishId}' class='btn btn-light dcrBtn'>
                 -   
                 </button>
-                    <h2 class='amount' id='amount-${this.dishId}'>
+                    <h2 class='amount' id='${this.dishId}'>
                         ${this.amount}
                     </h2>
                 <button id='incBtn-${this.dishId}' class='btn btn-light incBtn'>

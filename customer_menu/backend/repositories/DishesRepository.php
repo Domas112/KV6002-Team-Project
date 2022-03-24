@@ -9,7 +9,7 @@
             $this->db = new Database();
         }
 
-        public function SelectAllDishes(){
+        public function selectAllDishes(){
             $sql = <<<SQLSTMT
                 SELECT 
                     d.dishID, d.dishName, d.dishDescription, d.dishCategoryID, d.dishAvailability,
@@ -22,18 +22,18 @@
             return $result->fetchAll(PDO::FETCH_CLASS, 'Dish');
         }
 
-        public function SelectAllDishOptions($dishId){
+        public function selectAllDishOptions($dishID){
             $sql = <<<SQLSTMT
                 SELECT
                     o.optionID, o.dishID, o.optionName, o.optionPrice
                 FROM dishoption o
                 WHERE o.dishID = :dishID;
             SQLSTMT;
-            $result = $this->db->executeSQL($sql, array('dishID'=> $dishId));
+            $result = $this->db->executeSQL($sql, array('dishID'=> $dishID));
             return $result->fetchAll(PDO::FETCH_CLASS, 'DishOption');
         }
 
-        public function SelectAllByCategory($category){
+        public function selectAllByCategory($category){
             $sql = <<<SQLSTMT
                 SELECT
                     d.dishID, d.dishName, d.dishDescription, d.dishCategoryID, d.dishAvailability,
@@ -47,7 +47,7 @@
             return $result->fetchAll(PDO::FETCH_CLASS, 'Dish');
         }
 
-        public function SelectImageByDishId($id){
+        public function selectImageByDishId($dishID){
             $sql = <<<SQLSTMT
                 SELECT i.imageData as dishImage
                 FROM image i
@@ -55,11 +55,11 @@
                 ON i.imageID = d.dishImg
                 WHERE d.dishID = :dishID;
             SQLSTMT;
-            $result = $this->db->executeSQL($sql, array('dishID'=>$id));
+            $result = $this->db->executeSQL($sql, array('dishID'=>$dishID));
             return $result->fetchAll()[0]['dishImage'];
         }
 
-        public function SelectAllCategories(){
+        public function selectAllCategories(){
             $sql = <<<SQLSTMT
                 SELECT c.categoryID, c.categoryName
                 FROM category c;

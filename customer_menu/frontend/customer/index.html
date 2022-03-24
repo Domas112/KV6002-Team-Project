@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    
-    <link rel='stylesheet' href='../../resources/styles/customer_styles.css'>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+	<link rel='stylesheet' href='./styles/customer_styles.css'>
 
 </head>
+
 <body class=''>
-    <div class="modal" id="checkout-modal">
-        <div class="modal-dialog">
-                <checkout-component></checkout-component>
-        </div>
-    </div>
-    <header class='container pt-4 sticky-top'>
-        <div class='row '>
-            <div class="col-8">
+	<div class="modal" id="checkout-modal">
+		<div class="modal-dialog">
+			<checkout-component />
+		</div>
+	</div>
+	<div class="modal" id="orders-modal">
+		<div class="modal-dialog">
+			<orders-component />
+		</div>
+	</div>
+	<header class='container pt-4 sticky-top'>
+		<div class='row '>
+			<div class="col-8">
+				<img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
+			</div>
+			<div class="col-4">
+				<button id="open-checkout" type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#checkout-modal">
+					Checkout
+				</button>
+				<button id="open-orders" type="button" class="btn btn-warning mt-1" data-bs-toggle="modal"
+					data-bs-target="#orders-modal">
+					My orders
+				</button>
+			</div>
+		</div>
 
-              <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
-            </div>
-            <div class="col-4 ">
-              <button id="open-checkout" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                Checkout
-              </button> 
-            </div>
-        </div>
+		<categories-carousel-component />
 
-        <categories-carousel-component></categories-carousel-component>
+	</header>
+	<main class='container'>
+		<div id="categoricalDishesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel"
+			data-bs-interval="false">
+			<div class="carousel-inner pt-1">
 
-      </header>
-    <main class='container'>
-        <div id="categoricalDishesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
-          <div class="carousel-inner pt-1">
-
-          </div>
-        </div>
-
-    </main> 
-    <!-- <script src="js/DishComponent.js"></script> -->
-    <script src="js/main.js" type="module"></script>
+			</div>
+		</div>
+	</main>
+	<!-- <script src="js/DishComponent.js"></script> -->
+	<script src="js/main.js" type="module"></script>
 </body>
+
 </html>

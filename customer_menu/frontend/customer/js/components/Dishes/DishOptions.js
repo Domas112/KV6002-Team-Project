@@ -41,11 +41,8 @@ export class DishOptions extends HTMLElement{
         await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&options=1`)
             .then(res=>res.json())
             .then(res=>{
-                console.log(res);
-                console.log(res.length);
                 if(res.length > 1 ) this.hasOptions=true;
 
-                console.log(this.hasOptions);
                 for(let i = 0 ; i < res.length; i++){
                         
                     if(res[i].optionName == 'Regular' || !this.hasOptions){
@@ -137,7 +134,6 @@ export class DishOptions extends HTMLElement{
     }
 
     render(){
-        console.log(this.parent.getAttribute('title'))
         this.innerHTML = `
             <select ${this.hasOptions?'enabled':'disabled'} id="dish-options-select-${this.dishId}" placeholder="select an option">
                 ${this.optionsTemplate}
@@ -146,7 +142,5 @@ export class DishOptions extends HTMLElement{
             <p>${this.currentOptionPrice}</p>
             <amount-button id='amount-btn-${this.dishId}' amount='${this.currentDishAmount}'></amount-button>
         `;
-
-        
     }
 }
