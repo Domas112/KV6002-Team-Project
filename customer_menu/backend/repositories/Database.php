@@ -1,5 +1,4 @@
 <?php
-
     class Database
     {
         private $connection;
@@ -24,6 +23,4 @@
             return $stmt;
         }
     }
-
-
 ?>

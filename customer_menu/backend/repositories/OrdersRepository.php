@@ -7,17 +7,17 @@
             $this->db = new Database();
         }
 
-        public function insertOrder($orders){
+        public function insertOrder(array $order) : void{
             $sql = <<<SQLSTMT
                 INSERT INTO activeorders
                 (dishID, optionID, amount, tableID)
                 VALUES
                 (:dishID, :optionID, :amount, :tableID);
             SQLSTMT;
-            $this->db->executeSQL($sql, $orders);
+            $this->db->executeSQL($sql, $order);
         }
 
-        public function selectAllOrders(){
+        public function selectAllOrders() : array{
             $sql = <<<SQLSTMT
                 SELECT
                     ord.orderID, ord.tableID,
@@ -34,7 +34,7 @@
             return $result->fetchAll(PDO::FETCH_CLASS, 'Order');
         }
 
-        public function selectAllOrdersByTableId($tableID){
+        public function selectAllOrdersByTableId(int $tableID) : array|false{
             $sql = <<<SQLSTMT
                 SELECT
                     ord.orderID, ord.tableID,
@@ -52,16 +52,18 @@
             return $result->fetchAll(PDO::FETCH_CLASS, 'OrderCustomerView');
         }
 
-        public function selectAllTableIds(){
+        public function selectAllTableIds() : array{
             $sql = <<<SQLSTMT
                 SELECT DISTINCT tableID FROM activeorders
             SQLSTMT;
 
             $results = $this->db->executeSQL($sql);
-            return $results->fetchAll();
+            $response = $results->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $response;
         }
 
-        public function completeOrder($orderID){
+        public function completeOrder(int $orderID) : void {
             $sql = <<<SQLSTMT
                 UPDATE activeorders
                 SET

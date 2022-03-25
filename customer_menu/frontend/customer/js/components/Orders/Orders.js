@@ -24,13 +24,16 @@ export class Orders extends HTMLElement{
     }
 
     async populateOrders(){
-        this.orders = await fetch(`../../backend/api/Orders.php?get_orders_by_table_id&id=${this.tableId}`)
+        await fetch(`../../backend/api/Orders.php?get_orders_by_table_id&id=${this.tableId}`)
         .then(res=>res.json())
+        .then(res=>{
+            this.orders = res;
+            if(Object.keys(this.orders).length != 0){
+                document.querySelector('#open-orders').style.display="block";
+            }
+        })
         .catch(err=>console.error(err));
 
-        if(Object.keys(this.orders).length != 0){
-            document.querySelector('#open-orders').style.display="block";
-        }
     }
 
     render(){

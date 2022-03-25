@@ -1,6 +1,6 @@
-import {OrdersComponent} from './components/Orders/OrdersComponent.js';
-import {OrderComponent} from './components/Orders/OrderComponent.js';
-import {OrdersTableComponent} from './components/Orders/OrdersTableComponent.js';
+import {Orders} from './components/Orders/Orders.js';
+import {Order} from './components/Orders/Order.js';
+import {OrdersLists} from './components/Orders/OrdersLists.js';
 
 window.addEventListener('load', ()=>{
     console.log('Welcome to the staff page');
@@ -8,9 +8,9 @@ window.addEventListener('load', ()=>{
 })
 
 function defineElements(){
-    window.customElements.define('order-component', OrderComponent);
-    window.customElements.define('orders-component', OrdersComponent);
+    window.customElements.define('order-component', Order);
+    window.customElements.define('orders-component', Orders);
+    window.customElements.define('orders-lists-component', OrdersLists);
 
     
-    // window.customElements.define('orders-table-component', OrdersTableComponent);
 }

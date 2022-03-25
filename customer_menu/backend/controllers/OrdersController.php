@@ -31,6 +31,11 @@
             return json_encode($orders);
         }
 
+        function getAllTables(){
+            $tables = $this->ordersRepo->selectAllTableIds();
+            return json_encode($tables);
+        }
+
         function getAllOrdersByTableId($id){
             $orders = $this->ordersRepo->selectAllOrdersByTableId($id);
             return json_encode($orders);

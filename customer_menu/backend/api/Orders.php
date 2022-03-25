@@ -8,8 +8,11 @@
         echo $ordersController->getAllOrdersByTableId($_GET['id']);
     }elseif(isset($_GET['complete_order']) && isset($_GET['id'])){
         $ordersController->completeOrder($_GET['id']);
+    }elseif(isset($_GET['get_tables'])){
+        echo $ordersController->getAllTables();
     }elseif(isset($_GET['post_order'])){
         $jsonData = file_get_contents('php://input');
         $ordersController->postOrder($jsonData);
+        echo "something";
     }
 ?>
