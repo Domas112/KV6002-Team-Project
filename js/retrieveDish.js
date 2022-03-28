@@ -1,37 +1,48 @@
 let dishList = "#dishDataTable";
+let pageNumber = "#pageNumber";
 let searchInput = "input[name='search']";
-let nextPageBtn = "input[name='next']";
-let prevPageBtn = "input[name='previous']";
-let currentPage = 1;
+let sorted = "select[name='sort']"
 let result;
+let selectedURL;
 
 $("document").ready(function() {
-    let url = '../src/retrieveDishData.php';
+    let url = '../dishmanagement.php/api/dish';
     let retrievingDish = url + '?retrieveAll';
     let searchingDish = url + '?searchData&search=';
 
-    result = getDishData(retrievingDish);
-
-    $(searchInput).on('keyup',function(e){
-        currentPage = 1;
-        if($(searchInput).val() === ""){
-            result = getDishData(retrievingDish);
-            displayDishData(result,currentPage)
-        }else{
-            result = getDishData(searchingDish + $(searchInput).val());
-            displayDishData(result,currentPage);
-        }
-    })
-
-    $(nextPageBtn).on('click',function(){
-        navigatePage("next");
-    })
-
-    $(prevPageBtn).on('click',function(){
-        navigatePage("previous");
-    })
-
+    //Render the data table onLoad
+    selectedURL = retrievingDish;
+    result = getDishData(selectedURL+"&sort="+$(sorted).val());
     displayDishData(result,currentPage);
+
+    //Start searching process upon keyUp action in Search bar
+    $(searchInput).on('keyup',function(){
+
+        //Set CurrentPage back to 1 upon Search
+        resetCurrentPage();
+
+        if($(searchInput).val() === ""){
+            //If search bar is empty, set url to retrieve full data
+            selectedURL = retrievingDish;
+        }else{
+            //If Search bar is not empty, set url to search data
+            selectedURL = searchingDish + $(searchInput).val();
+        }
+
+        //Re-render the data table
+        result = getDishData(selectedURL+"&sort="+$(sorted).val());
+        displayDishData(result,currentPage);
+    })
+
+    //Handle onChange event of Sort dropdown bar
+    $(sorted).on('change',function(){
+        //Set CurrentPage back to 1 upon changing sort
+        resetCurrentPage();
+
+        //Re-render the data table
+        result = getDishData(selectedURL+"&sort="+$(sorted).val());
+        displayDishData(result,currentPage);
+    })
 })
 
 function getDishData(url){
@@ -39,11 +50,12 @@ function getDishData(url){
     $.ajax({
         url: url,
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (result){
             data = result;
         }
     })
+
     return data;
 }
 
@@ -83,39 +95,6 @@ function displayDishData(data,page){
             "</tr>\n";
     })
     $(dishList).html(viewDishTable);
-}
-
-/**
- * pagePagination
- *
- * To paginate a data, slicing data into several pages
- * depending on the number of dataPerPage set.
- *
- * Adapted from https://medium.com/geekculture/building-a-javascript-pagination-as-simple-as-possible-a9c32dbf4ac1
- * Author: Jordan P. Raychev
- * Retrieved on: 13 March 2022
- *
- * @param currentPage The current page the data is on (e.g. Page 1 will show the first page of data)
- * @param dataArray The data retrieved via the AJAX request above
- * @returns dataArray.slice() Return the sliced data for display purposed
- */
-function pagePagination(currentPage,dataArray){
-    const dataPerPage = 2;
-    const trimStart = (currentPage-1)*dataPerPage;
-    const trimEnd = trimStart + dataPerPage;
-    return dataArray.slice(trimStart,trimEnd);
-}
-
-function navigatePage(command){
-    if(command === "next"){
-        currentPage++;
-        displayDishData(result,currentPage);
-    }else{
-        if(currentPage !== 1){
-            currentPage--;
-            displayDishData(result,currentPage);
-        }
-    }
 }
 
 function interpretAvailability(availability){

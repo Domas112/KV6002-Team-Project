@@ -2,26 +2,30 @@
 
 class DishUIController extends DishUIElement
 {
-    private $path;
-    private $basepath = FOODMANAGEMENT_BASEPATH;
-
-    public function __construct(){
-        $this->setPath();
-        if($this->path == "view"){
-            $this->generateViewDishUI();
+    public function __construct($path){
+        echo $this->generateHeader();
+        echo $this->generateNavigation();
+        switch($path){
+            case "view":
+                $this->generateViewDishUI();
+                break;
+            case "add":
+                $this->generateAddDishUI();
+                break;
+            case "edit":
+                $this->generateEditDishUI();
+                break;
+            case "delete":
+                $this->generateDeleteDishUI();
+                break;
+            case "availability":
+                $this->generateAvailabilityUI();
+                break;
+            case "log":
+                $this->generateLoggingUI();
+                break;
         }
-        else if($this->path == "add"){
-            $this->generateAddDishUI();
-        }
-        else if($this->path == "edit"){
-            $this->generateEditDishUI();
-        }
-        else if($this->path == "delete"){
-            $this->generateDeleteDishUI();
-        }
-        else if($this->path == "availability"){
-            $this->generateAvailabilityUI();
-        }
+        echo $this->generateFooter();
     }
 
     //UI Generating
@@ -29,10 +33,15 @@ class DishUIController extends DishUIElement
         $viewPage = $this->generateTitle("View All Dish");
         $viewPage .= $this->generateSubtitle("View and manage all available dish");
         $viewPage .= "Search: <input type='text' id='search' name='search'>";
+        $viewPage .= $this->generateSortByDropdown(array(
+            "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
+        ));
         $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
         //!TEMPORARY!
         $viewPage .= "<input type='button' name='next' value='Next'>";
+        $viewPage .= "<span id='pageNumber'></span>";
         $viewPage .= "<input type='button' name='previous' value='Previous'>";
+        $viewPage .= $this->includeJavascript("../js/pagination.js");
         $viewPage .= $this->includeJavascript("../js/retrieveDish.js");
 
         echo $viewPage;
@@ -131,6 +140,24 @@ EOT;
         }
     }
 
+    private function generateLoggingUI(){
+        $logPage = $this->generateTitle("System Log");
+        $logPage .= $this->generateSubtitle("View all the changes made to the system");
+        $logPage .= "Search: <input type='text' id='search' name='search'>";
+        $logPage .= $this->generateSortByDropdown(array(
+            "logID","logTimestamp","userID","logDescription"
+        ));
+        $logPage .= "<div id='logDataTable'>Loading data...</div>";
+        $logPage .= "<input type='button' name='next' value='Next'>";
+        $logPage .= "<span id='pageNumber'></span>";
+        $logPage .= "<input type='button' name='previous' value='Previous'>";
+        $logPage .= $this->includeJavascript("../js/pagination.js");
+        $logPage .= $this->includeJavascript("../js/retrieveLog.js");
+
+        echo $logPage;
+    }
+
+    //Function
     private function imageToBlob(){
         if(!is_uploaded_file($_FILES['imgPath']['tmp_name'])){
             return 1;
@@ -178,13 +205,5 @@ EOT;
                 return null;
             }
         }
-    }
-
-    //Request
-    private function setPath(){
-        $this->path = parse_url($_SERVER["REQUEST_URI"])['path'];
-        $this->path = str_replace($this->basepath, "", $this->path);
-        $this->path = trim($this->path,"/");
-        $this->path = strtolower($this->path);
     }
 }

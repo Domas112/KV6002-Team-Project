@@ -2,7 +2,7 @@ let form = "form[name='dishForm']"
 
 $("document").ready(function(){
     const urlParams = new URLSearchParams(window.location.search);
-    const url = '../src/retrieveDishData.php';
+    const url = '../dishmanagement.php/api/dish';
     const retrieveOneURL = url + '?retrieveOne&id='+urlParams.get('id');
     $.ajax({
         url:retrieveOneURL,

@@ -2,6 +2,38 @@
 
 class DishUIElement
 {
+    protected function generateHeader(){
+        return <<<EOT
+        <!doctype html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel="stylesheet" href="../css/dishmanagement.css">
+                    <title>Dish Management</title>
+                </head>
+                <body>
+EOT;
+    }
+
+    protected function generateFooter(){
+        return <<<EOT
+                </body>
+            </html>
+EOT;
+    }
+
+    protected function generateNavigation(){
+        return <<<EOT
+            <ul>
+              <li><a href="../dishmanagement.php/view">View</a></li>
+              <li><a href="../dishmanagement.php/add">Add New Dish</a></li>
+              <li><a href="../dishmanagement.php/log">System Log</a></li>
+            </ul>
+EOT;
+
+    }
+
     protected function generateTitle($title){
         return "<h1>$title</h1>";
     }
@@ -53,6 +85,16 @@ EOT;
         $categoryDropdown .= "</select>";
 
         return $categoryDropdown;
+    }
+
+    protected function generateSortByDropdown($sortList){
+        $sortByDropdown = "Sort By: <select name='sort' id='sort'>";
+        for($i = 0; $i<count($sortList); $i++){
+            $sortByDropdown .= "<option value='".$sortList[$i]."'>".$sortList[$i]."</option>";
+        }
+        $sortByDropdown .= "</select>";
+
+        return $sortByDropdown;
     }
 
     protected function includeJavascript($scriptPath){

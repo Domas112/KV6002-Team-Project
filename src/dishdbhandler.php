@@ -1,11 +1,11 @@
 <?php
 class DishDBHandler extends Database
 {
-
     public function addDish($dish)
     {
         $imgID = "";
         $imageDB = new ImageDBHandler();
+        $logDB = new LogDBHandler();
 
         if($dish->getDishImg() != 1){
             if($imageDB->uploadImage($dish->getDishImg())){
@@ -33,6 +33,9 @@ class DishDBHandler extends Database
             $optionDB = new DishOptionDBHandler();
             $optionDB->uploadDishOption($dishID,$dishOption,$dishPrice);
         }
+
+        $newLog = new Log(1,"add",null);
+        $logDB->createLog($newLog);
     }
 
     public function editDish($dish,$removedOption)
@@ -78,10 +81,13 @@ class DishDBHandler extends Database
         $dishOption = $dish->getDishOption();
         $dishPrice = $dish-> getDishPrice();
         if($dishOption != null && $dishPrice != null){
-            $dishID = $this->retrieveDishID($dish->getDishName(),$dish->getDishDescription());
             $optionDB = new DishOptionDBHandler();
-            $optionDB->uploadDishOption($dishID,$dishOption,$dishPrice);
+            $optionDB->uploadDishOption($dish->getDishID(),$dishOption,$dishPrice);
         }
+
+        $logDB = new LogDBHandler();
+        $newLog = new Log(1,"edit",$dish->getDishID());
+        $logDB->createLog($newLog);
     }
 
     public function deleteDish($id)
@@ -96,6 +102,9 @@ class DishDBHandler extends Database
         $query = "DELETE FROM dish WHERE dishID = :id";
         $parameter = ["id" => $id];
         $this->executeSQL($query,$parameter);
+        $logDB = new LogDBHandler();
+        $newLog = new Log(1,"delete",$id);
+        $logDB->createLog($newLog);
         return true;
     }
 
