@@ -25,11 +25,15 @@ EOT;
 
     protected function generateNavigation(){
         return <<<EOT
-            <ul>
-              <li><a href="../dishmanagement.php/view">View</a></li>
-              <li><a href="../dishmanagement.php/add">Add New Dish</a></li>
-              <li><a href="../dishmanagement.php/log">System Log</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-sm" style="background-color: rgba(255, 229, 199, 0.5);">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="../dishmanagement.php/view">View</a>
+                    <a class="nav-item nav-link" href="../dishmanagement.php/add">Add Dish</a>
+                    <a class="nav-item nav-link" href="../dishmanagement.php/log">Logging</a>
+                </div>
+            </div>
+        </nav>
 EOT;
 
     }
@@ -40,6 +44,18 @@ EOT;
 
     protected function generateSubtitle($subtitle){
         return "<p>$subtitle</p>";
+    }
+
+    protected function generateSearchBar(){
+        return "Search: <input type='text' id='search' name='search'>";
+    }
+
+    protected function generatePageNavigator(){
+        return <<<EOT
+            <input type="button" name="next" value="Next">
+            <span id="pageNumber"></span>
+            <input type="button" name="previous" value="Previous">
+EOT;
     }
 
     protected function generateDishManageForm($mode){

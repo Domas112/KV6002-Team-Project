@@ -5,7 +5,9 @@ $request = new Request();
 if(substr($request->getPath(),0,3) !== "api") {
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: text/html; charset=UTF-8");
-    echo "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>";
+    echo "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>";
+    echo "<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>";
+    echo "<link rel='stylesheet' href='css/dishmanagement.css'>";
 }else{
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");

@@ -32,15 +32,12 @@ class DishUIController extends DishUIElement
     private function generateViewDishUI(){
         $viewPage = $this->generateTitle("View All Dish");
         $viewPage .= $this->generateSubtitle("View and manage all available dish");
-        $viewPage .= "Search: <input type='text' id='search' name='search'>";
+        $viewPage .= $this->generateSearchBar();
         $viewPage .= $this->generateSortByDropdown(array(
             "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
         ));
         $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
-        //!TEMPORARY!
-        $viewPage .= "<input type='button' name='next' value='Next'>";
-        $viewPage .= "<span id='pageNumber'></span>";
-        $viewPage .= "<input type='button' name='previous' value='Previous'>";
+        $viewPage .= $this->generatePageNavigator();
         $viewPage .= $this->includeJavascript("../js/pagination.js");
         $viewPage .= $this->includeJavascript("../js/retrieveDish.js");
 
@@ -95,7 +92,7 @@ class DishUIController extends DishUIElement
             $deletePage .= <<<EOT
             <form name="deletionForm" method="post">
                 <input type="submit" name="yes" value="Yes">
-                <input type="button" name="no" value="No" onclick="location.href='/kv6002/dishmanagement.php/view';">
+                <input type="button" name="no" value="No" onclick="location.href='../dishmanagement.php/view';">
             </form>
 EOT;
         }else{
@@ -123,7 +120,7 @@ EOT;
             $availabilityPage .= <<<EOT
             <form name="deletionForm" method="post">
                 <input type="submit" name="yes" value="Yes">
-                <input type="button" name="no" value="No" onclick="location.href='/kv6002/dishmanagement.php/view';">
+                <input type="button" name="no" value="No" onclick="location.href='../dishmanagement.php/view';">
             </form>
 EOT;
         }else{
@@ -143,14 +140,12 @@ EOT;
     private function generateLoggingUI(){
         $logPage = $this->generateTitle("System Log");
         $logPage .= $this->generateSubtitle("View all the changes made to the system");
-        $logPage .= "Search: <input type='text' id='search' name='search'>";
+        $logPage .= $this->generateSearchBar();
         $logPage .= $this->generateSortByDropdown(array(
             "logID","logTimestamp","userID","logDescription"
         ));
         $logPage .= "<div id='logDataTable'>Loading data...</div>";
-        $logPage .= "<input type='button' name='next' value='Next'>";
-        $logPage .= "<span id='pageNumber'></span>";
-        $logPage .= "<input type='button' name='previous' value='Previous'>";
+        $logPage .= $this->generatePageNavigator();
         $logPage .= $this->includeJavascript("../js/pagination.js");
         $logPage .= $this->includeJavascript("../js/retrieveLog.js");
 
