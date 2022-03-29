@@ -2,14 +2,22 @@ export class OrdersLists extends HTMLElement{
     constructor(){
         super();
         this.tables;
+        this.showTable = [];
     }
 
     static get observedAttributes(){
-        return [];
+        return ["show-table"];
     }
 
-    attributeChangedCallback(){
-
+    attributeChangedCallback(prop, oldVal, newVal){
+        if(prop == "show-table"){
+            if(typeof this.showTable[newVal] === 'undefined'){
+                this.showTable[newVal] = true;
+            }else{
+                delete this.showTable[newVal];
+            }
+            
+        }
     }
 
     async connectedCallback(){
@@ -31,13 +39,13 @@ export class OrdersLists extends HTMLElement{
     }
 
     render(){
+        console.log(this.tables);
         let placeholder = ``;
-        for(const tableId in this.tables){
-            console.log(this.tables[tableId].tableID);
+        for(const index in this.tables){
+            console.log(this.tables[index].tableID);
 
             placeholder += `
-                <orders-component table-id=${this.tables[tableId].tableID}></orders-component>
-
+                <orders-component table-id=${this.tables[index].tableID} index="${index}" show="${this.showTable[index]}"></orders-component>
             `;
         }
 

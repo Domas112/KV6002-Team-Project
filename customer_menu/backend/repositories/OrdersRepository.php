@@ -75,5 +75,17 @@
                 'orderID'=>$orderID
             ));
         }
+
+        public function deleteTable(int $tableID) : void {
+            $sql = <<<SQLSTMT
+                DELETE FROM
+                    activeorders
+                WHERE
+                    tableID = :tableID;
+            SQLSTMT;
+            $this->db->executeSQL($sql, array(
+                'tableID' => $tableID
+            ));
+        }
     }
 ?>

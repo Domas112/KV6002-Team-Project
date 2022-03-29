@@ -8,7 +8,7 @@
             $this->ordersRepo = new OrdersRepository();
         }
 
-        function postOrder($ordersRaw){
+        function postOrder(string $ordersRaw) : void{
             $orders = json_decode($ordersRaw);
             foreach ($orders as $key => $order) {
                 $orderAsArray = [
@@ -21,7 +21,7 @@
             }
         }
 
-        function getAllOrders(){
+        function getAllOrders() : string{
             $tableIds = $this->ordersRepo->selectAllTableIds();
             $orders = array();
             foreach ($tableIds as $key => $value) {
@@ -31,18 +31,22 @@
             return json_encode($orders);
         }
 
-        function getAllTables(){
+        function getAllTables() : string{
             $tables = $this->ordersRepo->selectAllTableIds();
             return json_encode($tables);
         }
 
-        function getAllOrdersByTableId($id){
+        function getAllOrdersByTableId(int $id) : string{
             $orders = $this->ordersRepo->selectAllOrdersByTableId($id);
             return json_encode($orders);
         }
 
-        function completeOrder($orderID){
+        function completeOrder(int $orderID) : void{
             $this->ordersRepo->completeOrder($orderID);
+        }
+
+        function deleteTable(int $tableID) : void{
+            $this->ordersRepo->deleteTable($tableID);
         }
     }
 ?>

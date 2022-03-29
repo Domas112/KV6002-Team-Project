@@ -10,6 +10,8 @@
         $ordersController->completeOrder($_GET['id']);
     }elseif(isset($_GET['get_tables'])){
         echo $ordersController->getAllTables();
+    }elseif(isset($_GET['delete_table']) && isset($_GET['id'])){
+        $ordersController->deleteTable($_GET['id']);
     }elseif(isset($_GET['post_order'])){
         $jsonData = file_get_contents('php://input');
         $ordersController->postOrder($jsonData);
