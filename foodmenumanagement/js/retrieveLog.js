@@ -64,7 +64,7 @@ function displayDishData(data,page){
 
     let viewLogTable =
         "<br>" +
-        "<table>\n" +
+        "<table class='table table-striped'>\n" +
         "<tbody>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +

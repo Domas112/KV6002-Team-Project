@@ -3,7 +3,7 @@
 class Request
 {
     private $path;
-    private $basepath = FOODMANAGEMENT_BASEPATH;
+    private $basepath = FOODMENUMANAGEMENT_BASEPATH;
 
     public function __construct()
     {

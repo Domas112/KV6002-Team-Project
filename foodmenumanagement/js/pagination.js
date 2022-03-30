@@ -27,7 +27,7 @@ function pagePagination(currentPage,dataArray){
     const trimStart = (currentPage-1) * dataPerPage;
     const trimEnd = trimStart + dataPerPage;
 
-    $(pageNumber).html(currentPage+"/"+totalPage);
+    $(pageNumber).html("<b>Page "+currentPage+" of "+totalPage+"</b>");
 
     return dataArray.slice(trimStart,trimEnd);
 }

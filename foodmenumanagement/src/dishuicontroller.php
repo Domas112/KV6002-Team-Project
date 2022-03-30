@@ -4,6 +4,7 @@ class DishUIController extends DishUIElement
 {
     public function __construct($path){
         echo $this->generateHeader();
+        echo $this->generateLogo();
         echo $this->generateNavigation();
         switch($path){
             case "view":
@@ -30,16 +31,18 @@ class DishUIController extends DishUIElement
 
     //UI Generating
     private function generateViewDishUI(){
-        $viewPage = $this->generateTitle("View All Dish");
-        $viewPage .= $this->generateSubtitle("View and manage all available dish");
-        $viewPage .= $this->generateSearchBar();
-        $viewPage .= $this->generateSortByDropdown(array(
-            "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
-        ));
-        $viewPage .= "<div id='dishDataTable'>Loading data...</div>";
+        $viewPage = $this->generateDiv(array(
+            $this->generateTitle("View All Dish"),
+            $this->generateSubtitle("View and manage all available dish"),
+            $this->generateSearchBar(),
+            $this->generateSortByDropdown(array(
+                "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
+            ))
+        ),"container-fluid");
+        $viewPage .= "<div class='container-fluid' id='dishDataTable'>Loading data...</div>";
         $viewPage .= $this->generatePageNavigator();
-        $viewPage .= $this->includeJavascript("../js/pagination.js");
-        $viewPage .= $this->includeJavascript("../js/retrieveDish.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveDish.js");
 
         echo $viewPage;
     }
@@ -65,8 +68,8 @@ class DishUIController extends DishUIElement
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm("edit");
-            $editPage .= $this->includeJavascript("../js/optionDynamicForm.js");
-            $editPage .= $this->includeJavascript("../js/retrieveOneDish.js");
+            $editPage .= $this->includeJavascript("js/optionDynamicForm.js");
+            $editPage .= $this->includeJavascript("js/retrieveOneDish.js");
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
         }
@@ -138,16 +141,18 @@ EOT;
     }
 
     private function generateLoggingUI(){
-        $logPage = $this->generateTitle("System Log");
-        $logPage .= $this->generateSubtitle("View all the changes made to the system");
-        $logPage .= $this->generateSearchBar();
-        $logPage .= $this->generateSortByDropdown(array(
-            "logID","logTimestamp","userID","logDescription"
-        ));
-        $logPage .= "<div id='logDataTable'>Loading data...</div>";
+        $logPage = $this->generateDiv(array(
+            $this->generateTitle("System Log"),
+            $this->generateSubtitle("View all the changes made to the system"),
+            $this->generateSearchBar(),
+            $this->generateSortByDropdown(array(
+                "logID","logTimestamp","userID","logDescription"
+            ))
+        ),"container-fluid");
+        $logPage .= "<div class='container-fluid' id='logDataTable'>Loading data...</div>";
         $logPage .= $this->generatePageNavigator();
-        $logPage .= $this->includeJavascript("../js/pagination.js");
-        $logPage .= $this->includeJavascript("../js/retrieveLog.js");
+        $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
+        $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveLog.js");
 
         echo $logPage;
     }
