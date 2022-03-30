@@ -88,9 +88,11 @@ function displayDishData(data,page){
             "<td><img width='350px' height='200px' src='data:image;base64," + paginateResult[index].imageData + "'/></td>\n" +
             "<td>" + interpretAvailability(parseInt(paginateResult[index].dishAvailability)) + "</td>\n" +
             "<td>\n" +
-            "<li><a href=\"/kv6002/dishmanagement.php/edit?id=" + paginateResult[index].dishID + "\">Edit</a></li>\n" +
-            "<li><a href=\"/kv6002/dishmanagement.php/delete?id=" + paginateResult[index].dishID + "\">Delete</a></li>\n" +
-            "<li><a href=\"/kv6002/dishmanagement.php/availability?id=" + paginateResult[index].dishID + "\">Change Availability</a></li>\n" +
+            "<div class='btn-group-vertical' id='manage-button'>" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/edit?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Edit'></a>\n" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/delete?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Delete'></a>\n" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/availability?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Change Availability'></a>\n" +
+            "</div>\n" +
             "</td>\n" +
             "</tr>\n";
     })

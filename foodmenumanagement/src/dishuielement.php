@@ -14,6 +14,8 @@ class DishUIElement
                 <head>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+                    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
                     <link rel="stylesheet" href="{$this->resourceBasePath}/css/dishmanagement.css">
                     <title>Dish Management</title>
                 </head>
@@ -30,25 +32,28 @@ EOT;
 
     protected function generateLogo(){
         return <<<EOT
-        <div class="container-sm-logo">
-            <img src="{$this->resourceBasePath}/assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
+        <div class='container-fluid'>
+            <div class="container-sm-logo">
+                <img src="{$this->resourceBasePath}/assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
+            </div>
         </div>
 EOT;
-
     }
 
     protected function generateNavigation(){
         return <<<EOT
-        <div class="nav-container">
-            <nav class="navbar navbar-expand-md" style="background-color: rgba(239,183,26);">
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <ul class="navbar-nav">
-                        <li><a class="nav-item nav-link" href={$this->viewPath}>View All Dish</a></li>
-                        <li><a class="nav-item nav-link" href={$this->addPath}>Add New Dish</a></li>
-                        <li><a class="nav-item nav-link" href={$this->logPath}>System Log</a></li>
-                    </ul>
-                </div>
-            </nav>
+        <div class='container-fluid'>
+            <div class="nav-container">
+                <nav class="navbar navbar-expand-md" style="background-color: rgba(239,183,26);">
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <ul class="navbar-nav">
+                            <li><a class="nav-item nav-link" href={$this->viewPath}>View All Dish</a></li>
+                            <li><a class="nav-item nav-link" href={$this->addPath}>Add New Dish</a></li>
+                            <li><a class="nav-item nav-link" href={$this->logPath}>System Log</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
 EOT;
 
@@ -76,7 +81,7 @@ EOT;
 
     protected function generatePageNavigator(){
         return <<<EOT
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" id="page-navigator">
                 <input type="button" class="btn btn-sm" name="previous" value="Previous">
                 <span class='align-self-center' id="pageNumber"></span>
                 <input type="button" class="btn btn-sm" name="next" value="Next">

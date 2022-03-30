@@ -1,9 +1,6 @@
+/*Main Element CSS*/
 body{
     background: #ffe5C7;
-}
-
-.nav-container{
-    box-shadow: 0 4px 4px #888888;
 }
 
 li{
@@ -15,9 +12,48 @@ li a{
     color: rgb(97, 60, 17);
 }
 
+select{
+    border-color: #CED4DA;
+}
+
+/*Custom Class*/
+.nav-container{
+    box-shadow: 0 4px 4px #888888;
+    margin-bottom: 2%;
+}
+
+/*Custom ID*/
+#page-navigator{
+    margin-bottom: 3%;
+}
+
+#page-navigator input, #manage-button input{
+    width:100px;
+    color: #ffffff;
+    background-color: rgb(86,46,0);
+}
+
+#page-navigator input:hover, #manage-button input:hover{
+    color: #b7b7b7;
+    background-color: rgb(70, 37, 0);
+}
+
+#manage-button input{
+    width:150px;
+    margin: 2% 0;
+}
+
+#logo {
+    width: 223px;
+    height: 65px;
+    left: 19px;
+    top: 61px;
+}
+
+/*Custom Bootstrap CSS*/
 .container-sm-logo {
     padding: 10px;
-    background-color: white;
+    background-color: rgba(255, 255, 255);
 }
 
 .align-self-center{
@@ -28,18 +64,8 @@ li a{
     background-color: white;
 }
 
-.btn-sm{
-    width:100px;
-    color: #ffffff;
-    background-color: rgb(86,46,0);
-}
-
 .btn-sm:hover{
     color: #dadada;
-}
-
-select{
-    border-color: #CED4DA;
 }
 
 .input-group-text{
@@ -48,22 +74,10 @@ select{
 
 .container-fluid{
     width:90%;
-    margin-top:2%;
-}
-
-.d-flex{
-    margin-bottom: 5%;
 }
 
 .fixed-bottom{
     text-align: center;
     background-color: black;
     color:white;
-}
-
-#logo {
-    width: 223px;
-    height: 65px;
-    left: 19px;
-    top: 61px;
 }

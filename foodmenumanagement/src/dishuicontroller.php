@@ -68,8 +68,8 @@ class DishUIController extends DishUIElement
         $editPage .= $this->generateSubtitle("Editing dish information from the system");
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm("edit");
-            $editPage .= $this->includeJavascript("js/optionDynamicForm.js");
-            $editPage .= $this->includeJavascript("js/retrieveOneDish.js");
+            $editPage .= $this->includeJavascript($this->getResourceBasePath()."/js/optionDynamicForm.js");
+            $editPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveOneDish.js");
         }else{
             $editPage .= $this->generateSubtitle("No data has been selected!");
         }
