@@ -76,9 +76,9 @@ function displayDishData(data,page){
     $.each(paginateResult, function (index) {
         viewLogTable +=
             "<tr>\n" +
-            "<td>" + paginateResult[index].logID + "</td>\n" +
-            "<td>" + paginateResult[index].logTimestamp + "</td>\n" +
-            "<td>" + paginateResult[index].userID + "</td>\n" +
+            "<td style='width:50px;'>" + paginateResult[index].logID + "</td>\n" +
+            "<td style='width:300px;'>" + paginateResult[index].logTimestamp + "</td>\n" +
+            "<td style='width:100px;'>" + paginateResult[index].userID + "</td>\n" +
             "<td>" + paginateResult[index].logDescription + "</td>\n" +
             "</td>\n" +
             "</tr>\n";

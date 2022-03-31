@@ -1,41 +1,59 @@
-/*Main Element CSS*/
 body{
     background: #ffe5C7;
 }
 
 li{
-    margin: 0 20px;
+    margin: 0 10px;
     font-weight: bold;
 }
 
-li a{
-    color: rgb(97, 60, 17);
+li a, label, h1, p{
+    color: #613C11FF;
+}
+
+li a:hover{
+    transition:0.3s ease;
+    color: #ffffff;
 }
 
 select{
-    border-color: #CED4DA;
+    border-color: #ffffff;
 }
 
-/*Custom Class*/
+hr{
+    border-top:1px solid rgba(86, 46, 0, 0.44);
+}
+
+footer{
+    text-align: center;
+}
+
+.nav{
+    margin-left:10px;
+}
+
+.card-header{
+    padding: 0;
+}
+
 .nav-container{
     box-shadow: 0 4px 4px #888888;
     margin-bottom: 2%;
+    background-color: #EFB71AFF;
 }
 
-/*Custom ID*/
-#page-navigator{
-    margin-bottom: 3%;
+.nav-item:hover{
+    transition: 0.3s ease;
+    background-color: rgb(68, 37, 0);
 }
 
-#page-navigator input, #manage-button input{
+#page-navigator input, #yes, #no{
     width:100px;
-    color: #ffffff;
-    background-color: rgb(86,46,0);
 }
 
-#page-navigator input:hover, #manage-button input:hover{
-    color: #b7b7b7;
-    background-color: rgb(70, 37, 0);
+td img {
+    width: 400px;
+    height: 200px;
 }
 
 #manage-button input{
@@ -43,14 +61,42 @@ select{
     margin: 2% 0;
 }
 
-#logo {
+.option #addOption{
+    width:100%;
+}
+
+#logo{
     width: 223px;
     height: 65px;
     left: 19px;
     top: 61px;
 }
 
-/*Custom Bootstrap CSS*/
+#newOption{
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding:20px;
+    margin:20px 0;
+}
+
+#removeOption,#removeRetrievedOption{
+    width:200px;
+}
+
+#submit{
+    width:100%;
+}
+
+.btn-sm, .btn-lg{
+    color: #ffffff;
+    background-color: rgb(86,46,0);
+}
+
+.btn-sm:hover, .btn-lg:hover{
+    color: #d5d5d5;
+    background-color: rgb(68, 37, 0);
+}
+
 .container-sm-logo {
     padding: 10px;
     background-color: rgba(255, 255, 255);
@@ -80,4 +126,9 @@ select{
     text-align: center;
     background-color: black;
     color:white;
+}
+
+.table th{
+    color: #613C11FF;
+    font-weight: bold;
 }

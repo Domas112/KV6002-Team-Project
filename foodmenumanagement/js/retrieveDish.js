@@ -63,7 +63,7 @@ function displayDishData(data,page){
     let paginateResult = pagePagination(page,data);
 
     let viewDishTable =
-        "<br>" +
+        "<div class='table-responsive'>" +
         "<table class='table table-striped'>\n" +
         "<tbody>\n" +
         "<tr>\n" +
@@ -82,10 +82,10 @@ function displayDishData(data,page){
             "<tr>\n" +
             "<td>" + paginateResult[index].dishID + "</td>\n" +
             "<td>" + paginateResult[index].dishName + "</td>\n" +
-            "<td>" + paginateResult[index].dishDescription + "</td>\n" +
+            "<td style='width:25%'>" + paginateResult[index].dishDescription + "</td>\n" +
             "<td>" + paginateResult[index].categoryName + "</td>\n" +
             "<td>" + paginateResult[index].numberOfDishOption + "</td>\n" +
-            "<td><img width='350px' height='200px' src='data:image;base64," + paginateResult[index].imageData + "'/></td>\n" +
+            "<td style='width:auto'><img src='data:image;base64," + paginateResult[index].imageData + "'/></td>\n" +
             "<td>" + interpretAvailability(parseInt(paginateResult[index].dishAvailability)) + "</td>\n" +
             "<td>\n" +
             "<div class='btn-group-vertical' id='manage-button'>" +
@@ -96,6 +96,10 @@ function displayDishData(data,page){
             "</td>\n" +
             "</tr>\n";
     })
+
+    viewDishTable += "</tbody>" +
+        "</table>" +
+        "</div>"
     $(dishList).html(viewDishTable);
 }
 

@@ -24,18 +24,25 @@ function addNewOption($mode,$optionID,$optionName,$optionPrice){
     let newOption = "" +
         "<div id='newOption'>" +
         "   <input type='hidden' "+changeInputHiddenID($optionID)+insertValue($optionID)+">" +
-        "   <label>Option:</label>\n" +
-        "   <input type='text' "+changeInputName($optionID)+insertValue($optionName)+" required><br>" +
-        "   <label>Price:</label>\n" +
-        "   <input type='text' "+changeInputPriceName($optionID)+insertValue($optionPrice)+" required>";
+        "   <div class='form-group'>" +
+            "   <label>Option Title:</label>\n" +
+            "   <input class='form-control' type='text' "+changeInputName($optionID)+insertValue($optionName)+" required>" +
+        "   </div>" +
+        "   <div class='form-group'>" +
+            "   <label>Price:</label>\n" +
+            "   <input class='form-control' type='text' "+changeInputPriceName($optionID)+insertValue($optionPrice)+" required>" +
+        "   </div>" +
+        "   <div class='d-flex align-items-end flex-column'>";
 
+    newOption += "<input class='btn btn-sm p-2' type='button' id=";
     if($mode === "add"){
-        newOption += "<input type='button' id='removeOption' value='Remove'>";
+        newOption += "'removeOption'";
     }else if($mode === "edit"){
-        newOption += "<input type='button' id='removeRetrievedOption' value='Remove'>";
+        newOption += "'removeRetrievedOption'";
     }
-
-    newOption += "</div>";
+    newOption += "value='- Remove'>" +
+            "</div>" +
+        "</div>";
     $("div.option").append(newOption);
 }
 

@@ -34,12 +34,14 @@ class DishUIController extends DishUIElement
         $viewPage = $this->generateDiv(array(
             $this->generateTitle("View All Dish"),
             $this->generateSubtitle("View and manage all available dish"),
+            $this->generateHorizontalLine(),
             $this->generateSearchBar(),
             $this->generateSortByDropdown(array(
                 "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
-            ))
+            )),
+            $this->generateHorizontalLine()
         ),"container-fluid");
-        $viewPage .= "<div class='container-fluid' id='dishDataTable'>Loading data...</div>";
+        $viewPage .= $this->generateDataTable("dishDataTable");
         $viewPage .= $this->generatePageNavigator();
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveDish.js");
@@ -49,8 +51,11 @@ class DishUIController extends DishUIElement
 
     private function generateAddDishUI()
     {
-        $addPage = $this->generateTitle("Add New Dish");
-        $addPage .= $this->generateSubtitle("Adding new dish into the system");
+        $addPage = $this->generateDiv(array(
+            $this->generateTitle("Add New Dish"),
+            $this->generateSubtitle("Adding new dish into the system"),
+            $this->generateHorizontalLine()
+        ),"container-fluid");
         $addPage .= $this->generateDishManageForm("add");
         $addPage .= $this->includeJavascript("../js/optionDynamicForm.js");
 
@@ -64,8 +69,11 @@ class DishUIController extends DishUIElement
     }
 
     private function generateEditDishUI(){
-        $editPage = $this->generateTitle("Edit Dish");
-        $editPage .= $this->generateSubtitle("Editing dish information from the system");
+        $editPage = $this->generateDiv(array(
+            $this->generateTitle("Edit Dish"),
+            $this->generateSubtitle("Editing dish information from the system"),
+            $this->generateHorizontalLine()
+        ),"container-fluid");
         if(isset($_GET['id'])){
             $editPage .= $this->generateDishManageForm("edit");
             $editPage .= $this->includeJavascript($this->getResourceBasePath()."/js/optionDynamicForm.js");
@@ -87,47 +95,50 @@ class DishUIController extends DishUIElement
     }
 
     private function generateDeleteDishUI(){
-        $deletePage = $this->generateTitle("Delete Dish");
+        $deletePage = $this->generateDiv(array(
+            $this->generateTitle("Delete Dish"),
+            $this->generateSubtitle("Deleting dish information from the system"),
+            $this->generateHorizontalLine()
+        ),"container-fluid");
         if(isset($_GET['id'])){
-            $deletePage .= $this->generateSubtitle("Are you sure you want to delete this dish?");
-            $deletePage .= $this->generateSubtitle("Selected dish ID: ".$_GET['id']);
-
-            $deletePage .= <<<EOT
-            <form name="deletionForm" method="post">
-                <input type="submit" name="yes" value="Yes">
-                <input type="button" name="no" value="No" onclick="location.href='../dishmanagement.php/view';">
-            </form>
-EOT;
+            $deletePage .= $this->generateDiv(array(
+                $this->generateSubtitle("Are you sure you want to delete this dish?"),
+                $this->generateSubtitle("Selected dish ID: ".$_GET['id']),
+                $this->generateConfirmation("deletionForm",$this->viewPath)
+            ),"container-fluid");
         }else{
-            $deletePage .= $this->generateSubtitle("No data has been selected!");
+            $deletePage .= $this->generateDiv(array(
+                $this->generateSubtitle("No data has been selected!")
+            ),"container-fluid");
         }
-
 
         echo $deletePage;
 
         if(isset($_POST['yes'])){
             $dishDB = new DishDBHandler();
             if($dishDB->deleteDish($_GET['id'])){
-                header('Location: /kv6002/dishmanagement.php/view');
+                header('Location: '.$this->viewPath);
             }
         }
     }
 
     private function generateAvailabilityUI()
     {
-        $availabilityPage = $this->generateTitle("Change Dish Availability");
+        $availabilityPage = $this->generateDiv(array(
+            $this->generateTitle("Change Dish Availability"),
+            $this->generateSubtitle("Changing the dish availability"),
+            $this->generateHorizontalLine()
+        ),"container-fluid");
         if(isset($_GET['id'])){
-            $availabilityPage .= $this->generateSubtitle("Are you sure you want to change the availability of the selected dish?");
-            $availabilityPage .= $this->generateSubtitle("Selected dish ID: " . $_GET['id']);
-
-            $availabilityPage .= <<<EOT
-            <form name="deletionForm" method="post">
-                <input type="submit" name="yes" value="Yes">
-                <input type="button" name="no" value="No" onclick="location.href='../dishmanagement.php/view';">
-            </form>
-EOT;
+            $availabilityPage .= $this->generateDiv(array(
+                $this->generateSubtitle("Are you sure you want to change the availability of the selected dish?"),
+                $this->generateSubtitle("Selected dish ID: " . $_GET['id']),
+                $this->generateConfirmation("availabilityForm",$this->viewPath)
+            ),"container-fluid");
         }else{
-            $availabilityPage .= $this->generateSubtitle("No data has been selected!");
+            $availabilityPage .= $this->generateDiv(array(
+                $this->generateSubtitle("No data has been selected!")
+            ),"container-fluid");
         }
 
         echo $availabilityPage;
@@ -135,7 +146,7 @@ EOT;
         if(isset($_POST['yes'])){
             $dishDB = new DishDBHandler();
             if($dishDB->updateDishAvailability($_GET['id'])){
-                header('Location: /kv6002/dishmanagement.php/view');
+                header('Location: '.$this->viewPath);
             }
         }
     }
@@ -144,12 +155,14 @@ EOT;
         $logPage = $this->generateDiv(array(
             $this->generateTitle("System Log"),
             $this->generateSubtitle("View all the changes made to the system"),
+            $this->generateHorizontalLine(),
             $this->generateSearchBar(),
             $this->generateSortByDropdown(array(
                 "logID","logTimestamp","userID","logDescription"
-            ))
+            )),
+            $this->generateHorizontalLine()
         ),"container-fluid");
-        $logPage .= "<div class='container-fluid' id='logDataTable'>Loading data...</div>";
+        $logPage .= $this->generateDataTable("logDataTable");
         $logPage .= $this->generatePageNavigator();
         $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
         $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveLog.js");

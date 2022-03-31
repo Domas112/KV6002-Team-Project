@@ -2,10 +2,10 @@
 
 class DishUIElement
 {
-    private $resourceBasePath = FOODMENUMANAGEMENT_RESOURCEBASEPATH;
-    private $viewPath = FOODMENUMANAGEMENT_VIEWPATH;
-    private $addPath = FOODMENUMANAGEMENT_ADDPATH;
-    private $logPath = FOODMENUMANAGEMENT_LOGPATH;
+    protected $resourceBasePath = FOODMENUMANAGEMENT_RESOURCEBASEPATH;
+    protected $viewPath = FOODMENUMANAGEMENT_VIEWPATH;
+    protected $addPath = FOODMENUMANAGEMENT_ADDPATH;
+    protected $logPath = FOODMENUMANAGEMENT_LOGPATH;
 
     protected function generateHeader(){
         return <<<EOT
@@ -14,9 +14,9 @@ class DishUIElement
                 <head>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1">
-                    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
                     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
                     <link rel="stylesheet" href="{$this->resourceBasePath}/css/dishmanagement.css">
+                    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
                     <title>Dish Management</title>
                 </head>
                 <body>
@@ -25,6 +25,10 @@ EOT;
 
     protected function generateFooter(){
         return <<<EOT
+                    <footer class="container-fluid">
+                        <hr>
+                        <p>© Amaysia Restaurant | Food Menu Management | Developed by Teck Xun Tan</p>
+                    </footer>
                 </body>
             </html>
 EOT;
@@ -32,28 +36,24 @@ EOT;
 
     protected function generateLogo(){
         return <<<EOT
-        <div class='container-fluid'>
-            <div class="container-sm-logo">
-                <img src="{$this->resourceBasePath}/assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
-            </div>
+        <div class="container-sm-logo">
+            <img src="{$this->resourceBasePath}/assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
         </div>
 EOT;
     }
 
     protected function generateNavigation(){
         return <<<EOT
-        <div class='container-fluid'>
-            <div class="nav-container">
-                <nav class="navbar navbar-expand-md" style="background-color: rgba(239,183,26);">
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <ul class="navbar-nav">
-                            <li><a class="nav-item nav-link" href={$this->viewPath}>View All Dish</a></li>
-                            <li><a class="nav-item nav-link" href={$this->addPath}>Add New Dish</a></li>
-                            <li><a class="nav-item nav-link" href={$this->logPath}>System Log</a></li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+        <div class="nav-container">
+            <nav>
+                <div class="card-header" id="navbarSupportedContent">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item"><a class="nav-link" href={$this->viewPath}>View All Dish</a></li>
+                        <li class="nav-item"><a class="nav-link" href={$this->addPath}>Add New Dish</a></li>
+                        <li class="nav-item"><a class="nav-link" href={$this->logPath}>System Log</a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
 EOT;
 
@@ -73,7 +73,7 @@ EOT;
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Search</span>
                 </div>
-                <input type="text" class="form-control" id='search' name='search' aria-label="Default" aria-describedby="inputGroup-sizing-default place" placeholder="Search by ID or Name">
+                <input type="text" class="form-control" id='search' name='search' placeholder="Search by ID or Name">
             </div>
 EOT;
 
@@ -89,45 +89,61 @@ EOT;
 EOT;
     }
 
+    protected function generateHorizontalLine(){
+        return "<hr>";
+    }
+
     protected function generateDishManageForm($mode){
         $dishForm = <<<EOT
-            <form name="dishForm" method="post" enctype="multipart/form-data">
-                <div id="dishForm-child">
+            <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'>
+                <div class='form-group'>
                     <label>Name:</label>
-                    <input type="text" name="name" id="name" required>
+                    <input class='form-control' type='text' name='name' id='name' required>
                 </div>
-                <div id="dishForm-child">
-                    <label style="float:left">Description:</label>
-                    <textarea name="description" id="description" required></textarea>
+                <div class='form-group'>
+                    <label>Description:</label>
+                    <textarea class='form-control' name='description' id='description' required></textarea>
                 </div>
-                <div id="dishForm-child">
+                <div class='form-group'>
                     <label>Category:</label>
 EOT;
         $dishForm .= $this->generateCategoryDropdown();
         $dishForm .= <<<EOT
                 </div>
-                <div id="dishForm-child">
+                <div class='form-group'>
                     <label>Image Path:</label>
-                    <input type="file" name="imgPath">
+                    <input class='form-control-file' type='file' name='imgPath'>
                 </div>
-                <br><br>
-                <div class="option">
-                    <input type="button" id="addOption" value="Add New Option">
+                <hr>
+                <div class='option'>
+                    <input class="btn btn-lg" type='button' id='addOption' value='+ Add New Option'>
+                    <hr>
                     {$this->generateHiddenInput($mode)}
                 </div>
-                <br><br>
-                <input type="submit" name="submit" value="{$this->submitTextChange($mode)}">
+                <div>
+                    <input class="btn btn-lg" type='submit' name='submit' id='submit' value='{$this->submitTextChange($mode)}'>
+                </div>
             </form>
 EOT;
         return $dishForm;
     }
 
+    protected function generateConfirmation($confirmationFormName, $redirectPath){
+        return <<<EOT
+            <form name="$confirmationFormName" method="post">
+                <input class='btn btn-sm' type="submit" name="yes" id='yes' value="Yes">
+                <input class='btn btn-sm' type="button" name="no" id='no' value="No" onclick="location.href='$redirectPath';">
+            </form>
+EOT;
+
+    }
+
     protected function generateCategoryDropdown(){
         $category = new CategoryDBHandler();
         $result = $category->retrieveAllCategory();
-        $categoryDropdown = "<select name=\"category\" id=\"category\">";
+        $categoryDropdown = "<select class='form-control' name='category' id='category'>";
         foreach($result as $rows){
-            $categoryDropdown .= "<option value=\"{$rows['categoryID']}\">{$rows['categoryName']}</option>";
+            $categoryDropdown .= "<option value='{$rows['categoryID']}'>{$rows['categoryName']}</option>";
         }
         $categoryDropdown .= "</select>";
 
@@ -149,6 +165,10 @@ EOT;
         $sortByDropdown .= "</select></div>";
 
         return $sortByDropdown;
+    }
+
+    protected function generateDataTable($tableName){
+        return "<div class='container-fluid' id='$tableName'>Loading data...</div>";
     }
 
     protected function generateDiv(array $containerContent, $class){
