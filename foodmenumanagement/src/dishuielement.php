@@ -12,12 +12,20 @@ class DishUIElement
         <!doctype html>
             <html lang="en">
                 <head>
+                    <!-- Required meta tags -->
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <!-- Importing CSS -->
                     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+                    <link rel='stylesheet' href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css'>
                     <link rel="stylesheet" href="{$this->resourceBasePath}/css/dishmanagement.css">
-                    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-                    <title>Dish Management</title>
+                    
+                    <!-- Importing Scripts -->
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+                    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+                    <title>Food Menu Management</title>
                 </head>
                 <body>
 EOT;
@@ -45,12 +53,21 @@ EOT;
     protected function generateNavigation(){
         return <<<EOT
         <div class="nav-container">
-            <nav>
-                <div class="card-header" id="navbarSupportedContent">
-                    <ul class="nav nav-pills card-header-pills">
-                        <li class="nav-item"><a class="nav-link" href={$this->viewPath}>View All Dish</a></li>
-                        <li class="nav-item"><a class="nav-link" href={$this->addPath}>Add New Dish</a></li>
-                        <li class="nav-item"><a class="nav-link" href={$this->logPath}>System Log</a></li>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href={$this->viewPath}>View All Dish</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={$this->addPath}>Add New Dish</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={$this->logPath}>System Log</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -71,20 +88,23 @@ EOT;
         return <<<EOT
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Search</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">🔍 Search</span>
                 </div>
-                <input type="text" class="form-control" id='search' name='search' placeholder="Search by ID or Name">
+                <input type="text" class="form-control" id='search' name='search' placeholder="Search anything here!">
             </div>
 EOT;
 
     }
 
+    protected function generatePageEntries(){
+        return "<div id='page-entries'></div>";
+    }
+
     protected function generatePageNavigator(){
         return <<<EOT
-            <div class="d-flex justify-content-center" id="page-navigator">
-                <input type="button" class="btn btn-sm" name="previous" value="Previous">
-                <span class='align-self-center' id="pageNumber"></span>
-                <input type="button" class="btn btn-sm" name="next" value="Next">
+            <div class="container-fluid" id="page-navigator">
+                <div id="pageNumber"></div>
+                <div class="d-flex justify-content-center" id="pagination"></div>
             </div>
 EOT;
     }
@@ -148,23 +168,6 @@ EOT;
         $categoryDropdown .= "</select>";
 
         return $categoryDropdown;
-    }
-
-    protected function generateSortByDropdown($sortList){
-        $sortByDropdown = <<<EOT
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Sort By</span>
-                </div>
-EOT;
-
-        $sortByDropdown .= "<select class='custom-select' name='sort' id='sort'>";
-        for($i = 0; $i<count($sortList); $i++){
-            $sortByDropdown .= "<option value='".$sortList[$i]."'>".$sortList[$i]."</option>";
-        }
-        $sortByDropdown .= "</select></div>";
-
-        return $sortByDropdown;
     }
 
     protected function generateDataTable($tableName){

@@ -36,10 +36,8 @@ class DishUIController extends DishUIElement
             $this->generateSubtitle("View and manage all available dish"),
             $this->generateHorizontalLine(),
             $this->generateSearchBar(),
-            $this->generateSortByDropdown(array(
-                "dishID","dishName","dishDescription","dishCategoryID","dishAvailability"
-            )),
-            $this->generateHorizontalLine()
+            $this->generateHorizontalLine(),
+            $this->generatePageEntries()
         ),"container-fluid");
         $viewPage .= $this->generateDataTable("dishDataTable");
         $viewPage .= $this->generatePageNavigator();
@@ -157,10 +155,8 @@ class DishUIController extends DishUIElement
             $this->generateSubtitle("View all the changes made to the system"),
             $this->generateHorizontalLine(),
             $this->generateSearchBar(),
-            $this->generateSortByDropdown(array(
-                "logID","logTimestamp","userID","logDescription"
-            )),
-            $this->generateHorizontalLine()
+            $this->generateHorizontalLine(),
+            $this->generatePageEntries()
         ),"container-fluid");
         $logPage .= $this->generateDataTable("logDataTable");
         $logPage .= $this->generatePageNavigator();

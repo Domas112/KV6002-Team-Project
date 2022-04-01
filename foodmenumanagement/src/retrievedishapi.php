@@ -8,11 +8,11 @@ class RetrieveDishAPI extends APIResponse
         $this->database = new Database();
         if($_SERVER['REQUEST_METHOD'] === 'GET'){
             if(isset($_REQUEST['retrieveAll'])){
-                $this->setResponse($this->retrieveAllDish($_GET['sort']));
+                $this->setResponse($this->retrieveAllDish());
             }else if(isset($_REQUEST['retrieveOne'])){
                 $this->setResponse($this->retrieveOneDish($_GET['id']));
-            }else if(isset($_REQUEST['searchData'])){
-                $this->setResponse($this->searchDish($_GET['search'],$_GET['sort']));
+//            }else if(isset($_REQUEST['searchData'])){
+//                $this->setResponse($this->searchDish($_GET['search'],$_GET['sort']));
             }else{
                 $this->setResponse($this->showError(400));
             }
@@ -22,7 +22,7 @@ class RetrieveDishAPI extends APIResponse
         echo json_encode($this->getResponse());
     }
 
-    private function retrieveAllDish($sort){
+    private function retrieveAllDish(){
         try{
             $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
                       FROM dish
@@ -32,8 +32,7 @@ class RetrieveDishAPI extends APIResponse
                       ON image.imageID = dish.dishImg
                       LEFT OUTER JOIN dishOption
                       ON dishOption.dishID = dish.dishID
-                      GROUP BY dishID
-                      ORDER BY ".$sort;
+                      GROUP BY dishID";
             return $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
         }
         catch (Exception $e){
@@ -55,25 +54,25 @@ class RetrieveDishAPI extends APIResponse
         }
     }
 
-    private function searchDish($search,$sort){
-        try{
-            $search = "%".$search."%";
-            $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
-                      FROM dish
-                      INNER JOIN category
-                      ON category.categoryID = dish.dishCategoryID
-                      LEFT OUTER JOIN image
-                      ON image.imageID = dish.dishImg
-                      LEFT OUTER JOIN dishOption
-                      ON dishOption.dishID = dish.dishID
-                      WHERE dish.dishID LIKE :id OR dish.dishName LIKE :name
-                      GROUP BY dishID
-                      ORDER BY ".$sort;
-            $parameter = ["id" => $search, "name" => $search];
-            return $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
-        }
-        catch (Exception $e){
-            return "Error: " . $e->getMessage();
-        }
-    }
+//    private function searchDish($search,$sort){
+//        try{
+//            $search = "%".$search."%";
+//            $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
+//                      FROM dish
+//                      INNER JOIN category
+//                      ON category.categoryID = dish.dishCategoryID
+//                      LEFT OUTER JOIN image
+//                      ON image.imageID = dish.dishImg
+//                      LEFT OUTER JOIN dishOption
+//                      ON dishOption.dishID = dish.dishID
+//                      WHERE dish.dishID LIKE :id OR dish.dishName LIKE :name
+//                      GROUP BY dishID
+//                      ORDER BY ".$sort;
+//            $parameter = ["id" => $search, "name" => $search];
+//            return $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
+//        }
+//        catch (Exception $e){
+//            return "Error: " . $e->getMessage();
+//        }
+//    }
 }

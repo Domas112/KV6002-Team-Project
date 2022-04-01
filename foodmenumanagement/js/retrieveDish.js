@@ -1,48 +1,15 @@
 let dishList = "#dishDataTable";
 let pageNumber = "#pageNumber";
 let searchInput = "input[name='search']";
-let sorted = "select[name='sort']"
 let result;
-let selectedURL;
 
 $("document").ready(function() {
     let url = '../dishmanagement.php/api/dish';
     let retrievingDish = url + '?retrieveAll';
-    let searchingDish = url + '?searchData&search=';
 
     //Render the data table onLoad
-    selectedURL = retrievingDish;
-    result = getDishData(selectedURL+"&sort="+$(sorted).val());
-    displayDishData(result,currentPage);
-
-    //Start searching process upon keyUp action in Search bar
-    $(searchInput).on('keyup',function(){
-
-        //Set CurrentPage back to 1 upon Search
-        resetCurrentPage();
-
-        if($(searchInput).val() === ""){
-            //If search bar is empty, set url to retrieve full data
-            selectedURL = retrievingDish;
-        }else{
-            //If Search bar is not empty, set url to search data
-            selectedURL = searchingDish + $(searchInput).val();
-        }
-
-        //Re-render the data table
-        result = getDishData(selectedURL+"&sort="+$(sorted).val());
-        displayDishData(result,currentPage);
-    })
-
-    //Handle onChange event of Sort dropdown bar
-    $(sorted).on('change',function(){
-        //Set CurrentPage back to 1 upon changing sort
-        resetCurrentPage();
-
-        //Re-render the data table
-        result = getDishData(selectedURL+"&sort="+$(sorted).val());
-        displayDishData(result,currentPage);
-    })
+    result = getDishData(retrievingDish);
+    displayDishData(result);
 })
 
 function getDishData(url){
@@ -59,13 +26,11 @@ function getDishData(url){
     return data;
 }
 
-function displayDishData(data,page){
-    let paginateResult = pagePagination(page,data);
-
+function displayDishData(data){
     let viewDishTable =
         "<div class='table-responsive'>" +
-        "<table class='table table-striped'>\n" +
-        "<tbody>\n" +
+        "<table class='table' id='sortTable'>\n" +
+        "<thead>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +
         "<th>Name</th>\n" +
@@ -75,23 +40,25 @@ function displayDishData(data,page){
         "<th>Image</th>\n" +
         "<th>Availability</th>\n" +
         "<th>Management</th>\n" +
-        "</tr>";
+        "</tr>" +
+        "</thead>" +
+        "<tbody>";
 
-    $.each(paginateResult, function (index) {
+    $.each(data, function (index) {
         viewDishTable +=
             "<tr>\n" +
-            "<td>" + paginateResult[index].dishID + "</td>\n" +
-            "<td>" + paginateResult[index].dishName + "</td>\n" +
-            "<td style='width:25%'>" + paginateResult[index].dishDescription + "</td>\n" +
-            "<td>" + paginateResult[index].categoryName + "</td>\n" +
-            "<td>" + paginateResult[index].numberOfDishOption + "</td>\n" +
-            "<td style='width:auto'><img src='data:image;base64," + paginateResult[index].imageData + "'/></td>\n" +
-            "<td>" + interpretAvailability(parseInt(paginateResult[index].dishAvailability)) + "</td>\n" +
+            "<td>" + data[index].dishID + "</td>\n" +
+            "<td>" + data[index].dishName + "</td>\n" +
+            "<td style='width:25%'>" + data[index].dishDescription + "</td>\n" +
+            "<td>" + data[index].categoryName + "</td>\n" +
+            "<td style='width:10%'>" + data[index].numberOfDishOption + "</td>\n" +
+            "<td style='width:auto'><img src='data:image;base64," + data[index].imageData + "'/></td>\n" +
+            "<td>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
             "<td>\n" +
             "<div class='btn-group-vertical' id='manage-button'>" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/edit?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Edit'></a>\n" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/delete?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Delete'></a>\n" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/availability?id=" + paginateResult[index].dishID + "\"><input class='btn btn-sm' type='button' value='Change Availability'></a>\n" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/edit?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Edit'></a>\n" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/delete?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Delete'></a>\n" +
+            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/availability?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Change Availability'></a>\n" +
             "</div>\n" +
             "</td>\n" +
             "</tr>\n";
@@ -100,7 +67,33 @@ function displayDishData(data,page){
     viewDishTable += "</tbody>" +
         "</table>" +
         "</div>"
+
     $(dishList).html(viewDishTable);
+
+    oTable = $("#sortTable").DataTable({
+        "columnDefs": [{
+            "targets": [5,7],
+            "orderable": false
+        }],
+        "lengthMenu":[[5,10,15],[5,10,15]],
+        "pagingType": "simple",
+        language:{
+            paginate:{
+                next: '<input type="button" class="btn btn-sm" name="next" id="next" value="Next">',
+                previous: '<input type="button" class="btn btn-sm" name="previous" id="previous" value="Previous">'
+            },
+            "info":"Page _PAGE_ of _PAGES_"
+        },
+        initComplete: (settings, json)=>{
+            $('.dataTables_length').appendTo("#page-entries");
+            $('.dataTables_paginate').appendTo("#pagination");
+            $('.dataTables_info').appendTo('#pageNumber');
+        }
+    });
+
+    $(searchInput).on('keyup',function(){
+        oTable.search($(this).val()).draw();
+    })
 }
 
 function interpretAvailability(availability){

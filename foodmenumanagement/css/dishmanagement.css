@@ -42,12 +42,7 @@ footer{
     background-color: #EFB71AFF;
 }
 
-.nav-item:hover{
-    transition: 0.3s ease;
-    background-color: rgb(68, 37, 0);
-}
-
-#page-navigator input, #yes, #no{
+#page-navigator input{
     width:100px;
 }
 
@@ -87,9 +82,26 @@ td img {
     width:100%;
 }
 
-.btn-sm, .btn-lg{
+.btn-sm, .btn-lg, .previous, .next{
     color: #ffffff;
     background-color: rgb(86,46,0);
+}
+
+.dataTables_paginate{
+    width:auto;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.previous,.next{
+    margin: 0 50px;
+    border:0;
+    border-radius: 2px;
+}
+
+#pageNumber{
+    margin:10px 0;
 }
 
 .btn-sm:hover, .btn-lg:hover{
@@ -131,4 +143,16 @@ td img {
 .table th{
     color: #613C11FF;
     font-weight: bold;
+}
+
+thead{
+    background-color: #EFB71AFF;
+}
+
+#sortTable_filter{
+    display: none;
+}
+
+#pageNumber{
+    text-align: center;
 }

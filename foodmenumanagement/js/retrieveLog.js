@@ -1,48 +1,15 @@
 let logList = "#logDataTable";
 let pageNumber = "#pageNumber";
 let searchInput = "input[name='search']";
-let sorted = "select[name='sort']"
 let result;
-let selectedURL;
 
 $("document").ready(function() {
     let url = '../dishmanagement.php/api/log';
     let retrievingLog = url + '?retrieveAll';
-    let searchingLog = url + '?searchData&search=';
 
     //Render the data table onLoad
-    selectedURL = retrievingLog;
-    result = getDishData(selectedURL+"&sort="+$(sorted).val());
-    displayDishData(result,currentPage);
-
-    //Start searching process upon keyUp action in Search bar
-    $(searchInput).on('keyup',function(){
-
-        //Set CurrentPage back to 1 upon Search
-        resetCurrentPage();
-
-        if($(searchInput).val() === ""){
-            //If search bar is empty, set url to retrieve full data
-            selectedURL = retrievingLog;
-        }else{
-            //If Search bar is not empty, set url to search data
-            selectedURL = searchingLog + $(searchInput).val();
-        }
-
-        //Re-render the data table
-        result = getDishData(selectedURL+"&sort="+$(sorted).val());
-        displayDishData(result,currentPage);
-    })
-
-    //Handle onChange event of Sort dropdown bar
-    $(sorted).on('change',function(){
-        //Set CurrentPage back to 1 upon changing sort
-        resetCurrentPage();
-
-        //Re-render the data table
-        result = getDishData(selectedURL+"&sort="+$(sorted).val());
-        displayDishData(result,currentPage);
-    })
+    result = getDishData(retrievingLog);
+    displayDishData(result);
 })
 
 function getDishData(url){
@@ -59,30 +26,58 @@ function getDishData(url){
     return data;
 }
 
-function displayDishData(data,page){
-    let paginateResult = pagePagination(page,data);
+function displayDishData(data) {
 
     let viewLogTable =
-        "<br>" +
-        "<table class='table table-striped'>\n" +
-        "<tbody>\n" +
+        "<div class='table-responsive'>" +
+        "<table class='table table-striped' id='sortTable'>\n" +
+        "<thead>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +
         "<th>Timestamp</th>\n" +
         "<th>User ID</th>\n" +
         "<th>Log Description</th>\n" +
-        "</tr>";
+        "</tr" +
+        "</thead>" +
+        "<tbody>";
 
-    $.each(paginateResult, function (index) {
+    $.each(data, function (index) {
         viewLogTable +=
             "<tr>\n" +
-            "<td style='width:50px;'>" + paginateResult[index].logID + "</td>\n" +
-            "<td style='width:300px;'>" + paginateResult[index].logTimestamp + "</td>\n" +
-            "<td style='width:100px;'>" + paginateResult[index].userID + "</td>\n" +
-            "<td>" + paginateResult[index].logDescription + "</td>\n" +
-            "</td>\n" +
+            "<td style='width:50px;'>" + data[index].logID + "</td>\n" +
+            "<td style='width:300px;'>" + data[index].logTimestamp + "</td>\n" +
+            "<td style='width:100px;'>" + data[index].userID + "</td>\n" +
+            "<td>" + data[index].logDescription + "</td>\n" +
             "</tr>\n";
     })
 
+    viewLogTable += "</tbody>" +
+        "</table>" +
+        "</div>" +
+        "</div>"
+
     $(logList).html(viewLogTable);
+
+    oTable = $("#sortTable").DataTable({
+        "lengthMenu":[[5,10,15],[5,10,15]],
+        "pagingType": "simple",
+        language:{
+            paginate:{
+                next: '<input type="button" class="btn btn-sm" name="next" id="next" value="Next">',
+                previous: '<input type="button" class="btn btn-sm" name="previous" id="previous" value="Previous">'
+            },
+            "info":"Page _PAGE_ of _PAGES_"
+        },
+        initComplete: (settings, json)=>{
+            $('.dataTables_length').appendTo("#page-entries");
+            $('.dataTables_paginate').appendTo("#pagination");
+            $('.dataTables_info').appendTo('#pageNumber');
+        }
+    });
+
+    $('a[class="previous"]').addClass("btn-sm");
+
+    $(searchInput).on('keyup', function () {
+        oTable.search($(this).val()).draw();
+    })
 }
