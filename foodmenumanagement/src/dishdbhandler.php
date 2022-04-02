@@ -40,19 +40,27 @@ class DishDBHandler extends Database
 
     public function editDish($dish,$removedOption)
     {
+        //Retrieved the image id saved on the dish
         $imgID = $this->retrieveDishImageID($dish->getDishID());
 
+        //Check if an exist image has already been uploaded to the data
         if($dish->getDishImg() != 1){
+
+            //Initialise the image database class
             $imageDB = new ImageDBHandler();
+
             if($imgID != 1){
+                //If the exist image returned is not 1, update the image data
                 $imageDB->updateImage($imgID,$dish->getDishImg());
             }else{
+                //If the exist image returned is 1 (Default Image), upload a new image data
                 if($imageDB->uploadImage($dish->getDishImg())){
                     $imgID = $imageDB->retrieveImageID($dish->getDishImg());
                 }
             }
         }
 
+        //Preparing the query and parameters
         $query = "UPDATE dish SET dishName = :name,
                                   dishDescription = :description,
                                   dishCategoryID = :category,
@@ -63,31 +71,43 @@ class DishDBHandler extends Database
                       "description" => $dish->getDishDescription(),
                       "category" => $dish->getDishCategory(),
                       "dishImg" => $imgID];
-        $this->executeSQL($query, $parameter);
 
-        //Remove option if existed dish option has been removed on submit
-        if($removedOption != null){
-            $optionDB = new DishOptionDBHandler();
-            $optionDB->deleteDishOption($dish->getDishID(),$removedOption);
+        //Execute the editing process
+        if($this->executeSQL($query, $parameter)){
+            //Remove option if existed dish option has been removed on submit
+            if($removedOption != null){
+                $optionDB = new DishOptionDBHandler();
+                $optionDB->deleteDishOption($dish->getDishID(),$removedOption);
+            }
+
+            //Edit dish option information to existed dish on submit
+            if($dish->getRetrievedID() != null){
+                $optionDB = new DishOptionDBHandler();
+                $optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
+            }
+
+            //Add new dish option if it doesn't exist on submit
+            $dishOption = $dish->getDishOption();
+            $dishPrice = $dish-> getDishPrice();
+            if($dishOption != null && $dishPrice != null){
+                $optionDB = new DishOptionDBHandler();
+                $optionDB->uploadDishOption($dish->getDishID(),$dishOption,$dishPrice);
+            }
+
+            //Initialise the log database
+            $logDB = new LogDBHandler();
+
+            //Set a new Log object
+            $newLog = new Log(1,"edit",$dish->getDishID());
+
+            //Execute the logging query
+            $logDB->createLog($newLog);
+
+
+            return true;
+        }else{
+            return false;
         }
-
-        //Edit dish option information to existed dish on submit
-        if($dish->getRetrievedID() != null){
-            $optionDB = new DishOptionDBHandler();
-            $optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice());
-        }
-
-        //Add new dish option if it doesn't exist on submit
-        $dishOption = $dish->getDishOption();
-        $dishPrice = $dish-> getDishPrice();
-        if($dishOption != null && $dishPrice != null){
-            $optionDB = new DishOptionDBHandler();
-            $optionDB->uploadDishOption($dish->getDishID(),$dishOption,$dishPrice);
-        }
-
-        $logDB = new LogDBHandler();
-        $newLog = new Log(1,"edit",$dish->getDishID());
-        $logDB->createLog($newLog);
     }
 
     public function deleteDish($id)

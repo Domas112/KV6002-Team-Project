@@ -60,7 +60,7 @@ EOT;
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href={$this->viewPath}>View All Dish</a>
+                            <a class="nav-link" href={$this->viewPath}>View All Dishes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href={$this->addPath}>Add New Dish</a>
@@ -96,10 +96,6 @@ EOT;
 
     }
 
-    protected function generatePageEntries(){
-        return "<div id='page-entries'></div>";
-    }
-
     protected function generatePageNavigator(){
         return <<<EOT
             <div class="container-fluid" id="page-navigator">
@@ -116,6 +112,7 @@ EOT;
     protected function generateDishManageForm($mode){
         $dishForm = <<<EOT
             <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'>
+                {$this->generateDishID($mode)}
                 <div class='form-group'>
                     <label>Name:</label>
                     <input class='form-control' type='text' name='name' id='name' required>
@@ -141,7 +138,7 @@ EOT;
                     {$this->generateHiddenInput($mode)}
                 </div>
                 <div>
-                    <input class="btn btn-lg" type='submit' name='submit' id='submit' value='{$this->submitTextChange($mode)}'>
+                    <input class="btn btn-lg" type='submit' name='submit' id='submit' value='{$this->submitTextChange($mode)}' onclick="">
                 </div>
             </form>
 EOT;
@@ -172,6 +169,28 @@ EOT;
 
     protected function generateDataTable($tableName){
         return "<div class='container-fluid' id='$tableName'>Loading data...</div>";
+    }
+
+    protected function generateModalEdit(){
+        $modal = <<<EOT
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Dish</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                        </div>
+                        <div class="modal-body">
+EOT;
+        $modal .= $this->generateDishManageForm("edit");
+        $modal .= <<<EOT
+                        </div>
+                    </div>
+                </div>
+            </div>
+EOT;
+
+        return $modal;
     }
 
     protected function generateDiv(array $containerContent, $class){
@@ -205,6 +224,19 @@ EOT;
             return null;
         }else if($mode == "edit"){
             return "<input type='hidden' id='deletedOption' name='deletedOption'>";
+        }
+    }
+
+    private function generateDishID($mode){
+        if($mode == "add"){
+            return null;
+        }else if($mode == "edit"){
+            return <<<EOT
+                <div class='form-group'>
+                    <label>ID:</label>
+                    <input class='form-control' type='text' name='id' id='id' readonly>
+                </div>
+EOT;
         }
     }
 

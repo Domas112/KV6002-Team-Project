@@ -4,30 +4,15 @@ let searchInput = "input[name='search']";
 let result;
 
 $("document").ready(function() {
-    let url = '../dishmanagement.php/api/log';
+    let url = '../foodmenuadmin.php/api/log';
     let retrievingLog = url + '?retrieveAll';
 
     //Render the data table onLoad
-    result = getDishData(retrievingLog);
+    result = retrieveData(retrievingLog);
     displayDishData(result);
 })
 
-function getDishData(url){
-    let data;
-    $.ajax({
-        url: url,
-        dataType: 'json',
-        async: false,
-        success: function (result){
-            data = result;
-        }
-    })
-
-    return data;
-}
-
 function displayDishData(data) {
-
     let viewLogTable =
         "<div class='table-responsive'>" +
         "<table class='table table-striped' id='sortTable'>\n" +
@@ -44,9 +29,9 @@ function displayDishData(data) {
     $.each(data, function (index) {
         viewLogTable +=
             "<tr>\n" +
-            "<td style='width:50px;'>" + data[index].logID + "</td>\n" +
-            "<td style='width:300px;'>" + data[index].logTimestamp + "</td>\n" +
-            "<td style='width:100px;'>" + data[index].userID + "</td>\n" +
+            "<td>" + data[index].logID + "</td>\n" +
+            "<td>" + data[index].logTimestamp + "</td>\n" +
+            "<td>" + data[index].userID + "</td>\n" +
             "<td>" + data[index].logDescription + "</td>\n" +
             "</tr>\n";
     })
@@ -58,18 +43,22 @@ function displayDishData(data) {
 
     $(logList).html(viewLogTable);
 
-    oTable = $("#sortTable").DataTable({
-        "lengthMenu":[[5,10,15],[5,10,15]],
+    let oTable = $("#sortTable").DataTable({
+        "columnDefs": [
+            {"targets": [0], "width":"50px" },
+            {"targets": [1], "width":"300px" },
+            {"targets": [2], "width":"100px" },
+        ],
+        "bLengthChange": false,
+        "pageLength": 10,
         "pagingType": "simple",
         language:{
             paginate:{
                 next: '<input type="button" class="btn btn-sm" name="next" id="next" value="Next">',
                 previous: '<input type="button" class="btn btn-sm" name="previous" id="previous" value="Previous">'
-            },
-            "info":"Page _PAGE_ of _PAGES_"
+            }
         },
         initComplete: (settings, json)=>{
-            $('.dataTables_length').appendTo("#page-entries");
             $('.dataTables_paginate').appendTo("#pagination");
             $('.dataTables_info').appendTo('#pageNumber');
         }

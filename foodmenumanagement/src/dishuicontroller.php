@@ -32,17 +32,32 @@ class DishUIController extends DishUIElement
     //UI Generating
     private function generateViewDishUI(){
         $viewPage = $this->generateDiv(array(
-            $this->generateTitle("View All Dish"),
-            $this->generateSubtitle("View and manage all available dish"),
+            $this->generateTitle("View All Dishes"),
+            $this->generateSubtitle("View and manage all available dishes"),
             $this->generateHorizontalLine(),
             $this->generateSearchBar(),
-            $this->generateHorizontalLine(),
-            $this->generatePageEntries()
+            $this->generateHorizontalLine()
         ),"container-fluid");
+
         $viewPage .= $this->generateDataTable("dishDataTable");
         $viewPage .= $this->generatePageNavigator();
-        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
+        $viewPage .= $this->generateModalEdit();
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dataRetrieve.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/optionDynamicForm.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveOneDish.js");
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveDish.js");
+
+        if(isset($_POST['submit'])){
+            $dishDB = new DishDBHandler();
+            $dish = new Dish($_POST['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
+            $dish->setRetrievedOption($this->checkEmptyOption("retrievedOption"));
+            $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
+            $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
+
+            if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
+                header('Location: '.$this->viewPath);
+            }
+        }
 
         echo $viewPage;
     }
@@ -64,32 +79,6 @@ class DishUIController extends DishUIElement
             $dish = new Dish(null, $_POST['name'], $_POST['description'], $_POST['category'], $this->imageToBlob(), null, $this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
             $dishDB->addDish($dish);
         }
-    }
-
-    private function generateEditDishUI(){
-        $editPage = $this->generateDiv(array(
-            $this->generateTitle("Edit Dish"),
-            $this->generateSubtitle("Editing dish information from the system"),
-            $this->generateHorizontalLine()
-        ),"container-fluid");
-        if(isset($_GET['id'])){
-            $editPage .= $this->generateDishManageForm("edit");
-            $editPage .= $this->includeJavascript($this->getResourceBasePath()."/js/optionDynamicForm.js");
-            $editPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveOneDish.js");
-        }else{
-            $editPage .= $this->generateSubtitle("No data has been selected!");
-        }
-
-        if(isset($_POST['submit'])){
-            $dishDB = new DishDBHandler();
-            $dish = new Dish($_GET['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
-            $dish->setRetrievedOption($this->checkEmptyOption("retrievedOption"));
-            $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
-            $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
-            $dishDB->editDish($dish,$this->checkEmptyOption("removedOption"));
-        }
-
-        echo $editPage;
     }
 
     private function generateDeleteDishUI(){
@@ -155,12 +144,11 @@ class DishUIController extends DishUIElement
             $this->generateSubtitle("View all the changes made to the system"),
             $this->generateHorizontalLine(),
             $this->generateSearchBar(),
-            $this->generateHorizontalLine(),
-            $this->generatePageEntries()
+            $this->generateHorizontalLine()
         ),"container-fluid");
         $logPage .= $this->generateDataTable("logDataTable");
         $logPage .= $this->generatePageNavigator();
-        $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
+        $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dataRetrieve.js");
         $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveLog.js");
 
         echo $logPage;

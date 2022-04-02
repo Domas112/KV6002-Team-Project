@@ -4,27 +4,13 @@ let searchInput = "input[name='search']";
 let result;
 
 $("document").ready(function() {
-    let url = '../dishmanagement.php/api/dish';
+    let url = '../foodmenuadmin.php/api/dish';
     let retrievingDish = url + '?retrieveAll';
 
     //Render the data table onLoad
-    result = getDishData(retrievingDish);
+    result = retrieveData(retrievingDish);
     displayDishData(result);
 })
-
-function getDishData(url){
-    let data;
-    $.ajax({
-        url: url,
-        dataType: 'json',
-        async: false,
-        success: function (result){
-            data = result;
-        }
-    })
-
-    return data;
-}
 
 function displayDishData(data){
     let viewDishTable =
@@ -56,9 +42,9 @@ function displayDishData(data){
             "<td>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
             "<td>\n" +
             "<div class='btn-group-vertical' id='manage-button'>" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/edit?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Edit'></a>\n" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/delete?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Delete'></a>\n" +
-            "<a href=\"/kv6002/foodmenumanagement/dishmanagement.php/availability?id=" + data[index].dishID + "\"><input class='btn btn-sm' type='button' value='Change Availability'></a>\n" +
+            "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>Edit</button>\n" +
+            "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>Delete</button>\n" +
+            "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>Change Availability</button>\n" +
             "</div>\n" +
             "</td>\n" +
             "</tr>\n";
@@ -70,22 +56,20 @@ function displayDishData(data){
 
     $(dishList).html(viewDishTable);
 
-    oTable = $("#sortTable").DataTable({
-        "columnDefs": [{
-            "targets": [5,7],
-            "orderable": false
-        }],
-        "lengthMenu":[[5,10,15],[5,10,15]],
+    let oTable = $("#sortTable").DataTable({
+        "columnDefs": [
+            {"targets": [5,7], "orderable": false}
+        ],
+        "bLengthChange": false,
+        "pageLength": 5,
         "pagingType": "simple",
         language:{
             paginate:{
                 next: '<input type="button" class="btn btn-sm" name="next" id="next" value="Next">',
                 previous: '<input type="button" class="btn btn-sm" name="previous" id="previous" value="Previous">'
-            },
-            "info":"Page _PAGE_ of _PAGES_"
+            }
         },
         initComplete: (settings, json)=>{
-            $('.dataTables_length').appendTo("#page-entries");
             $('.dataTables_paginate').appendTo("#pagination");
             $('.dataTables_info').appendTo('#pageNumber');
         }

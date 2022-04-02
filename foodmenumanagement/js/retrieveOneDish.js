@@ -1,21 +1,26 @@
 let form = "form[name='dishForm']"
 
-$("document").ready(function(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const url = '../dishmanagement.php/api/dish';
-    const retrieveOneURL = url + '?retrieveOne&id='+urlParams.get('id');
+function retrieveOneDishData(editBtn){
+    const id = editBtn.id;
+    const url = '../foodmenuadmin.php/api/dish';
+    const retrieveOneURL = url + '?retrieveOne&id='+id;
     $.ajax({
         url:retrieveOneURL,
         dataType: 'json',
         success: function(result){
-            $(form).find("input[name='name']").val(result[0]["dishName"]);
-            $(form).find("textarea[name='description']").text(result[0]["dishDescription"]);
-            $(form).find("select[name='category']").val(result[0]["dishCategoryID"]);
-            if(result[0]["optionID"] != null){
-                $.each(result, function(index){
-                    addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"]);
-                })
+            if(result.length !== 0){
+                $(form).find("input[name='id']").val(editBtn.id);
+                $(form).find("input[name='name']").val(result[0]["dishName"]);
+                $(form).find("textarea[name='description']").text(result[0]["dishDescription"]);
+                $(form).find("select[name='category']").val(result[0]["dishCategoryID"]);
+                if(result[0]["optionID"] != null){
+                    $.each(result, function(index){
+                        addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"]);
+                    })
+                }
+            }else{
+                $(form).remove();
             }
         }
     })
-})
+}

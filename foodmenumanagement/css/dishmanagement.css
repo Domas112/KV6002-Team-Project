@@ -1,4 +1,4 @@
-body{
+body, .modal-body{
     background: #ffe5C7;
 }
 
@@ -51,7 +51,7 @@ td img {
     height: 200px;
 }
 
-#manage-button input{
+#manage-button button{
     width:150px;
     margin: 2% 0;
 }
@@ -145,7 +145,7 @@ td img {
     font-weight: bold;
 }
 
-thead{
+thead, .modal-header{
     background-color: #EFB71AFF;
 }
 
