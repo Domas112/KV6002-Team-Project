@@ -38,6 +38,12 @@ class DishDBHandler extends Database
         $logDB->createLog($newLog);
     }
 
+    /**
+     * To handle the edit functionality of the Food Menu Management system
+     * @param $dish
+     * @param $removedOption
+     * @return bool If queries have been executed successfully
+     */
     public function editDish($dish,$removedOption)
     {
         //Retrieved the image id saved on the dish
