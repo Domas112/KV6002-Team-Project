@@ -59,7 +59,7 @@ class DishDBHandler extends Database
                 }
             }
         }
-
+        //Test Comment
         //Preparing the query and parameters
         $query = "UPDATE dish SET dishName = :name,
                                   dishDescription = :description,
