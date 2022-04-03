@@ -1,113 +1,108 @@
 export class Orders extends HTMLElement {
     constructor() {
         super();
-
-        this.orders = [];
+        this.orders = []
+        this.runningIntervals = [];
+        this.tableOrdersCompleted = true;
+        this.controlsComponent = document.querySelector(`#table-${this.tableId}-controls`);
     }
 
-    get show() {
-        return this.getAttribute("show");
-    }
-    set show(val) {
-        this.setAttribute("show", val);
-    }
+    
     get tableId() {
         return this.getAttribute("table-id");
     }
     set tableId(val) {
         this.setAttribute("table-id", val);
     }
-
-    get index() {
-        return this.getAttribute("index");
+    get show() {
+        return this.getAttribute("show");
+    }
+    set show(val) {
+        this.setAttribute("show", val);
     }
 
-    static get observedAttributes() {
-        return [];
+    static get observedValues() {
+        return []
     }
 
-    attributeChangedCallback(prop, oldVal, newVal) { }
+    attributeChangedCallback(prop, oldVal, newVal) {
+        
+    }
 
-    async connectedCallback() {
-        await this.populateOrders();
-
-        setInterval(async () => {
-            await this.populateOrders();
+    connectedCallback(){
+        this.populateOrders();
+        let interval = setInterval(() => {
+            this.populateOrders();
         }, 10000);
+        this.runningIntervals.push(interval);
     }
 
-    async populateOrders() {
-        await fetch(
-            `../../backend/api/Orders.php?get_orders_by_table_id&&id=${this.tableId}`
-            )
+    populateOrders() {
+        fetch(`../../backend/api/Orders.php?get_orders_by_table_id&&id=${this.tableId}`)
             .then((res) => res.json())
             .then((res) => {
-                console.log('populate called');
-
                 this.orders = res;
+                for(let i = 0; i < res.length; i++){    
+                    if(res[i].viewed == 0){
+                        this.controlsComponent.setAttribute('new-order', 'true');
+                    }
+                    if(res[i].completed == 0){
+                        this.tableOrdersCompleted = false;
+                        this.controlsComponent.setAttribute('table-orders-completed', 0);
+                    }
+                }
+
+                if(this.tableOrdersCompleted){
+                    this.controlsComponent.setAttribute('table-orders-completed', 1);
+                }
+
+                this.parentElement.parentElement.setAttribute('orders-count', this.orders.length);
                 this.render();
                 this.addClickListeners();
             })
             .catch((err) => console.error(err));
     }
 
-    addClickListeners() {
-        this.querySelector(`#show-${this.tableId}`).addEventListener("click", () => {
-                this.parentElement.setAttribute("show-table", this.index);
-            }
-        );
-
-        this.querySelector(`#delete-${this.tableId}-btn`).addEventListener('click', async ()=>{
-            fetch(`../../backend/api/Orders.php?delete_table&&id=${this.tableId}`)
-                .then(async _=>{
-                    console.log('delete called');
-                    await this.populateOrders();
-                })
-                .catch(err=>console.error(err));
-
-        });
-
+    addClickListeners(){
         this.orders.forEach((order) => {
             this.querySelector(`#checkbox-${order.orderID}`).addEventListener('change', async ()=>{
-                await fetch(`../../backend/api/Orders.php?complete_order&&id=${order.orderID}`)
+                fetch(`../../backend/api/Orders.php?complete_order&&id=${order.orderID}`)
                     .catch(err=>console.error(err));
             })
         })
+
+        document.querySelector(`#show-${this.tableId}`).addEventListener('click', ()=>{
+            setTimeout(()=>{
+                for(const i in this.orders){
+                    this.orders[i].viewed = 1;
+                }
+    
+                fetch(`../../backend/api/Orders.php?view_order&&id=${this.tableId}`)
+                    .then(res=>{
+                        this.render();
+                        this.addClickListeners();
+                    })
+                    .catch(err=>console.error(err));
+    
+            }, 5000);
+        });
+    }
+
+    disconnectedCallback(){
+        this.clearIntervals();
+    }
+
+    clearIntervals(){
+        for(let i = 0; i < this.runningIntervals.length; i++){
+            clearInterval(this.runningIntervals[i]);
+        }
     }
 
     render() {
         let placeholder = `
-        <div class="row border-top border-dark pt-2">
-            <div class="col-2">
-                <h2>
-                    Table ${this.tableId}
-                </h2>
-            </div>
-            <div class="col-2">
-                <div class='dropdown'>
-                    <button id="show-${this.tableId}" 
-                        class='border btn btn-primary' type='button'
-                        data-bs-toggle='collapse' data-bs-target='#table-${this.tableId}-orders'
-                        aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
-
-                        Show Orders
-                    </button>
-                </div>
-            </div>
-           <!--- <div class="col-2">
-                <label for="complete-order">Completed order </label>
-                <input disabled name="complete-order" type="checkbox"/>
-            </div> --->    
-            <div class="col-6">
-                <button id="delete-${this.tableId}-btn" class="float-end btn btn-danger">
-                    Remove
-                </button>
-            </div>
-            <div id="table-${this.tableId}-orders" class='container collapse ${this.show == "undefined" ? "" : "show"
-            } col-12'>
-                        
+            <div id="table-${this.tableId}-orders-collapse" class='container collapse ${this.show == "true" ? "show" : ""} col-12'>       
                 <div class='row card-body'>
-                    <table class="table table-striped">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col" >
@@ -128,7 +123,7 @@ export class Orders extends HTMLElement {
 
         this.orders.forEach((order) => {
             placeholder += `
-                            <tr>
+                            <tr class='${order.viewed==0?"new-order":""}'>
                                 <td scope='row'>
                                     ${order.dishName}
                                 </td>
@@ -142,26 +137,18 @@ export class Orders extends HTMLElement {
                                     <input id="checkbox-${order.orderID}"
                                         type='checkbox' 
                                         ${order.completed == 1 ? "checked" : ""}
+                                        ${order.completed == 1 ? "disabled" : ""}
                                     />
                                 </td>
                             </tr>
-            `;
+                `;
         });
         placeholder += `
-                            <tr>
-                                <td scope='row'>
-                                    
-                                </td>
-                                <td>
-                                    <input type='checkbox' id="checkbox-${this.tableId}-all" />
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-        `;
+            </div>`;
+
         this.innerHTML = placeholder;
     }
 }

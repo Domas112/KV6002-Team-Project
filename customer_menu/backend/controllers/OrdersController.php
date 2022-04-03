@@ -48,5 +48,9 @@
         function deleteTable(int $tableID) : void{
             $this->ordersRepo->deleteTable($tableID);
         }
+
+        function viewOrder(int $tableID) : void{
+            $this->ordersRepo->viewOrder($tableID);
+        }
     }
 ?>

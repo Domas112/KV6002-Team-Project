@@ -23,7 +23,7 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName,
-                    ord.amount, ord.completed
+                    ord.amount, ord.completed, ord.viewed
                 FROM
                     activeorders ord
                 JOIN dish d ON d.dishID = ord.dishID
@@ -40,7 +40,7 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName, opt.optionPrice,
-                    ord.amount, ord.completed
+                    ord.amount, ord.completed, ord.viewed
                 FROM
                     activeorders ord
                 JOIN dish d ON d.dishID = ord.dishID
@@ -83,6 +83,19 @@
                 WHERE
                     tableID = :tableID;
             SQLSTMT;
+            $this->db->executeSQL($sql, array(
+                'tableID' => $tableID
+            ));
+        }
+
+        
+        public function viewOrder(int $tableID) : void{
+            $sql = <<<SQLSTMT
+                UPDATE activeorders
+                SET viewed = 1
+                WHERE tableID = :tableID;
+            SQLSTMT;
+
             $this->db->executeSQL($sql, array(
                 'tableID' => $tableID
             ));
