@@ -1,4 +1,4 @@
-# KV6002-Team-Project
+# Digital Menu system
 
 ## Description
 The system is divided into customer and staff view.
