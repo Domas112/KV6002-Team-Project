@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * dishuielement.php
+ *
+ * PHP class to handle and generating all the webpage elements.
+ *
+ * This PHP script has been used to handle all the webpage elements
+ * such as creating title with <h1>, subtitle with <p>, and more. The
+ * purpose of this class is to minimise redundant code by reusing the
+ * code to generate elements necessary to the website and to keep the
+ * code consistency over the pages.
+ *
+ * @author Teck Xun Tan W20003691
+ */
+
 class DishUIElement
 {
     protected $resourceBasePath = FOODMENUMANAGEMENT_RESOURCEBASEPATH;
@@ -7,6 +21,14 @@ class DishUIElement
     protected $addPath = FOODMENUMANAGEMENT_ADDPATH;
     protected $logPath = FOODMENUMANAGEMENT_LOGPATH;
 
+    /**
+     * generateHeader
+     *
+     * To generate the header of the webpage.
+     *
+     * @visibility protected
+     * @return string The generated header component
+     */
     protected function generateHeader(){
         return <<<EOT
         <!doctype html>
@@ -25,14 +47,25 @@ class DishUIElement
                     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
                     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+                    
+                    <!-- Title of the page -->
                     <title>Food Menu Management</title>
                 </head>
                 <body>
 EOT;
     }
 
+    /**
+     * generateFooter
+     *
+     * To generate the footer of the webpage.
+     *
+     * @visibility protected
+     * @return string The generated footer component
+     */
     protected function generateFooter(){
         return <<<EOT
+                    <!-- Footer -->
                     <footer class="container-fluid">
                         <hr>
                         <p>© Amaysia Restaurant | Food Menu Management | Developed by Teck Xun Tan</p>
@@ -42,6 +75,14 @@ EOT;
 EOT;
     }
 
+    /**
+     * generateLogo
+     *
+     * To generate the logo section of the webpage.
+     *
+     * @visibility protected
+     * @return string The generated logo component
+     */
     protected function generateLogo(){
         return <<<EOT
         <div class="container-sm-logo">
@@ -50,6 +91,14 @@ EOT;
 EOT;
     }
 
+    /**
+     * generateNav
+     *
+     * To generate the navigation section of the webpage.
+     *
+     * @visibility protected
+     * @return string The generated nav component
+     */
     protected function generateNavigation(){
         return <<<EOT
         <div class="nav-container">
@@ -63,9 +112,6 @@ EOT;
                             <a class="nav-link" href={$this->viewPath}>View All Dishes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={$this->addPath}>Add New Dish</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href={$this->logPath}>System Log</a>
                         </li>
                     </ul>
@@ -76,14 +122,43 @@ EOT;
 
     }
 
+    /**
+     * generateTitle
+     *
+     * To add the specified text in the parameter into the body as a
+     * title using <h1> tag.
+     *
+     * @visibility protected
+     * @param string $title The text to be added into the body as new title
+     * @return string The generated title component
+     */
     protected function generateTitle($title){
         return "<h1>$title</h1>";
     }
 
+    /**
+     * generateSubtitle
+     *
+     * To add the specified text in the parameter into the body as a
+     * subtitle using <p> tag.
+     *
+     * @visibility protected
+     * @param string $subtitle The text to be added into the body as new subtitle
+     * @return string The generated subtitle component
+     */
     protected function generateSubtitle($subtitle){
         return "<p>$subtitle</p>";
     }
 
+    /**
+     * generateSearchBar
+     *
+     * To generate the search bar section of the webpage by combining
+     * <span> and <input>.
+     *
+     * @visibility protected
+     * @return string The generated search bar component
+     */
     protected function generateSearchBar(){
         return <<<EOT
             <div class="input-group mb-3">
@@ -96,6 +171,16 @@ EOT;
 
     }
 
+    /**
+     * generateDataPageNavigator
+     *
+     * To generate the data page navigator section for the datatable (E.g. Next, Previous).
+     * The function only generate the <div> required to generate the buttons later
+     * using Javascript (Check retrieveDish.js and retrieveLog.js).
+     *
+     * @visibility protected
+     * @return string The generated page navigation component
+     */
     protected function generatePageNavigator(){
         return <<<EOT
             <div class="container-fluid" id="page-navigator">
@@ -105,60 +190,98 @@ EOT;
 EOT;
     }
 
+    /**
+     * generateHorizontalLine
+     *
+     * To generate a horizontal line using <hr>.
+     *
+     * @visibility protected
+     * @return string The <hr> tag element
+     */
     protected function generateHorizontalLine(){
         return "<hr>";
     }
 
+    /**
+     * generateDishManageForm
+     *
+     * To generate the form to manage the selected dish by combining with different elements
+     * such as <input>, <textarea> and <select>. Note that the category of the form is generated
+     * using a built function (Check generateCategoryDropdown function)
+     *
+     * @visibility protected
+     * @param string $mode The mode of the management form (E.g. "add" for generating adding form, "edit" for generating editing form)
+     * @return string The generated management form
+     */
     protected function generateDishManageForm($mode){
         $dishForm = <<<EOT
-            <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'>
+            <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'">
                 {$this->generateDishID($mode)}
                 <div class='form-group'>
                     <label>Name:</label>
-                    <input class='form-control' type='text' name='name' id='name' required>
+                    <input class='form-control' type='text' name='$mode-name' id='$mode-name' required>
                 </div>
                 <div class='form-group'>
                     <label>Description:</label>
-                    <textarea class='form-control' name='description' id='description' required></textarea>
+                    <textarea class='form-control' name='$mode-description' id='$mode-description' required></textarea>
                 </div>
                 <div class='form-group'>
                     <label>Category:</label>
 EOT;
-        $dishForm .= $this->generateCategoryDropdown();
+        $dishForm .= $this->generateCategoryDropdown($mode);
         $dishForm .= <<<EOT
                 </div>
                 <div class='form-group'>
                     <label>Image Path:</label>
-                    <input class='form-control-file' type='file' name='imgPath'>
+                    <input class='form-control-file' type='file' name='$mode-imgPath' id='$mode-imgPath'>
                 </div>
                 <hr>
-                <div class='option'>
-                    <input class="btn btn-lg" type='button' id='addOption' value='+ Add New Option'>
+                <div class='$mode-option'>
+                    <input class="btn btn-lg" type='button' id='$mode-addOption' value='+ Add New Option'>
                     <hr>
-                    {$this->generateHiddenInput($mode)}
                 </div>
+                {$this->generateHiddenInput($mode)}
                 <div>
-                    <input class="btn btn-lg" type='submit' name='submit' id='submit' value='{$this->submitTextChange($mode)}' onclick="">
+                    <input class="btn btn-lg" type='submit' name='$mode-submit' id='$mode-submit' value='{$this->submitTextChange($mode)}' onclick="">
                 </div>
             </form>
 EOT;
         return $dishForm;
     }
 
-    protected function generateConfirmation($confirmationFormName, $redirectPath){
+    /**
+     * generateConfirmation
+     *
+     * To generate a confirmation message
+     *
+     * @visibility protected
+     * @param $confirmationFormName
+     * @param $redirectPath
+     * @return string
+     */
+    protected function generateConfirmation($confirmationFormName, $id){
         return <<<EOT
+            <div id="$id-confirmation-message"></div>
             <form name="$confirmationFormName" method="post">
-                <input class='btn btn-sm' type="submit" name="yes" id='yes' value="Yes">
-                <input class='btn btn-sm' type="button" name="no" id='no' value="No" onclick="location.href='$redirectPath';">
+                <input type="hidden" name="$id-hiddenID" id="$id-hiddenID">
+                <input class='btn btn-sm' type="submit" name="$id-yes" id='$id-yes' value="Yes">
+                <input class='btn btn-sm' type="button" name="no" id='no' value="No" data-bs-dismiss="modal">
             </form>
 EOT;
-
     }
 
-    protected function generateCategoryDropdown(){
+    protected function generateAddButton(){
+        return <<<EOT
+            <div class='container-fluid'>
+                <button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#addModal'>Edit</button>
+            </div>
+EOT;
+    }
+
+    protected function generateCategoryDropdown($mode){
         $category = new CategoryDBHandler();
         $result = $category->retrieveAllCategory();
-        $categoryDropdown = "<select class='form-control' name='category' id='category'>";
+        $categoryDropdown = "<select class='form-control' name='$mode-category' id='$mode-category'>";
         foreach($result as $rows){
             $categoryDropdown .= "<option value='{$rows['categoryID']}'>{$rows['categoryName']}</option>";
         }
@@ -171,18 +294,22 @@ EOT;
         return "<div class='container-fluid' id='$tableName'>Loading data...</div>";
     }
 
-    protected function generateModalEdit(){
+    private function generateModal($id,$title,$modalContent){
+        $labelID = $id . "Label";
         $modal = <<<EOT
-            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <!-- $title Modal -->
+            <div class="modal fade" id="$id" tabindex="-1" aria-labelledby="$labelID" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">Edit Dish</h5>
+                            <h5 class="modal-title" id="$labelID">$title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                         </div>
                         <div class="modal-body">
 EOT;
-        $modal .= $this->generateDishManageForm("edit");
+        for($i = 0; $i<count($modalContent); $i++){
+            $modal .= $modalContent[$i];
+        }
         $modal .= <<<EOT
                         </div>
                     </div>
@@ -191,6 +318,55 @@ EOT;
 EOT;
 
         return $modal;
+    }
+
+    protected function generateModalAdd(){
+        return $this->generateModal("addModal","Add Dish",array(
+            $this->generateDishManageForm("add")
+        ));
+    }
+
+    protected function generateModalEdit(){
+        if(isset($_POST['edit-submit'])){
+            $dishDB = new DishDBHandler();
+            $dish = new Dish($_POST['edit-id'],$_POST['edit-name'],$_POST['edit-description'],$_POST['edit-category'],$this->imageToBlob("edit"),null,$this->checkEmptyOption("edit-optionName"), $this->checkEmptyOption("edit-optionPrice"));
+            $dish->setRetrievedOption($this->checkEmptyOption("retrievedName"));
+            $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
+            $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
+            if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
+                header('Location: '.$this->viewPath);
+            }
+        }
+
+        return $this->generateModal("editModal","Edit Dish",array(
+            $this->generateDishManageForm("edit")
+        ));
+    }
+
+    protected function generateModalDelete(){
+        if(isset($_POST['delete-yes'])) {
+            $dishDB = new DishDBHandler();
+            if ($dishDB->deleteDish($_POST['delete-hiddenID'])) {
+                header('Location: ' . $this->viewPath);
+            }
+        }
+
+        return $this->generateModal("deleteModal", "Delete Dish", array(
+            $this->generateConfirmation("deletionForm","delete")
+        ));
+    }
+
+    protected function generateModalAvailability(){
+        if(isset($_POST['availability-yes'])){
+            $dishDB = new DishDBHandler();
+            if($dishDB->updateDishAvailability($_POST['availability-hiddenID'])){
+                header('Location: '.$this->viewPath);
+            }
+        }
+
+        return $this->generateModal("availabilityModal", "Change Dish Availability", array(
+            $this->generateConfirmation("availabilityForm","availability")
+        ));
     }
 
     protected function generateDiv(array $containerContent, $class){
@@ -223,7 +399,12 @@ EOT;
         if($mode == "add"){
             return null;
         }else if($mode == "edit"){
-            return "<input type='hidden' id='deletedOption' name='deletedOption'>";
+            return <<<EOT
+                <input type='hidden' id='previousName' name='previousName'>
+                <input type='hidden' id='previousDescription' name='previousDescription'>
+                <input type='hidden' id='previousCategory' name='previousCategory'>
+                <input type='hidden' id='deletedOption' name='deletedOption'>
+EOT;
         }
     }
 
@@ -234,7 +415,7 @@ EOT;
             return <<<EOT
                 <div class='form-group'>
                     <label>ID:</label>
-                    <input class='form-control' type='text' name='id' id='id' readonly>
+                    <input class='form-control' type='text' name='edit-id' id='edit-id' readonly>
                 </div>
 EOT;
         }
@@ -245,6 +426,29 @@ EOT;
             return "class='$class'";
         }else{
             return null;
+        }
+    }
+
+    private function imageToBlob($mode){
+        if(!is_uploaded_file($_FILES[$mode.'-imgPath']['tmp_name'])){
+            return 1;
+        }else{
+            $image = $_FILES[$mode.'-imgPath']['tmp_name'];
+            return base64_encode(file_get_contents(addslashes($image)));
+        }
+    }
+
+    private function checkEmptyOption($value){
+        if($value == "edit-optionName" || $value == "edit-optionPrice" || $value == "add-optionName" || $value == "add-optionPrice" || $value == "retrievedName" || $value == "retrievedPrice" || $value == "retrievedID"){
+            if(isset($_POST[$value])){
+                return $_POST[$value];
+            }
+        }else if($value == "removedOption"){
+            if(isset($_POST['deletedOption'])){
+                return $_POST['deletedOption'];
+            }else{
+                return null;
+            }
         }
     }
 }

@@ -13,15 +13,6 @@ class DishUIController extends DishUIElement
             case "add":
                 $this->generateAddDishUI();
                 break;
-            case "edit":
-                $this->generateEditDishUI();
-                break;
-            case "delete":
-                $this->generateDeleteDishUI();
-                break;
-            case "availability":
-                $this->generateAvailabilityUI();
-                break;
             case "log":
                 $this->generateLoggingUI();
                 break;
@@ -38,26 +29,18 @@ class DishUIController extends DishUIElement
             $this->generateSearchBar(),
             $this->generateHorizontalLine()
         ),"container-fluid");
-
+        $viewPage .= $this->generateAddButton();
         $viewPage .= $this->generateDataTable("dishDataTable");
         $viewPage .= $this->generatePageNavigator();
+        $viewPage .= $this->generateModalAdd();
         $viewPage .= $this->generateModalEdit();
+        $viewPage .= $this->generateModalDelete();
+        $viewPage .= $this->generateModalAvailability();
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dataRetrieve.js");
-        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/optionDynamicForm.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dynamicForm.js");
+        $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dynamicModal.js");
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveOneDish.js");
         $viewPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveDish.js");
-
-        if(isset($_POST['submit'])){
-            $dishDB = new DishDBHandler();
-            $dish = new Dish($_POST['id'],$_POST['name'],$_POST['description'],$_POST['category'],$this->imageToBlob(),null,$this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
-            $dish->setRetrievedOption($this->checkEmptyOption("retrievedOption"));
-            $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
-            $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
-
-            if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
-                header('Location: '.$this->viewPath);
-            }
-        }
 
         echo $viewPage;
     }
@@ -78,63 +61,6 @@ class DishUIController extends DishUIElement
             $dishDB = new DishDBHandler();
             $dish = new Dish(null, $_POST['name'], $_POST['description'], $_POST['category'], $this->imageToBlob(), null, $this->checkEmptyOption("optionName"), $this->checkEmptyOption("optionPrice"));
             $dishDB->addDish($dish);
-        }
-    }
-
-    private function generateDeleteDishUI(){
-        $deletePage = $this->generateDiv(array(
-            $this->generateTitle("Delete Dish"),
-            $this->generateSubtitle("Deleting dish information from the system"),
-            $this->generateHorizontalLine()
-        ),"container-fluid");
-        if(isset($_GET['id'])){
-            $deletePage .= $this->generateDiv(array(
-                $this->generateSubtitle("Are you sure you want to delete this dish?"),
-                $this->generateSubtitle("Selected dish ID: ".$_GET['id']),
-                $this->generateConfirmation("deletionForm",$this->viewPath)
-            ),"container-fluid");
-        }else{
-            $deletePage .= $this->generateDiv(array(
-                $this->generateSubtitle("No data has been selected!")
-            ),"container-fluid");
-        }
-
-        echo $deletePage;
-
-        if(isset($_POST['yes'])){
-            $dishDB = new DishDBHandler();
-            if($dishDB->deleteDish($_GET['id'])){
-                header('Location: '.$this->viewPath);
-            }
-        }
-    }
-
-    private function generateAvailabilityUI()
-    {
-        $availabilityPage = $this->generateDiv(array(
-            $this->generateTitle("Change Dish Availability"),
-            $this->generateSubtitle("Changing the dish availability"),
-            $this->generateHorizontalLine()
-        ),"container-fluid");
-        if(isset($_GET['id'])){
-            $availabilityPage .= $this->generateDiv(array(
-                $this->generateSubtitle("Are you sure you want to change the availability of the selected dish?"),
-                $this->generateSubtitle("Selected dish ID: " . $_GET['id']),
-                $this->generateConfirmation("availabilityForm",$this->viewPath)
-            ),"container-fluid");
-        }else{
-            $availabilityPage .= $this->generateDiv(array(
-                $this->generateSubtitle("No data has been selected!")
-            ),"container-fluid");
-        }
-
-        echo $availabilityPage;
-
-        if(isset($_POST['yes'])){
-            $dishDB = new DishDBHandler();
-            if($dishDB->updateDishAvailability($_GET['id'])){
-                header('Location: '.$this->viewPath);
-            }
         }
     }
 

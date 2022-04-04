@@ -9,10 +9,10 @@ function retrieveOneDishData(editBtn){
         dataType: 'json',
         success: function(result){
             if(result.length !== 0){
-                $(form).find("input[name='id']").val(editBtn.id);
-                $(form).find("input[name='name']").val(result[0]["dishName"]);
-                $(form).find("textarea[name='description']").text(result[0]["dishDescription"]);
-                $(form).find("select[name='category']").val(result[0]["dishCategoryID"]);
+                $(form).find("input[name='edit-id']").val(editBtn.id);
+                $(form).find("input[name='edit-name']").val(result[0]["dishName"]);
+                $(form).find("textarea[name='edit-description']").text(result[0]["dishDescription"]);
+                $(form).find("select[name='edit-category']").val(result[0]["dishCategoryID"]);
                 if(result[0]["optionID"] != null){
                     $.each(result, function(index){
                         addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"]);
