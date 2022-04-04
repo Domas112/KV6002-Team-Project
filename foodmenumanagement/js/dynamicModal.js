@@ -23,7 +23,7 @@ function deleteModal(deleteBtn){
     $(deleteConfirmationMsg).html("<p>Are you sure you want to delete dish: "+name+"?</p>");
 }
 
-function availabileModal(availabilityBtn){
+function availableModal(availabilityBtn){
     const id = availabilityBtn.id;
     const name = availabilityBtn.name;
     $(availabilityHiddenID).val(id);

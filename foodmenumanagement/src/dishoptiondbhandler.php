@@ -7,7 +7,12 @@ class DishOptionDBHandler extends Database
             $query = "INSERT INTO dishOption (dishID, optionName, optionPrice)
                       VALUES (:dishID, :optionName, :optionPrice)";
             $parameter = ["dishID" => $dishID, "optionName" => $optionName, "optionPrice" => $dishPrice[$index]];
-            $this->executeSQL($query, $parameter);
+            $result = $this->executeSQL($query, $parameter);
+            if(!$result){
+                return false;
+            }else{
+                return true;
+            }
         }
     }
 
@@ -17,7 +22,12 @@ class DishOptionDBHandler extends Database
                                             optionPrice = :optionPrice
                       WHERE optionID = :id AND dishID = :dishID";
             $parameter = ["id" => $id, "dishID" => $dishID, "optionName" => $optionName[$index], "optionPrice" => $optionPrice[$index]];
-            $this->executeSQL($query, $parameter);
+            $result = $this->executeSQL($query, $parameter);
+            if(!$result){
+                return false;
+            }else{
+                return true;
+            }
         }
     }
 
@@ -25,7 +35,21 @@ class DishOptionDBHandler extends Database
         foreach(json_decode($optionID) as $id){
             $query = "DELETE FROM dishOption WHERE optionID = :id AND dishID = :dishID";
             $parameter = ["id" => $id, "dishID" => $dishID];
-            $this->executeSQL($query, $parameter);
+            $result = $this->executeSQL($query, $parameter);
+            if(!$result){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public function retrieveDishOptionName($optionID){
+        $query = "SELECT optionName FROM dishOption WHERE optionID = :id";
+        $parameter = ["id" => $optionID];
+        $result = $this->executeSQL($query,$parameter);
+        foreach($result as $row){
+            return $row['optionName'];
         }
     }
 }

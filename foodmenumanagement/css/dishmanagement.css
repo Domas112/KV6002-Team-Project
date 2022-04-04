@@ -56,7 +56,11 @@ td img {
     margin: 2% 0;
 }
 
-.option #addOption{
+#viewlog-button button{
+    width:100px;
+}
+
+#add-addOption,#edit-addOption{
     width:100%;
 }
 
@@ -67,7 +71,7 @@ td img {
     top: 61px;
 }
 
-#newOption{
+.add-newOption, .edit-newOption{
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.05);
     padding:20px;
@@ -78,8 +82,21 @@ td img {
     width:200px;
 }
 
-#submit{
+#add-submit, #edit-submit{
     width:100%;
+}
+
+#delete-yes, #availability-yes, #no{
+    width:10%;
+}
+
+#add-newDish{
+    width:200px;
+    margin-bottom:10px;
+}
+
+#no{
+    margin-left:2%;
 }
 
 .btn-sm, .btn-lg, .previous, .next{

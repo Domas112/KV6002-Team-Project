@@ -2,7 +2,7 @@
 
 class Log
 {
-    private $userID, $logDescription;
+    private $userID, $logDescription, $logChanges;
 
     public function __construct($userID, $logType, $dishID){
         $this->setUserID($userID);

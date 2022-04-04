@@ -15,9 +15,6 @@ switch($request->getPath()){
     case 'view':
         $dishUI = new DishUIController("view");
         break;
-    case 'add':
-        $dishUI = new DishUIController("add");
-        break;
     case 'log':
         $dishUI = new DishUIController("log");
         break;

@@ -18,6 +18,10 @@ function retrieveOneDishData(editBtn){
                         addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"]);
                     })
                 }
+
+                $(form).find("input[name='previousName']").val(result[0]["dishName"]);
+                $(form).find("input[name='previousDescription']").val(result[0]["dishDescription"]);
+                $(form).find("input[name='previousCategory']").val(result[0]["dishCategoryID"]);
             }else{
                 $(form).remove();
             }

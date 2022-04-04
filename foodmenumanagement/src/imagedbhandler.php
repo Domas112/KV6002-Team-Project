@@ -14,7 +14,21 @@ class ImageDBHandler extends Database
     public function deleteImage($imgID){
         $query = "DELETE FROM image WHERE imageID = :id";
         $parameter = ["id" => $imgID];
-        $this->executeSQL($query,$parameter);
+        if($this->executeSQL($query,$parameter)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function updateImage($id, $img){
+        $query = "UPDATE image SET imageData = :img WHERE imageID = :id";
+        $parameter = ["img" => $img, "id" => $id];
+        if($this->executeSQL($query,$parameter)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function retrieveImageID($blob){
@@ -24,11 +38,5 @@ class ImageDBHandler extends Database
         foreach($result as $row){
             return $row['imageID'];
         }
-    }
-
-    public function updateImage($id, $img){
-        $query = "UPDATE image SET imageData = :img WHERE imageID = :id";
-        $parameter = ["img" => $img, "id" => $id];
-        $this->executeSQL($query,$parameter);
     }
 }

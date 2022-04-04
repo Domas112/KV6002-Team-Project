@@ -22,6 +22,7 @@ function displayDishData(data) {
         "<th>Timestamp</th>\n" +
         "<th>User ID</th>\n" +
         "<th>Log Description</th>\n" +
+        "<th>View Log Detail</th>\n" +
         "</tr" +
         "</thead>" +
         "<tbody>";
@@ -32,8 +33,20 @@ function displayDishData(data) {
             "<td>" + data[index].logID + "</td>\n" +
             "<td>" + data[index].logTimestamp + "</td>\n" +
             "<td>" + data[index].userID + "</td>\n" +
-            "<td>" + data[index].logDescription + "</td>\n" +
-            "</tr>\n";
+            "<td>" + data[index].logDescription + "</td>\n";
+
+        if(data[index].logDescription.includes("edit")){
+            viewLogTable +=
+                "<td>" +
+                "   <div class='btn-group-vertical' id='viewlog-button'>" +
+                "       <button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"'>View Log</button></td>\n" +
+                "   </div>" +
+                "</td>";
+        }else{
+            viewLogTable += "<td></td>";
+        }
+
+        viewLogTable += "</tr>"
     })
 
     viewLogTable += "</tbody>" +
@@ -48,6 +61,8 @@ function displayDishData(data) {
             {"targets": [0], "width":"50px" },
             {"targets": [1], "width":"300px" },
             {"targets": [2], "width":"100px" },
+            {"targets": [4], "orderable": false},
+            {"targets": [4], "width": "100px"},
         ],
         "bLengthChange": false,
         "pageLength": 10,

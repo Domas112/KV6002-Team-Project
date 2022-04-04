@@ -44,7 +44,7 @@ function displayDishData(data){
             "<div class='btn-group-vertical' id='manage-button'>" +
             "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>Edit</button>\n" +
             "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#deleteModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='deleteModal(this);'>Delete</button>\n" +
-            "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#availabilityModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='availabileModal(this);'>Change Availability</button>\n" +
+            "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#availabilityModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='availableModal(this);'>Change Availability</button>\n" +
             "</div>\n" +
             "</td>\n" +
             "</tr>\n";

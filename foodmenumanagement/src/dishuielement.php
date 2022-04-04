@@ -256,7 +256,7 @@ EOT;
      *
      * @visibility protected
      * @param $confirmationFormName
-     * @param $redirectPath
+     * @param $id
      * @return string
      */
     protected function generateConfirmation($confirmationFormName, $id){
@@ -264,20 +264,37 @@ EOT;
             <div id="$id-confirmation-message"></div>
             <form name="$confirmationFormName" method="post">
                 <input type="hidden" name="$id-hiddenID" id="$id-hiddenID">
-                <input class='btn btn-sm' type="submit" name="$id-yes" id='$id-yes' value="Yes">
-                <input class='btn btn-sm' type="button" name="no" id='no' value="No" data-bs-dismiss="modal">
+                <div class='d-flex justify-content-end'>
+                    <input class='btn btn-sm' type="submit" name="$id-yes" id='$id-yes' value="Yes">
+                    <input class='btn btn-sm' type="button" name="no" id='no' value="No" data-bs-dismiss="modal">
+                </div>
             </form>
 EOT;
     }
 
+    /**
+     * generateAddButton
+     *
+     *
+     *
+     * @visibility protected
+     * @return string
+     */
     protected function generateAddButton(){
         return <<<EOT
             <div class='container-fluid'>
-                <button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#addModal'>Edit</button>
+                <button type='button' class='btn btn-lg' id='add-newDish' data-bs-toggle='modal' data-bs-target='#addModal'>+ Add New Dish</button>
             </div>
 EOT;
     }
 
+    /**
+     * generateCategoryDropdown
+     *
+     * @visibility protected
+     * @param $mode
+     * @return string
+     */
     protected function generateCategoryDropdown($mode){
         $category = new CategoryDBHandler();
         $result = $category->retrieveAllCategory();
@@ -290,10 +307,26 @@ EOT;
         return $categoryDropdown;
     }
 
+    /**
+     * generateDataTable
+     *
+     * @visibility protected
+     * @param $tableName
+     * @return string
+     */
     protected function generateDataTable($tableName){
         return "<div class='container-fluid' id='$tableName'>Loading data...</div>";
     }
 
+    /**
+     * generateModal
+     *
+     * @visibility protected
+     * @param $id
+     * @param $title
+     * @param $modalContent
+     * @return string
+     */
     private function generateModal($id,$title,$modalContent){
         $labelID = $id . "Label";
         $modal = <<<EOT
@@ -320,12 +353,30 @@ EOT;
         return $modal;
     }
 
+    /**
+     * generateModalAdd
+     *
+     * @visibility private
+     * @return string
+     */
     protected function generateModalAdd(){
+        if (isset($_POST['add-submit'])) {
+            $dishDB = new DishDBHandler();
+            $dish = new Dish(null, $_POST['add-name'], $_POST['add-description'], $_POST['add-category'], $this->imageToBlob("add"), null, $this->checkEmptyOption("add-optionName"), $this->checkEmptyOption("add-optionPrice"));
+            $dishDB->addDish($dish);
+        }
+
         return $this->generateModal("addModal","Add Dish",array(
             $this->generateDishManageForm("add")
         ));
     }
 
+    /**
+     * generateModalEdit
+     *
+     * @visibility protected
+     * @return string
+     */
     protected function generateModalEdit(){
         if(isset($_POST['edit-submit'])){
             $dishDB = new DishDBHandler();
@@ -333,8 +384,13 @@ EOT;
             $dish->setRetrievedOption($this->checkEmptyOption("retrievedName"));
             $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
             $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
-            if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
+
+            $retrievedDish = new Dish(null,$_POST['previousName'],$_POST['previousDescription'],$_POST['previousCategory'],null,null,null,null);
+
+            if($dishDB->editDish($retrievedDish,$dish,$this->checkEmptyOption("removedOption"))){
                 header('Location: '.$this->viewPath);
+            }else{
+                header('Location: '.$this->logPath);
             }
         }
 
@@ -343,6 +399,12 @@ EOT;
         ));
     }
 
+    /**
+     * generateModalDelete
+     *
+     * @visibility protected
+     * @return string
+     */
     protected function generateModalDelete(){
         if(isset($_POST['delete-yes'])) {
             $dishDB = new DishDBHandler();
@@ -356,6 +418,12 @@ EOT;
         ));
     }
 
+    /**
+     * generateModalAvailability
+     *
+     * @visibility protected
+     * @return string
+     */
     protected function generateModalAvailability(){
         if(isset($_POST['availability-yes'])){
             $dishDB = new DishDBHandler();
@@ -369,6 +437,31 @@ EOT;
         ));
     }
 
+    /**
+     * generateDiv
+     *
+     * To create a division to wrap around HTML contents
+     *
+     * This function could be used to wrap division around contents.
+     * (Example Code:)
+     * generateDiv(
+     *      array(
+     *          addHeader("Hello World");
+     *          addParagraph("Hello World 2");
+     *      )
+     * );
+     *
+     * (Result:)
+     * <div>
+     *      <h1>Hello World</h1>
+     *      <p>Hello World 2</p>
+     * </div>
+     *
+     * @visibility protected
+     * @param array $containerContent accepting array of generated HTML contents
+     * @param string $class The class of the div element
+     * @return string This will return the generated division
+     */
     protected function generateDiv(array $containerContent, $class){
         $div = "<div {$this->checkClass($class)}'>";
         for($i = 0; $i<count($containerContent); $i++){
@@ -379,14 +472,33 @@ EOT;
         return $div;
     }
 
+    /**
+     * includeJavascript
+     *
+     * @param $scriptPath
+     * @return string
+     */
     protected function includeJavascript($scriptPath){
         return "<script type='text/javascript' src='".$scriptPath."'></script>";
     }
 
+    /**
+     * getResourceBasePath
+     *
+     * @visibility protected
+     * @return string
+     */
     protected function getResourceBasePath(){
         return $this->resourceBasePath;
     }
 
+    /**
+     * submitTextChange
+     *
+     * @visibility protected
+     * @param $mode
+     * @return string|void
+     */
     private function submitTextChange($mode){
         if($mode == "add"){
             return "Add Dish";
@@ -395,6 +507,13 @@ EOT;
         }
     }
 
+    /**
+     * generateHiddenInput
+     *
+     * @visibility private
+     * @param $mode
+     * @return string|void|null
+     */
     private function generateHiddenInput($mode){
         if($mode == "add"){
             return null;
@@ -408,6 +527,13 @@ EOT;
         }
     }
 
+    /**
+     * generateDishID
+     *
+     * @visibility private
+     * @param $mode
+     * @return string|void|null
+     */
     private function generateDishID($mode){
         if($mode == "add"){
             return null;
@@ -421,6 +547,28 @@ EOT;
         }
     }
 
+    /**
+     * checkClass
+     *
+     * To check if a class has been provided to be included as an attribute
+     *
+     * This function is used to check if a class is provided, if the class parameter
+     * is not null, it will add a 'class' attribute into the tags, as shown in the
+     * example below.
+     *
+     * (Example code to generate a paragraph:)
+     * public function addParagraph($text,$class){
+     *      return "<p " . $this->checkClass($class) . ">$text</p>";
+     * }
+     *
+     * (Result:)
+     * <p class="main-container"></p> (with class provided)
+     * <p></p> (without class provided / NULL)
+     *
+     * @visibility private
+     * @param string $class The name of the class to a specific CSS
+     * @return string This will return a class attribute or null if $class is NULL
+     */
     private function checkClass($class){
         if($class != null){
             return "class='$class'";
@@ -429,6 +577,13 @@ EOT;
         }
     }
 
+    /**
+     * imageToBlob
+     *
+     * @visibility private
+     * @param $mode
+     * @return int|string
+     */
     private function imageToBlob($mode){
         if(!is_uploaded_file($_FILES[$mode.'-imgPath']['tmp_name'])){
             return 1;
@@ -438,6 +593,13 @@ EOT;
         }
     }
 
+    /**
+     * checkEmptyOption
+     *
+     * @visibility private
+     * @param $value
+     * @return mixed|void|null
+     */
     private function checkEmptyOption($value){
         if($value == "edit-optionName" || $value == "edit-optionPrice" || $value == "add-optionName" || $value == "add-optionPrice" || $value == "retrievedName" || $value == "retrievedPrice" || $value == "retrievedID"){
             if(isset($_POST[$value])){
