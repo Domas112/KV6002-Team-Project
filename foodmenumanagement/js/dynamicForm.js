@@ -2,24 +2,25 @@ let addAddButton = "#add-addOption";
 let editAddButton = "#edit-addOption";
 let removeButton = "#removeOption";
 let divEditOption = "div.edit-option";
+let divAddOption = "div.add-option";
 let deletedOption = [];
-
-// $("form[name='dishForm']").submit(function(e){E
-//     e.preventDefault();
-// })
 
 $("document").ready(function(){
     $(addAddButton).click(function(){
-        addNewOption("add",null,null);
+        addNewOption("add",null,null,null,"add");
     })
 
     $(editAddButton).click(function(){
-        addNewOption("edit",null,null);
+        addNewOption("edit",null,null,null,"edit");
+    })
+
+    $(divAddOption).on('click','#removeOption',function(){
+        $(this).parent().parent().remove();
     })
 
     $(divEditOption).on('click','#removeOption',function(){
-        $(this).closest('#edit-newOption').remove();
-    });
+        $(this).parent().parent().remove();
+    })
 
     $(divEditOption).on('click','#removeRetrievedOption',function(){
         deletedOption.push($(this).parent().parent().find("input[type='hidden']").val());
@@ -29,7 +30,7 @@ $("document").ready(function(){
     });
 })
 
-function addNewOption(mode,optionID,optionName,optionPrice){
+function addNewOption(mode,optionID,optionName,optionPrice,buttonMode){
     let newOption =
         "<div class='"+mode+"-newOption'>" +
         "   <input type='hidden' "+changeInputHiddenID(optionID)+insertValue(optionID)+">" +
@@ -42,7 +43,7 @@ function addNewOption(mode,optionID,optionName,optionPrice){
             "   <input class='form-control' type='text' "+changeInputPriceName(mode,optionID)+insertValue(optionPrice)+" required>" +
         "   </div>" +
         "   <div class='d-flex align-items-end flex-column'>" +
-                generateOptionButton(mode)+
+            "   <input class='btn btn-sm p-2' type='button' "+generateOptionButton(buttonMode)+" value='- Remove'>"+
         "   </div>" +
         "</div>";
 
@@ -50,15 +51,11 @@ function addNewOption(mode,optionID,optionName,optionPrice){
 }
 
 function generateOptionButton(mode){
-    let newButton = "<input class='btn btn-sm p-2' type='button' id=";
-    if(mode === "add"){
-        newButton += "'removeOption'";
-    }else if(mode === "edit"){
-        newButton += "'removeRetrievedOption'";
+    if(mode === "add" || mode === "edit"){
+        return "id='removeOption'";
+    }else if(mode === "retrieved"){
+        return "id='removeRetrievedOption'";
     }
-    newButton += " value='- Remove'>";
-
-    return newButton;
 }
 
 function insertValue(value){
@@ -91,8 +88,4 @@ function changeInputPriceName(mode,value){
     }else{
         return "name='"+mode+"-optionPrice[]'";
     }
-}
-
-function test(value){
-    alert(value);
 }

@@ -15,7 +15,7 @@ function retrieveOneDishData(editBtn){
                 $(form).find("select[name='edit-category']").val(result[0]["dishCategoryID"]);
                 if(result[0]["optionID"] != null){
                     $.each(result, function(index){
-                        addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"]);
+                        addNewOption("edit",result[index]["optionID"],result[index]["optionName"],result[index]["optionPrice"],"retrieved");
                     })
                 }
 
