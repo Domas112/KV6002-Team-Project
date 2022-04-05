@@ -10,6 +10,8 @@ class RetrieveLogAPI extends APIResponse
         if($_SERVER['REQUEST_METHOD'] === 'GET'){
             if(isset($_REQUEST['retrieveAll'])){
                 $this->setResponse($this->retrieveAllLog());
+            }else if(isset($_REQUEST['retrieveLogDetail'])){
+                $this->setResponse($this->retrieveLogDetail($_GET['id']));
             }else{
                 $this->setResponse($this->showError(400));
             }
@@ -23,13 +25,18 @@ class RetrieveLogAPI extends APIResponse
         try{
             $query = "SELECT * FROM logRecord";
             return $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
-        }
-        catch (Exception $e){
+        } catch (Exception $e){
             return "Error: " . $e->getMessage();
         }
     }
 
     private function retrieveLogDetail($logID){
-
+        try{
+            $query = "SELECT logChanges FROM logDetail WHERE logID = :logID";
+            $parameter = ["logID" => $logID];
+            return $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
+        }catch (Exception $e){
+            return "Error: " . $e->getMessage();
+        }
     }
 }

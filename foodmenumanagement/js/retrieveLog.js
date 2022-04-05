@@ -1,5 +1,4 @@
 let logList = "#logDataTable";
-let pageNumber = "#pageNumber";
 let searchInput = "input[name='search']";
 let result;
 
@@ -9,10 +8,10 @@ $("document").ready(function() {
 
     //Render the data table onLoad
     result = retrieveData(retrievingLog);
-    displayDishData(result);
+    displayLogData(result);
 })
 
-function displayDishData(data) {
+function displayLogData(data) {
     let viewLogTable =
         "<div class='table-responsive'>" +
         "<table class='table table-striped' id='sortTable'>\n" +
@@ -23,7 +22,7 @@ function displayDishData(data) {
         "<th>User ID</th>\n" +
         "<th>Log Description</th>\n" +
         "<th>View Log Detail</th>\n" +
-        "</tr" +
+        "</tr>" +
         "</thead>" +
         "<tbody>";
 
@@ -37,9 +36,9 @@ function displayDishData(data) {
 
         if(data[index].logDescription.includes("edit")){
             viewLogTable +=
-                "<td>" +
+                "<td class='viewBtn'>" +
                 "   <div class='btn-group-vertical' id='viewlog-button'>" +
-                "       <button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"'>View Log</button></td>\n" +
+                "       <button type='button' class='btn btn-sm logDetail' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"' onclick='loadLogDetailData(this)'>View Log</button></td>\n" +
                 "   </div>" +
                 "</td>";
         }else{
@@ -51,7 +50,6 @@ function displayDishData(data) {
 
     viewLogTable += "</tbody>" +
         "</table>" +
-        "</div>" +
         "</div>"
 
     $(logList).html(viewLogTable);
@@ -62,7 +60,7 @@ function displayDishData(data) {
             {"targets": [1], "width":"300px" },
             {"targets": [2], "width":"100px" },
             {"targets": [4], "orderable": false},
-            {"targets": [4], "width": "100px"},
+            {"targets": [4], "width": "150px"},
         ],
         "bLengthChange": false,
         "pageLength": 10,

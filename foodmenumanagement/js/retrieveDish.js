@@ -1,5 +1,4 @@
 let dishList = "#dishDataTable";
-let pageNumber = "#pageNumber";
 let searchInput = "input[name='search']";
 let result;
 
@@ -15,7 +14,7 @@ $("document").ready(function() {
 function displayDishData(data){
     let viewDishTable =
         "<div class='table-responsive'>" +
-        "<table class='table' id='sortTable'>\n" +
+        "<table class='table table-striped' id='sortTable'>\n" +
         "<thead>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +

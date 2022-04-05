@@ -53,8 +53,11 @@ class DishUIController extends DishUIElement
         ), "container-fluid");
         $logPage .= $this->generateDataTable("logDataTable");
         $logPage .= $this->generatePageNavigator();
+        $logPage .= $this->generateModalLogDetail();
         $logPage .= $this->includeJavascript($this->getResourceBasePath() . "/js/dataRetrieve.js");
+        $logPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dynamicModal.js");
         $logPage .= $this->includeJavascript($this->getResourceBasePath() . "/js/retrieveLog.js");
+        $logPage .= $this->includeJavascript($this->getResourceBasePath() . "/js/retrieveLogDetail.js");
 
         echo $logPage;
     }

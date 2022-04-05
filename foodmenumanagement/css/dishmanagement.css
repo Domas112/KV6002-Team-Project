@@ -51,6 +51,14 @@ td img {
     height: 200px;
 }
 
+#logDataTable tbody{
+    height: 50px;
+}
+
+.viewBtn{
+    text-align: center;
+}
+
 #manage-button button{
     width:150px;
     margin: 2% 0;
@@ -172,4 +180,8 @@ thead, .modal-header{
 
 #pageNumber{
     text-align: center;
+}
+
+#logDetailTable{
+    margin: 30px auto;
 }

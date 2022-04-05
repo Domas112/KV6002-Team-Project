@@ -18,7 +18,6 @@ class DishUIElement
 {
     protected $resourceBasePath = FOODMENUMANAGEMENT_RESOURCEBASEPATH;
     protected $viewPath = FOODMENUMANAGEMENT_VIEWPATH;
-    protected $addPath = FOODMENUMANAGEMENT_ADDPATH;
     protected $logPath = FOODMENUMANAGEMENT_LOGPATH;
 
     /**
@@ -434,6 +433,18 @@ EOT;
 
         return $this->generateModal("availabilityModal", "Change Dish Availability", array(
             $this->generateConfirmation("availabilityForm","availability")
+        ));
+    }
+
+    /**
+     * generateModalLogDetail
+     *
+     * @visibility protected
+     * @return string
+     */
+    protected function generateModalLogDetail(){
+        return $this->generateModal("logModal","Log Detail", array(
+            $this->generateDataTable("logDetailTable")
         ));
     }
 
