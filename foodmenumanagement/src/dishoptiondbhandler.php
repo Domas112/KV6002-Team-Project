@@ -10,10 +10,9 @@ class DishOptionDBHandler extends Database
             $result = $this->executeSQL($query, $parameter);
             if(!$result){
                 return false;
-            }else{
-                return true;
             }
         }
+        return true;
     }
 
     public function editDishOption($optionID,$dishID,$optionName,$optionPrice){
@@ -25,10 +24,9 @@ class DishOptionDBHandler extends Database
             $result = $this->executeSQL($query, $parameter);
             if(!$result){
                 return false;
-            }else{
-                return true;
             }
         }
+        return true;
     }
 
     public function deleteDishOption($dishID, $optionID){
@@ -38,10 +36,9 @@ class DishOptionDBHandler extends Database
             $result = $this->executeSQL($query, $parameter);
             if(!$result){
                 return false;
-            }else{
-                return true;
             }
         }
+        return true;
     }
 
     public function retrieveDishOptionName($optionID){

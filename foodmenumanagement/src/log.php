@@ -2,7 +2,7 @@
 
 class Log
 {
-    private $userID, $logDescription, $logChanges;
+    private $userID, $logDescription;
 
     public function __construct($userID, $logType, $dishID){
         $this->setUserID($userID);
@@ -17,16 +17,16 @@ class Log
         return $this->userID;
     }
 
-    public function setLogDescription($logType,$dishID){
+    public function setLogDescription($logType,$dishName){
         switch($logType){
             case "add":
-                $this->logDescription = "New dish data has been added";
+                $this->logDescription = "New dish \"".$dishName."\" has been added";
                 break;
             case "edit":
-                $this->logDescription =  "Dish ID ".$dishID." has been edited";
+                $this->logDescription =  "Dish \"".$dishName."\" has been edited";
                 break;
             case "delete":
-                $this->logDescription = "Dish ID ".$dishID." has been deleted";
+                $this->logDescription = "Dish \"".$dishName."\" has been deleted";
                 break;
         }
     }

@@ -5,6 +5,11 @@ let divEditOption = "div.edit-option";
 let divAddOption = "div.add-option";
 let deletedOption = [];
 
+// $("form[name='dishForm']").submit(function(e){
+//     e.preventDefault();
+// })
+
+
 $("document").ready(function(){
     $(addAddButton).click(function(){
         addNewOption("add",null,null,null,"add");

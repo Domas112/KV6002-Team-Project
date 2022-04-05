@@ -51,7 +51,7 @@ class DishDBHandler extends Database
             };
         }
 
-        $newLog = new Log(1,"add",null);
+        $newLog = new Log(1,"add",$dish->getDishName());
         if(!$logDB->createLog($newLog)){
             return false;
         }
@@ -176,6 +176,8 @@ class DishDBHandler extends Database
                 }
             }
 
+
+
             //Execute option edit
             if(!$optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice())){
                 return false;
@@ -188,14 +190,14 @@ class DishDBHandler extends Database
         if($dishOption != null && $dishPrice != null) {
             $optionDB = new DishOptionDBHandler();
 
-            //Execute upload dish
-            if(!$optionDB->uploadDishOption($dish->getDishID(), $dishOption, $dishPrice)){
-                return false;
-            }
-
             foreach($dishOption as $option){
                 //Pushing a new log message into array
                 array_push($logChangesDetail, "Option \"".$option."\" has been added!");
+            }
+
+            //Execute upload dish
+            if(!$optionDB->uploadDishOption($dish->getDishID(), $dishOption, $dishPrice)){
+                return false;
             }
         }
 
@@ -207,7 +209,7 @@ class DishDBHandler extends Database
             $logDB = new LogDBHandler();
 
             //Set a new Log object
-            $newLog = new Log(1,"edit",$dish->getDishID());
+            $newLog = new Log(1,"edit",$dish->getDishName());
 
             //Execute the logging query
             if(!$logDB->createLog($newLog)){
@@ -225,9 +227,9 @@ class DishDBHandler extends Database
         return true;
     }
 
-    public function deleteDish($id)
+    public function deleteDish($dish)
     {
-        $imgID = $this->retrieveDishImageID($id);
+        $imgID = $this->retrieveDishImageID($dish->getDishID());
 
         if($imgID != 1){
             $imageDB = new ImageDBHandler();
@@ -235,11 +237,20 @@ class DishDBHandler extends Database
         }
 
         $query = "DELETE FROM dish WHERE dishID = :id";
-        $parameter = ["id" => $id];
+        $parameter = ["id" => $dish->getDishID()];
         $this->executeSQL($query,$parameter);
+
+        //Initialise the log database
         $logDB = new LogDBHandler();
-        $newLog = new Log(1,"delete",$id);
-        $logDB->createLog($newLog);
+
+        //Set a new Log object
+        $newLog = new Log(1,"delete",$dish->getDishName());
+
+        //Execute the logging query
+        if(!$logDB->createLog($newLog)){
+            return false;
+        }
+
         return true;
     }
 

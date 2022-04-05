@@ -28,8 +28,9 @@ class LogDBHandler extends Database
     }
 
     public function retrieveLatestLogID($userID){
-        $query = "SELECT logID FROM logRecord WHERE userID = 1 ORDER BY logID DESC LIMIT 1";
-        $result = $this->executeSQL($query);
+        $query = "SELECT logID FROM logRecord WHERE userID = :userID ORDER BY logID DESC LIMIT 1";
+        $parameter = ["userID" => $userID];
+        $result = $this->executeSQL($query,$parameter);
         foreach($result as $row){
             return $row['logID'];
         }
