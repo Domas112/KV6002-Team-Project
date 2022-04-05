@@ -33,8 +33,4 @@ class Log
                 break;
         }
     }
-
-    public function getLogDescription(){
-        return $this->logDescription;
-    }
 }
