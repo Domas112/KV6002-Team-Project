@@ -176,8 +176,6 @@ class DishDBHandler extends Database
                 }
             }
 
-
-
             //Execute option edit
             if(!$optionDB->editDishOption($dish->getRetrievedID(),$dish->getDishID(),$dish->getRetrievedOption(),$dish->getRetrievedPrice())){
                 return false;
@@ -195,7 +193,7 @@ class DishDBHandler extends Database
                 array_push($logChangesDetail, "Option \"".$option."\" has been added!");
             }
 
-            //Execute upload dish
+            //Execute option upload
             if(!$optionDB->uploadDishOption($dish->getDishID(), $dishOption, $dishPrice)){
                 return false;
             }
@@ -227,9 +225,9 @@ class DishDBHandler extends Database
         return true;
     }
 
-    public function deleteDish($dish)
+    public function deleteDish($id,$name)
     {
-        $imgID = $this->retrieveDishImageID($dish->getDishID());
+        $imgID = $this->retrieveDishImageID($id);
 
         if($imgID != 1){
             $imageDB = new ImageDBHandler();
@@ -237,14 +235,14 @@ class DishDBHandler extends Database
         }
 
         $query = "DELETE FROM dish WHERE dishID = :id";
-        $parameter = ["id" => $dish->getDishID()];
+        $parameter = ["id" => $id];
         $this->executeSQL($query,$parameter);
 
         //Initialise the log database
         $logDB = new LogDBHandler();
 
         //Set a new Log object
-        $newLog = new Log(1,"delete",$dish->getDishName());
+        $newLog = new Log(1,"delete",$name);
 
         //Execute the logging query
         if(!$logDB->createLog($newLog)){
@@ -254,10 +252,20 @@ class DishDBHandler extends Database
         return true;
     }
 
-    public function updateDishAvailability($id){
+    public function updateDishAvailability($id,$name){
         $query = "UPDATE dish SET dishAvailability = !dishAvailability WHERE dishID = :id";
         $parameter = ["id" => $id];
         if($this->executeSQL($query,$parameter)){
+            //Initialise the log database
+            $logDB = new LogDBHandler();
+
+            //Set a new Log object
+            $newLog = new Log(1,"availability",$name);
+
+            //Execute the logging query
+            if(!$logDB->createLog($newLog)){
+                return false;
+            }
             return true;
         }else{
             return false;
@@ -271,6 +279,7 @@ class DishDBHandler extends Database
         foreach($result as $row){
             return $row['dishImg'];
         }
+        return true;
     }
 
     private function retrieveDishID($dishName,$dishDescription){
@@ -280,5 +289,6 @@ class DishDBHandler extends Database
         foreach($result as $row){
             return $row['dishID'];
         }
+        return true;
     }
 }

@@ -263,6 +263,7 @@ EOT;
             <div id="$id-confirmation-message"></div>
             <form name="$confirmationFormName" method="post">
                 <input type="hidden" name="$id-hiddenID" id="$id-hiddenID">
+                <input type="hidden" name="$id-hiddenName" id="$id-hiddenName">
                 <div class='d-flex justify-content-end'>
                     <input class='btn btn-sm' type="submit" name="$id-yes" id='$id-yes' value="Yes">
                     <input class='btn btn-sm' type="button" name="no" id='no' value="No" data-bs-dismiss="modal">
@@ -407,7 +408,7 @@ EOT;
     protected function generateModalDelete(){
         if(isset($_POST['delete-yes'])) {
             $dishDB = new DishDBHandler();
-            if ($dishDB->deleteDish($_POST['delete-hiddenID'])) {
+            if ($dishDB->deleteDish($_POST['delete-hiddenID'],$_POST['delete-hiddenName'])) {
                 header('Location: ' . $this->viewPath);
             }
         }
@@ -426,7 +427,7 @@ EOT;
     protected function generateModalAvailability(){
         if(isset($_POST['availability-yes'])){
             $dishDB = new DishDBHandler();
-            if($dishDB->updateDishAvailability($_POST['availability-hiddenID'])){
+            if($dishDB->updateDishAvailability($_POST['availability-hiddenID'],$_POST['availability-hiddenName'])){
                 header('Location: '.$this->viewPath);
             }
         }

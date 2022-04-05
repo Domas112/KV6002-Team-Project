@@ -28,6 +28,9 @@ class Log
             case "delete":
                 $this->logDescription = "Dish \"".$dishName."\" has been deleted";
                 break;
+            case "availability":
+                $this->logDescription = "Dish \"".$dishName."\" availability has been changed";
+                break;
         }
     }
 
