@@ -45,7 +45,7 @@ function addNewOption(mode,optionID,optionName,optionPrice,buttonMode){
         "   </div>" +
         "   <div class='form-group'>" +
             "   <label>Price:</label>\n" +
-            "   <input class='form-control' type='text' "+changeInputPriceName(mode,optionID)+insertValue(optionPrice)+" required>" +
+            "   <input class='form-control' type='number' min='0.00' max='10000.00' step='0.01' value='0.00'"+changeInputPriceName(mode,optionID)+insertValue(optionPrice)+" required>" +
         "   </div>" +
         "   <div class='d-flex align-items-end flex-column'>" +
             "   <input class='btn btn-sm p-2' type='button' "+generateOptionButton(buttonMode)+" value='- Remove'>"+
