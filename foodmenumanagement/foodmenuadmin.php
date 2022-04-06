@@ -1,15 +1,7 @@
 <?php
 include "config/config.php";
-$request = new Request();
-
-if(substr($request->getPath(),0,3) !== "api") {
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: text/html; charset=UTF-8");
-}else{
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
-}
-
+$request = new Request("admin");
+$errorPage = ERROR_BASEPATH;
 switch($request->getPath()){
     case '':
     case 'view':
@@ -23,6 +15,9 @@ switch($request->getPath()){
         break;
     case 'api/log':
         $logAPI = new RetrieveLogAPI();
+        break;
+    default:
+        header('Location: '.$errorPage."/404/");
         break;
 }
 

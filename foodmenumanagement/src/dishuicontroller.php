@@ -3,7 +3,7 @@
 class DishUIController extends DishUIElement
 {
     public function __construct($path){
-        echo $this->generateHeader();
+        echo $this->generateHeader("Food Menu Management");
         echo $this->generateLogo();
         echo $this->generateNavigation();
         switch($path){
@@ -14,7 +14,7 @@ class DishUIController extends DishUIElement
                 $this->generateLoggingUI();
                 break;
         }
-        echo $this->generateFooter();
+        echo $this->generateFooter("Food Menu Management");
     }
 
     //UI Generating

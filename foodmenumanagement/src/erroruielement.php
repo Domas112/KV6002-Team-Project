@@ -1,17 +1,9 @@
 <?php
 
-class CustomerUIElement extends UIElement
+class ErrorUIElement extends UIElement
 {
-    /**
-     * generateNav
-     *
-     * To generate the navigation section of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated nav component
-     */
     protected function generateNavigation(){
-        $menuNavigation = <<<EOT
+        $errorNavigation = <<<EOT
         <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,23 +11,23 @@ class CustomerUIElement extends UIElement
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-EOT;
-        $categoryDB = new CategoryDBHandler();
-        foreach($categoryDB->retrieveAllCategory() as $category){
-            $menuNavigation .= <<<EOT
                         <li class="nav-item">
-                            <a class="nav-link" id="{$category['categoryID']}">{$category['categoryName']}</a>
+                            <a class="nav-link" href="javascript:history.back()">< Back to Previous Page</a>
                         </li>
-EOT;
-        }
-
-        $menuNavigation .= <<<EOT
                     </ul>
                 </div>
             </nav>
         </div>
 EOT;
 
-        return $menuNavigation;
+        return $errorNavigation;
+    }
+
+    protected function generateErrorMessage($message){
+        return <<<EOT
+            <div id="errorMessage">
+                <span class="align-middle">$message</span>
+            </div>
+EOT;
     }
 }
