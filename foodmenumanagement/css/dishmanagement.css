@@ -51,12 +51,69 @@ td img {
     height: 200px;
 }
 
-#logDataTable tbody td{
-    height: 50px;
+.table-div{
+    width:100%;
 }
 
-.viewBtn{
-    text-align: center;
+@media only screen and (max-width: 1310px) {
+
+    #dishDataTable tbody, #logDataTable tbody{
+        background: #ffe5C7;
+    }
+
+    /* Force table to not be like tables anymore */
+    #dishDataTable table, #logDataTable table,
+    #dishDataTable thead, #logDataTable thead,
+    #dishDataTable tbody, #logDataTable tbody,
+    #dishDataTable th, #logDataTable th,
+    #dishDataTable td, #logDataTable td,
+    #dishDataTable tr, #logDataTable tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    #dishDataTable thead tr, #logDataTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #dishDataTable tr, #logDataTable tr {
+        border: 1px solid #ccc;
+    }
+
+    #dishDataTable td, #logDataTable td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        background: white;
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    #dishDataTable td img{
+        max-width:100%;
+        height:auto;
+    }
+
+    #dishDataTable td:before, #logDataTable td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    #dishDataTable tr, #logDataTable tr{
+        margin-bottom: 10px;
+    }
+
+    #dishDataTable td:before, #logDataTable td:before { content: attr(data-title); }
 }
 
 #manage-button button{
@@ -64,8 +121,12 @@ td img {
     margin: 2% 0;
 }
 
-#viewlog-button button{
-    width:100px;
+#viewlog-button, #manage-button{
+    width:100%;
+}
+
+#viewlog-button button, #manage-button button{
+    width:100%;
 }
 
 #add-addOption,#edit-addOption{
@@ -183,7 +244,7 @@ thead, .modal-header{
 }
 
 #logDetailTable{
-    margin: 30px auto;
+    margin: 10px auto;
 }
 
 #errorMessage{

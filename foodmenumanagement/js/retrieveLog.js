@@ -13,8 +13,8 @@ $("document").ready(function() {
 
 function displayLogData(data) {
     let viewLogTable =
-        "<div class='table-responsive'>" +
-        "<table class='table table-striped' id='sortTable'>\n" +
+        "<div class='table-div'>" +
+        "<table class='table' id='sortTable'>\n" +
         "<thead>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +
@@ -22,27 +22,27 @@ function displayLogData(data) {
         "<th>User ID</th>\n" +
         "<th>Log Description</th>\n" +
         "<th>View Log Detail</th>\n" +
-        "</tr>" +
+        "</tr>\n" +
         "</thead>" +
         "<tbody>";
 
     $.each(data, function (index) {
         viewLogTable +=
             "<tr>\n" +
-            "<td>" + data[index].logID + "</td>\n" +
-            "<td>" + data[index].logTimestamp + "</td>\n" +
-            "<td>" + data[index].userID + "</td>\n" +
-            "<td>" + data[index].logDescription + "</td>\n";
+            "<td data-title='Log ID'>" + data[index].logID + "</td>\n" +
+            "<td data-title='Timestamp'>" + data[index].logTimestamp + "</td>\n" +
+            "<td data-title='User ID'>" + data[index].userID + "</td>\n" +
+            "<td data-title='Description'>" + data[index].logDescription + "</td>\n";
 
         if(data[index].logDescription.includes("edit")){
             viewLogTable +=
-                "<td class='viewBtn'>" +
+                "<td data-title='Action' class='viewBtn'>" +
                 "   <div class='btn-group-vertical' id='viewlog-button'>" +
                 "       <button type='button' class='btn btn-sm logDetail' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"' onclick='loadLogDetailData(this)'>View Log</button></td>\n" +
                 "   </div>" +
                 "</td>";
         }else{
-            viewLogTable += "<td></td>";
+            viewLogTable += "<td data-title='Action'>No action available</td>";
         }
 
         viewLogTable += "</tr>"
@@ -56,14 +56,10 @@ function displayLogData(data) {
 
     let oTable = $("#sortTable").DataTable({
         "columnDefs": [
-            {"targets": [0], "width":"50px" },
-            {"targets": [1], "width":"300px" },
-            {"targets": [2], "width":"100px" },
-            {"targets": [4], "orderable": false},
-            {"targets": [4], "width": "150px"},
+            {"targets": [4], "orderable": false}
         ],
         "bLengthChange": false,
-        "pageLength": 10,
+        "pageLength": 5,
         "pagingType": "simple",
         language:{
             paginate:{

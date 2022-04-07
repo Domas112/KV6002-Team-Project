@@ -14,7 +14,7 @@ $("document").ready(function() {
 function displayDishData(data){
     let viewDishTable =
         "<div class='table-responsive'>" +
-        "<table class='table table-striped' id='sortTable'>\n" +
+        "<table class='table' id='sortTable'>\n" +
         "<thead>\n" +
         "<tr>\n" +
         "<th>ID</th>\n" +
@@ -32,14 +32,14 @@ function displayDishData(data){
     $.each(data, function (index) {
         viewDishTable +=
             "<tr>\n" +
-            "<td>" + data[index].dishID + "</td>\n" +
-            "<td>" + data[index].dishName + "</td>\n" +
-            "<td style='width:25%'>" + data[index].dishDescription + "</td>\n" +
-            "<td>" + data[index].categoryName + "</td>\n" +
-            "<td style='width:10%'>" + data[index].numberOfDishOption + "</td>\n" +
-            "<td style='width:auto'><img src='data:image;base64," + data[index].imageData + "'/></td>\n" +
-            "<td>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
-            "<td>\n" +
+            "<td data-title='Dish ID'>" + data[index].dishID + "</td>\n" +
+            "<td data-title='Dish Name'>" + data[index].dishName + "</td>\n" +
+            "<td data-title='Dish Description'>" + data[index].dishDescription + "</td>\n" +
+            "<td data-title='Category'>" + data[index].categoryName + "</td>\n" +
+            "<td data-title='Number of Option'>" + data[index].numberOfDishOption + "</td>\n" +
+            "<td data-title='Image'><img src='data:image;base64," + data[index].imageData + "'/></td>\n" +
+            "<td data-title='Availability'>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
+            "<td data-title='Action'>\n" +
             "<div class='btn-group-vertical' id='manage-button'>" +
             "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>Edit</button>\n" +
             "<button type='button' class='btn btn-sm' data-bs-toggle='modal' data-bs-target='#deleteModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='deleteModal(this);'>Delete</button>\n" +
