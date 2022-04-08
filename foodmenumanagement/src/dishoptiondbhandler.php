@@ -7,8 +7,7 @@ class DishOptionDBHandler extends Database
             $query = "INSERT INTO dishOption (dishID, optionName, optionPrice)
                       VALUES (:dishID, :optionName, :optionPrice)";
             $parameter = ["dishID" => $dishID, "optionName" => $optionName, "optionPrice" => $dishPrice[$index]];
-            $result = $this->executeSQL($query, $parameter);
-            if(!$result){
+            if(!$this->executeSQL($query, $parameter)){
                 return false;
             }
         }
@@ -21,8 +20,7 @@ class DishOptionDBHandler extends Database
                                             optionPrice = :optionPrice
                       WHERE optionID = :id AND dishID = :dishID";
             $parameter = ["id" => $id, "dishID" => $dishID, "optionName" => $optionName[$index], "optionPrice" => $optionPrice[$index]];
-            $result = $this->executeSQL($query, $parameter);
-            if(!$result){
+            if(!$this->executeSQL($query, $parameter)){
                 return false;
             }
         }
@@ -33,8 +31,7 @@ class DishOptionDBHandler extends Database
         foreach(json_decode($optionID) as $id){
             $query = "DELETE FROM dishOption WHERE optionID = :id AND dishID = :dishID";
             $parameter = ["id" => $id, "dishID" => $dishID];
-            $result = $this->executeSQL($query, $parameter);
-            if(!$result){
+            if(!$this->executeSQL($query, $parameter)){
                 return false;
             }
         }
@@ -44,9 +41,11 @@ class DishOptionDBHandler extends Database
     public function retrieveDishOptionName($optionID){
         $query = "SELECT optionName FROM dishOption WHERE optionID = :id";
         $parameter = ["id" => $optionID];
-        $result = $this->executeSQL($query,$parameter);
-        foreach($result as $row){
-            return $row['optionName'];
+        $result = $this->executeSQL($query,$parameter)->fetch();
+        if(!empty($result)){
+            return $result[0];
+        }else{
+            return false;
         }
     }
 }

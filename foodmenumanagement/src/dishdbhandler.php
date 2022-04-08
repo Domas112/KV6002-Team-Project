@@ -1,6 +1,7 @@
 <?php
 class DishDBHandler extends Database
 {
+
     /**
      * addDish
      *
@@ -9,16 +10,20 @@ class DishDBHandler extends Database
      */
     public function addDish($dish)
     {
-        $imgID = "";
         $imageDB = new ImageDBHandler();
         $logDB = new LogDBHandler();
 
         if($dish->getDishImg() != 1){
-            if($imageDB->uploadImage($dish->getDishImg())){
-                $imgID .= $imageDB->retrieveImageID($dish->getDishImg());
+            if(!$imageDB->uploadImage($dish->getDishImg())){
+                return false;
+            }else{
+                $imgID = $imageDB->retrieveImageID($dish->getDishImg());
+                if(!$imgID){
+                    return false;
+                }
             }
         }else{
-            $imgID .= 1;
+            $imgID = 1;
         }
 
         //Adding new dish into Dish table
@@ -42,10 +47,12 @@ class DishDBHandler extends Database
 
             //Retrieve the current dishID
             $dishID = $this->retrieveDishID($dish->getDishName(),$dish->getDishDescription());
+            if(!$dishID){
+                return false;
+            }
 
-            //Initialise DishOptionDBHandler
+            //Start uploading dish option
             $optionDB = new DishOptionDBHandler();
-
             if(!$optionDB->uploadDishOption($dishID,$dishOption,$dishPrice)){
                 return false;
             };
@@ -90,14 +97,16 @@ class DishDBHandler extends Database
 
         //Retrieved the image id saved on the dish
         $imgID = $this->retrieveDishImageID($dish->getDishID());
+        if(!$imgID){
+            return false;
+        }
 
         //Check if an exist image has already been uploaded to the data
         if($dish->getDishImg() != 1){
 
-            //Initialise the image database class
-            $imageDB = new ImageDBHandler();
-
+            //Start update/upload image
             //Check if the retrieved image ID is assigned to a default image (1) or not
+            $imageDB = new ImageDBHandler();
             if($imgID != 1){
 
                 //If the exist image returned is not 1, update the image data
@@ -119,6 +128,9 @@ class DishDBHandler extends Database
 
                     //Retrieve the new image ID
                     $imgID = $imageDB->retrieveImageID($dish->getDishImg());
+                    if(!$imgID){
+                        return false;
+                    }
                 }
             }
         }
@@ -151,6 +163,9 @@ class DishDBHandler extends Database
 
                 //Retrieve option name using the Option ID
                 $optionName = $optionDB->retrieveDishOptionName($removed);
+                if(!$optionName){
+                    return false;
+                }
 
                 //Pushing a new log message into array
                 array_push($logChangesDetail,"Option \"".$optionName."\" has been deleted!");
@@ -169,6 +184,9 @@ class DishDBHandler extends Database
 
                 //Retrieve option name using the Option ID
                 $optionName = $optionDB->retrieveDishOptionName($changes);
+                if(!$optionName){
+                    return false;
+                }
 
                 //Pushing a new log message if the option ID has been changed
                 if((strcmp($optionName,$dish->getRetrievedOption()[$index]))!=0){
@@ -216,6 +234,9 @@ class DishDBHandler extends Database
 
             //Get the latest log ID
             $currentLogID = $logDB->retrieveLatestLogID(1);
+            if(!$currentLogID){
+                return false;
+            }
 
             //Upload the log details to the database
             if(!$logDB->createLogDetails($currentLogID,$logChangesDetail)){
@@ -228,15 +249,22 @@ class DishDBHandler extends Database
     public function deleteDish($id,$name)
     {
         $imgID = $this->retrieveDishImageID($id);
+        if(!$imgID){
+            return false;
+        }
 
         if($imgID != 1){
             $imageDB = new ImageDBHandler();
-            $imageDB->deleteImage($imgID);
+            if(!$imageDB->deleteImage($imgID)){
+                return false;
+            }
         }
 
         $query = "DELETE FROM dish WHERE dishID = :id";
         $parameter = ["id" => $id];
-        $this->executeSQL($query,$parameter);
+        if(!$this->executeSQL($query,$parameter)){
+            return false;
+        }
 
         //Initialise the log database
         $logDB = new LogDBHandler();
@@ -275,20 +303,22 @@ class DishDBHandler extends Database
     private function retrieveDishImageID($id){
         $query = "SELECT dishImg FROM dish WHERE dishID = :id";
         $parameter = ["id" => $id];
-        $result = $this->executeSQL($query,$parameter);
-        foreach($result as $row){
-            return $row['dishImg'];
+        $result = $this->executeSQL($query,$parameter)->fetch();
+        if(!empty($result)){
+            return $result[0];
+        }else{
+            return false;
         }
-        return true;
     }
 
     private function retrieveDishID($dishName,$dishDescription){
         $query = "SELECT dishID FROM dish WHERE dishName = :name AND dishDescription = :description";
         $parameter = ["name" => $dishName, "description" => $dishDescription];
-        $result = $this->executeSQL($query,$parameter);
-        foreach($result as $row){
-            return $row['dishID'];
+        $result = $this->executeSQL($query,$parameter)->fetch();
+        if(!empty($result)){
+            return $result[0];
+        }else{
+            return false;
         }
-        return true;
     }
 }

@@ -26,6 +26,8 @@ class APIResponse
             case 401:
                 http_response_code($errorCode);
                 return array("Message" => "Not authorised!");
+            case 204:
+                http_response_code($errorCode);
         }
     }
 }

@@ -8,10 +8,10 @@ class LogDBHandler extends Database
                   VALUES (:userID, :description)";
         $parameter = ["userID" => $log->getUserID(),
                       "description" => $log->getLogDescription()];
-        if($this->executeSQL($query, $parameter)){
-            return true;
-        }else{
+        if(!$this->executeSQL($query, $parameter)){
             return false;
+        }else{
+            return true;
         }
     }
 
@@ -19,8 +19,7 @@ class LogDBHandler extends Database
         foreach($logChanges as $changes){
             $query = "INSERT INTO logDetail (logID, logChanges) VALUES (:logID, :logChanges)";
             $parameter = ["logID" => $logID, "logChanges" => $changes];
-            $result = $this->executeSQL($query,$parameter);
-            if(!$result){
+            if(!$this->executeSQL($query,$parameter)){
                 return false;
             }
         }
@@ -30,9 +29,11 @@ class LogDBHandler extends Database
     public function retrieveLatestLogID($userID){
         $query = "SELECT logID FROM logRecord WHERE userID = :userID ORDER BY logID DESC LIMIT 1";
         $parameter = ["userID" => $userID];
-        $result = $this->executeSQL($query,$parameter);
-        foreach($result as $row){
-            return $row['logID'];
+        $result = $this->executeSQL($query,$parameter)->fetch();
+        if(!empty($result)){
+            return $result[0];
+        }else{
+            return false;
         }
     }
 }

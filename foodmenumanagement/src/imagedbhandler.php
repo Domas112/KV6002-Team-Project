@@ -34,9 +34,11 @@ class ImageDBHandler extends Database
     public function retrieveImageID($blob){
         $query = "SELECT MAX(imageID) AS imageID FROM image WHERE imageData = :data";
         $parameter = ["data" => $blob];
-        $result = $this->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
-        foreach($result as $row){
-            return $row['imageID'];
+        $result = $this->executeSQL($query,$parameter)->fetch();
+        if(!empty($result)){
+            return $result[0];
+        }else{
+            return false;
         }
     }
 }

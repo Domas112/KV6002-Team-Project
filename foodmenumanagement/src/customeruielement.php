@@ -38,4 +38,8 @@ EOT;
 
         return $menuNavigation;
     }
+
+    protected function generateMenuItem($menuClass){
+        return "<div class='container-fluid' id='$menuClass'></div>";
+    }
 }

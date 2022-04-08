@@ -20,7 +20,9 @@ class CustomerUIController extends CustomerUIElement
             $this->generateSubtitle("View and manage all available dishes"),
             $this->generateHorizontalLine(),
         ),"container-fluid");
+        $menuPage .= $this->generateMenuItem("foodMenu");
         $menuPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveMenuItem.js");
+        $menuPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dataRetrieve.js");
 
         echo $menuPage;
     }
