@@ -12,7 +12,7 @@ $("document").ready(function(){
         async: false,
         success: function (result){
             if(result['authenticated'] === true){
-                //Redirect to Admin Homepage
+                //Redirect to admin panel
             }
         }
     })
@@ -33,7 +33,7 @@ $("#loginForm").on("submit", function(e){
         async: false,
         statusCode:{
             200: function(){
-                //Redirect to Admin Homepage
+                //Redirect to admin panel
             },
             401: function(){
                 $(errorMessage).html("<p>Incorrect Username/Password. Please try again!</p>");

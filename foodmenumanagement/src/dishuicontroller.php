@@ -14,6 +14,7 @@ class DishUIController extends DishUIElement
                 $this->generateLoggingUI();
                 break;
         }
+        echo $this->includeJavascript($this->getResourceBasePath()."/js/sessionCheck.js");
         echo $this->generateFooter("Food Menu Management");
     }
 

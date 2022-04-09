@@ -333,3 +333,14 @@ thead, .modal-header{
 #emptyMenuMessage{
     text-align: center;
 }
+
+.logout{
+    width:200px;
+}
+
+@media only screen and (max-width: 1310px) {
+    .logout{
+        margin-top:30px;
+        width:100%;
+    }
+}
