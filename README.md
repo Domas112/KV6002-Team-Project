@@ -6,7 +6,7 @@ Account folder contains one of the shared elements that will be included in the 
 The folder contains files to the Login page UI and API to handle authentication. Team members may access the API to check if the user 
 has already logged in or retrieve user account type to limit access to certain features.
 
-# Subsystem: Food Menu Management System
+## Subsystem: Food Menu Management System
 A repo for KV6002 Team Project module for Team 30 developed by Teck Xun Tan (W20003691).
 
 
