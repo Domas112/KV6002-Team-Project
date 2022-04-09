@@ -8,6 +8,5 @@ function retrieveData(url){
             data = result;
         }
     })
-
     return data;
 }

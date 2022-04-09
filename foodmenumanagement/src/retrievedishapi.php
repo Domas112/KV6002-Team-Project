@@ -60,20 +60,36 @@ class RetrieveDishAPI extends APIResponse
 
     private function retrieveDishMenu($category){
         $result = [];
-        if($category == null){
-            $query = "SELECT * FROM dish";
-            $dishResult = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
-        }else{
-            $query = $query = "SELECT * FROM dish WHERE dishCategoryID = :category";
+        $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
+                  FROM dish  
+                  INNER JOIN category
+                  ON category.categoryID = dish.dishCategoryID
+                  LEFT OUTER JOIN image
+                  ON image.imageID = dish.dishImg
+                  LEFT OUTER JOIN dishOption
+                  ON dishOption.dishID = dish.dishID
+                  WHERE dish.dishAvailability = 1 ";
+        if($category != null){
+            $query .= "AND dish.dishCategoryID = :category
+                       GROUP BY dishID";
             $parameter = ["category" => $category];
             $dishResult = $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            $query .= "GROUP BY dishID";
+            $dishResult = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
         }
 
         foreach($dishResult as $dishItem){
-            $query = "SELECT * FROM dishOption WHERE dishID = :id";
+            $query = "SELECT * FROM dishOption WHERE dishID = :id ORDER BY optionPrice ASC";
             $parameter = ["id" => $dishItem['dishID']];
             $dishOptionResult = $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
-            array_push($result,array_push($dishResult,array("dishOption" => $dishOptionResult)));
+            $processedResult = [
+                "dishName" => $dishItem['dishName'],
+                "dishDescription" => $dishItem['dishDescription'],
+                "dishImageData" => $dishItem['imageData'],
+                "dishOption" => $dishOptionResult
+            ];
+            array_push($result,$processedResult);
         }
 
         if(!empty($result)){
@@ -81,7 +97,6 @@ class RetrieveDishAPI extends APIResponse
         }else{
             return $this->showError(204);
         }
-
     }
 
     private function retrieveDishOption($id){

@@ -16,8 +16,8 @@ class CustomerUIController extends CustomerUIElement
 
     private function generateMenuUI(){
         $menuPage = $this->generateDiv(array(
-            $this->generateTitle("View All Dishes"),
-            $this->generateSubtitle("View and manage all available dishes"),
+            $this->generateTitle("Amaysia Restaurant Food Menu"),
+            $this->generateSubtitle("Take a look at the dishes available in our restaurant now!"),
             $this->generateHorizontalLine(),
         ),"container-fluid");
         $menuPage .= $this->generateMenuItem("foodMenu");
