@@ -1,4 +1,12 @@
-# Food Menu Management System
+# Before we begin
+Please note that there are two folders here which are Account and FoodMenuManagement. The main subsystem that I am working
+on is the Food Menu Management System which all the files will be included within the FoodMenuManagement folder.
+
+Account folder contains one of the shared elements that will be included in the overall system that I have volunteered to developed for the team.
+The folder contains files to the Login page UI and API to handle authentication. Team members may access the API to check if the user 
+has already logged in or retrieve user account type to limit access to certain features.
+
+# Subsystem: Food Menu Management System
 A repo for KV6002 Team Project module for Team 30 developed by Teck Xun Tan (W20003691).
 
 
@@ -16,5 +24,3 @@ or vandalised data within the subsystem.
 ## Customer View
 The Customer side of the subsystem will consist of a menu where it will show all the food/dishes currently available in the restaurant where
 customer will be able to access directly from the homepage anywhere without requiring to scanning the QR to access the menu.
-
-## Programming Language
