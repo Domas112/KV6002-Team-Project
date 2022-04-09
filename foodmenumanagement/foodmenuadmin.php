@@ -1,5 +1,6 @@
 <?php
 include "config/config.php";
+require "foodmenusession.php";
 $request = new Request("admin");
 $errorPage = ERROR_BASEPATH;
 switch($request->getPath()){
