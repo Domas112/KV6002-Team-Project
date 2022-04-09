@@ -4,3 +4,20 @@
 .table-orders-completed{
     color:rgb(186, 177, 177);
 }
+
+.orders-table-header > tr{
+    background-color: #EFB71AFF;
+    
+    font-size: 1em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.orders-table-body > tr{
+    background: rgb(255, 238, 219);
+}
+
+.btn-show-orders{
+    background-color: rgb(68, 37, 0);
+    color:white !important;
+}

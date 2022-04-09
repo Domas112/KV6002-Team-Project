@@ -61,7 +61,7 @@ export class Orders extends HTMLElement{
                                 Total cost(£)
                             </th>
                             <th scope='col'>
-                                Completed
+                                Finished
                             </th>
                         </tr>
                     </thead

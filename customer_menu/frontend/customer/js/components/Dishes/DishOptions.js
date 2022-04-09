@@ -58,7 +58,7 @@ export class DishOptions extends HTMLElement{
                     }
 
                     this.optionsTemplate+= `
-                        <option value='${res[i].optionID}'>${res[i].optionName}</option>
+                        <option value='${res[i].optionID}'>${res[i].optionName} (£${res[i].optionPrice})</option>
                     `;
                 }
 
@@ -138,8 +138,6 @@ export class DishOptions extends HTMLElement{
             <select ${this.hasOptions?'enabled':'disabled'} id="dish-options-select-${this.dishId}" placeholder="select an option">
                 ${this.optionsTemplate}
             </select>
-            
-            <p>${this.currentOptionPrice}</p>
             <amount-button id='amount-btn-${this.dishId}' amount='${this.currentDishAmount}'></amount-button>
         `;
     }

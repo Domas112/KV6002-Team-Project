@@ -18,6 +18,11 @@ export class TablesList extends HTMLElement{
                 this.deleted = 'false';
             }
         }
+        console.log(prop)
+        if(prop == 'show-table'){
+            this.showTables[newVal] = !this.showTables[newVal];
+            console.log(this.showTables);
+        }
     }
 
     connectedCallback(){
@@ -31,13 +36,16 @@ export class TablesList extends HTMLElement{
         fetch('../../backend/api/Orders.php?get_tables')
             .then(res=>res.json())
             .then(res=>{
+                console.log(this.showTables)
                 for(const i in res){
                     if(!(res[i].tableID in this.tables)){
                         this.tables[res[i].tableID] = res[i];
-                        this.innerHTML += `<table-component table-id=${res[i].tableID} ></table-component>`;
+                        this.showTables[res[i].tableID] = false;
+                        this.innerHTML += `<table-component table-id=${res[i].tableID} show=${this.showTables[res[i].tableID]}></table-component>`;
                     }
                 }
-                console.log(this.tables);
+                
+                console.log("populate tables");
 
             })
             .catch(err=>console.error(err));
@@ -49,11 +57,15 @@ export class TablesList extends HTMLElement{
         .then(res=>{
             console.log(this.showTables);
             this.tables = {};
+            let newShowTables = {};
             for(const i in res){
                 this.tables[res[i].tableID] = res[i];
+                newShowTables[res[i].tableID] = this.showTables[res[i].tableID];
             }
+            this.showTables = newShowTables;
             this.render();
-            console.log(this.tables);
+            console.log("populate tables after delete");
+            console.log(this.showTables)
         })
         .catch(err=>console.error(err));
         
@@ -64,7 +76,7 @@ export class TablesList extends HTMLElement{
         let placeholder = ``;
         Object.keys(this.tables).forEach(key=>{
             placeholder += `
-                <table-component table-id=${key} ></table-component>
+                <table-component table-id=${key} show=${this.showTables[key]} ></table-component>
             `;
         })
 

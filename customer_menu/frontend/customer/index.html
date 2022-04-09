@@ -10,10 +10,13 @@
 
 
 	<link rel='stylesheet' href='./styles/customer_styles.css'>
+	<link rel='stylesheet' href='../shared.css'>
+
+    <script src="https://kit.fontawesome.com/d45f07fbca.js" crossorigin="anonymous"></script>
 
 </head>
 
-<body class=''>
+<body>
 	<div class="modal" id="checkout-modal">
 		<div class="modal-dialog">
 			<checkout-component />
@@ -24,25 +27,29 @@
 			<orders-component />
 		</div>
 	</div>
-	<header class='container pt-4 sticky-top'>
-		<div class='row '>
-			<div class="col-8">
-				<img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
-			</div>
-			<div class="col-4">
-				<button id="open-checkout" type="button" class="btn btn-primary" data-bs-toggle="modal"
+	<header class='pt-2 sticky-top'>
+		<div class="container">
+			<div class='row'>
+				<div class="col-8">
+					<img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
+				</div>
+				<div class="col-4 orders-btns">
+					<button id="open-checkout" type="button" class="btn btn-checkout" data-bs-toggle="modal"
 					data-bs-target="#checkout-modal">
 					Checkout
-				</button>
-				<button id="open-orders" type="button" class="btn btn-warning mt-1" data-bs-toggle="modal"
-					data-bs-target="#orders-modal">
-					My orders
-				</button>
+					</button>
+					<button id="open-orders" type="button" class="btn btn-warning mt-1" data-bs-toggle="modal"
+						data-bs-target="#orders-modal">
+						My orders
+					</button>
+				</div>
 			</div>
 		</div>
 
-		<categories-carousel-component />
 
+		<nav class="mt-4">
+			<categories-carousel-component />
+		</nav>
 	</header>
 	<main class='container'>
 		<div id="categoricalDishesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel"

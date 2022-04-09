@@ -14,6 +14,9 @@ export class Controls extends HTMLElement{
         this.setAttribute("table-id", val);
     }
 
+    get show(){return (this.getAttribute('show') === 'true');}
+    set show(val){this.setAttribute('show',val);}
+
     get tableOrdersCompleted(){return this.getAttribute('table-orders-completed');}
     set tableOrdersCompleted(val){this.setAttribute('table-orders-completed',val);}
 
@@ -35,6 +38,8 @@ export class Controls extends HTMLElement{
     }
     
     connectedCallback(){
+        
+        console.log(this.tableId, 'ORDERS connected callback, show is ', this.show);
         this.render();
         this.addClickListeners();
     }
@@ -54,16 +59,18 @@ export class Controls extends HTMLElement{
             setTimeout(() => {
                 this.newOrder = 'false';
             }, 5000);
-            this.ordersComponent.setAttribute('show', !this.show);
-            this.parentElement.parentElement.setAttribute('show', this.show);
             this.show = !this.show;
+            this.ordersComponent.setAttribute('show', this.show);
+            this.parentElement.parentElement.setAttribute('show', this.show);
+            this.parentElement.parentElement.parentElement.setAttribute('show-table', this.tableId);
+            
         });
     }
 
     render(){
         this.innerHTML = `
             <div class='row'>
-                <div class="col-2">
+                <div class="col-3">
                     <h2 class="
                         ${this.newOrder=='true'?'new-order':''}
                         ${this.tableOrdersCompleted == '1'?'table-orders-completed':''}    
@@ -71,21 +78,20 @@ export class Controls extends HTMLElement{
                         Table ${this.tableId} ${this.tableOrdersCompleted == '1'?'(Completed)':''}
                     </h2>
                 </div>
-                <div class="col-2">
+                <div class="col-4">
                     <div class='dropdown'>
                         <button id="show-${this.tableId}" 
-                            class='border btn btn-primary' type='button'
+                            class='border btn btn-show-orders' type='button'
                             data-bs-toggle='collapse' data-bs-target='#table-${this.tableId}-orders-collapse'
                             aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
-
-                            Show Orders
+                            Display order
                         </button>
                     </div>
                 </div>
                 
-                <div class="col-6">
+                <div class="col-5">
                     <button id="delete-${this.tableId}-btn" class="float-end btn btn-danger">
-                        Remove
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
             

@@ -48,16 +48,17 @@ export class AmountButton extends HTMLElement{
 
     render(){
         this.innerHTML = `
-            <div class='row-format'>
-                <button id='dcrBtn-${this.dishId}' class='btn btn-light dcrBtn'>
-                -   
+            <div class='row-format mt-4'>
+                <button id='dcrBtn-${this.dishId}' class='btn dcrBtn'>
+                    <i class="fas fa-minus"></i>
                 </button>
                     <h2 class='amount' id='${this.dishId}'>
                         ${this.amount}
                     </h2>
-                <button id='incBtn-${this.dishId}' class='btn btn-light incBtn'>
-                +
+                <button id='incBtn-${this.dishId}' class='btn incBtn'>
+                    <i class="fas fa-plus"></i>
                 </button>
+                
             </div>
         `;
     }

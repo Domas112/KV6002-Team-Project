@@ -15,7 +15,7 @@ export class Orders extends HTMLElement {
         this.setAttribute("table-id", val);
     }
     get show() {
-        return this.getAttribute("show");
+        return (this.getAttribute("show") === 'true');
     }
     set show(val) {
         this.setAttribute("show", val);
@@ -30,6 +30,7 @@ export class Orders extends HTMLElement {
     }
 
     connectedCallback(){
+        console.log(this.tableId, 'ORDERS connected callback, show is ', this.show);
         this.populateOrders();
         let interval = setInterval(() => {
             this.populateOrders();
@@ -65,9 +66,19 @@ export class Orders extends HTMLElement {
 
     addClickListeners(){
         this.orders.forEach((order) => {
-            this.querySelector(`#checkbox-${order.orderID}`).addEventListener('change', async ()=>{
+            this.querySelector(`#checkbox-${order.orderID}`).addEventListener('change', (e)=>{
                 fetch(`../../backend/api/Orders.php?complete_order&&id=${order.orderID}`)
                     .catch(err=>console.error(err));
+                
+                let orderID = e.target.getAttribute('id').split("-")[1];
+                this.orders.forEach(order=>{
+                    if(order.orderID == orderID){
+                        order.completed = 1;
+                    }
+                })
+
+                this.render();
+                this.addClickListeners();
             })
         })
 
@@ -99,11 +110,12 @@ export class Orders extends HTMLElement {
     }
 
     render() {
+        // console.log(this.tableId, 'orders rendered, show is:', this.show);
         let placeholder = `
-            <div id="table-${this.tableId}-orders-collapse" class='container collapse ${this.show == "true" ? "show" : ""} col-12'>       
+            <div id="table-${this.tableId}-orders-collapse" class='container collapse ${this.show ? "show" : ""} col-12'>       
                 <div class='row card-body'>
                     <table class="table">
-                        <thead>
+                        <thead class='orders-table-header'>
                             <tr>
                                 <th scope="col" >
                                     Dish title
@@ -119,11 +131,11 @@ export class Orders extends HTMLElement {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>`;
+                        <tbody class='orders-table-body'>`;
 
         this.orders.forEach((order) => {
             placeholder += `
-                            <tr class='${order.viewed==0?"new-order":""}'>
+                            <tr class='${(order.viewed==0) && (order.completed==0) ?"new-order":""}'>
                                 <td scope='row'>
                                     ${order.dishName}
                                 </td>

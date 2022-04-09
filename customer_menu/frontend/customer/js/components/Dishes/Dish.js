@@ -51,7 +51,7 @@ export class Dish extends HTMLElement{
 
     render(){
         this.innerHTML=` 
-        <div id='${this.dishId}' class='row border-bottom border-dark mt-1 py-2'>
+        <div id='${this.dishId}' class='row border-top border-dark mt-1 py-2'>
             
             
             <div class='col-6'>
@@ -65,8 +65,8 @@ export class Dish extends HTMLElement{
                 </h3>
 
                 <div class='dropdown'>
-                    <button id='btn-${this.dishId}' class='border btn btn-primary' type='button' data-bs-toggle='collapse' data-bs-target='.extra-content-${this.dishId}' aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
-                        Description
+                    <button id='btn-${this.dishId}' class='border btn btn-description' type='button' data-bs-toggle='collapse' data-bs-target='.extra-content-${this.dishId}' aria-expanded='false' aria-controls='extra-content-${this.dishId}'>
+                        Show more
                     </button>
                 </div>
 

@@ -1,16 +1,3 @@
-
-body{
-    background-color:rgb(240, 240, 240);
-}
-
-header{
-    background-color:rgb(240, 240, 240);
-}
-
-main{
-    margin-top: 2%;
-}
-
 .dish-image{
     width: 100%;
     height: 100%;
@@ -24,8 +11,6 @@ main{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-
 }
 .amount{
     margin: 0 1% 0 1%;
@@ -44,7 +29,6 @@ main{
     overflow: auto;
     white-space: nowrap;
     scrollbar-color: none;
-    border-bottom: 2px solid black ;
 }
 .scrollmenu::-webkit-scrollbar {
     display: none;
@@ -52,14 +36,42 @@ main{
 .scrollmenu > button{
     border: none;
     border-radius: 7%;
+    background-color: #ffe5C7;
+    
+    font-size: 1em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
 }
 
 .scrollmenu > button:hover{
-    background-color: rgb(174, 187, 231);
+    background-color: #EFB71AFF;
 }
 
 .scrollmenu > button:active{
-    background-color: rgb(174, 187, 231);
+    background-color: #EFB71AFF;
+}
 
+nav{
+    background-color: #ffe5C7;
+    width: 100%;
+}
 
+.btn-checkout{
+    background-color: #ff870c;
+    width:100%;
+}
+
+.orders-btns > button{
+    width:100%;
+}
+
+.btn-description{
+    background-color: rgb(68, 37, 0);
+    color:white !important;
+    width:100%;
+
+}
+
+.btn-description:active{
+    color:white;
 }
