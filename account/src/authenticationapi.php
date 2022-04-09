@@ -9,13 +9,19 @@ class AuthenticationAPI extends AccountDB
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             if(isset($_REQUEST['authenticate'])){
-                $this->response = $this->authenticateUser($_POST['username'], $_POST['password']);
+                if(isset($_POST['username']) && isset($_POST['password'])){
+                    $this->response = $this->authenticateUser($_POST['username'], $_POST['password']);
+                }else{
+                    $this->response = $this->setLogonError(400);
+                }
             }else if(isset($_REQUEST['isLoggedIn'])){
                 $this->response = $this->checkIsLoggedIn();
-            }else if(isset($_REQUEST['accountType'])){
+            }else if(isset($_REQUEST['accountType'])) {
                 $this->response = $this->retrieveAccountType();
+            }else if(isset($_REQUEST['logout'])){
+                $this->response = $this->logout();
             }else{
-                $this->response = $this->setLogonError(400);
+                $this->response = $this->setLogonError(501);
             }
         }else{
             $this->response = $this->setLogonError(405);
@@ -33,10 +39,10 @@ class AuthenticationAPI extends AccountDB
                 $_SESSION['accountType'] = $this->getUserAccountType($username);
                 return true;
             }else{
-                return false;
+                return $this->setLogonError(401);
             }
         }else{
-            return false;
+            return $this->setLogonError(401);
         }
     }
 
@@ -63,6 +69,10 @@ class AuthenticationAPI extends AccountDB
         return array("accountType" => $_SESSION['accountType']);
     }
 
+    public function logout(){
+        return session_destroy();
+    }
+
     public function setLogonError($errCode){
         switch($errCode){
             case 405:
@@ -74,6 +84,9 @@ class AuthenticationAPI extends AccountDB
             case 400:
                 http_response_code($errCode);
                 return array("Message" => "Incorrect parameters");
+            case 401:
+                http_response_code($errCode);
+                return array("Message" => "Not authorised!");
             case 204:
                 http_response_code(204);
                 break;
