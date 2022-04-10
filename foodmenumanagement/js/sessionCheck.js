@@ -5,10 +5,10 @@ let logoutURL = '../../account/loginapi.php?logout';
 
 $("document").ready(function(){
     if(!checkIsLoggedIn()){
-        window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/foodmenumanagement/errorpage.php/401";
+        window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401";
     }else{
         if(!verifyAccountType()){
-            window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/foodmenumanagement/errorpage.php/403";
+            window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403";
         }
     }
 })

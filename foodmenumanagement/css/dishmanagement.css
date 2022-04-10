@@ -321,15 +321,6 @@ thead, .modal-header{
     margin: 10px auto;
 }
 
-#errorMessage{
-    border:2px solid rgba(166, 60, 60, 0.71);
-    border-radius:5px;
-    background-color: rgba(253, 95, 95, 0.71);
-    color: #541e1e;
-    font-size:17px;
-    padding:10px;
-}
-
 #emptyMenuMessage{
     text-align: center;
 }

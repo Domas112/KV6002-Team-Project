@@ -12,7 +12,7 @@ $("document").ready(function(){
         async: false,
         success: function (result){
             if(result['authenticated'] === true){
-                //Redirect to admin panel
+                window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/adminindex.php";
             }
         }
     })
@@ -33,7 +33,7 @@ $("#loginForm").on("submit", function(e){
         async: false,
         statusCode:{
             200: function(){
-                //Redirect to admin panel
+                window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/adminindex.php";
             },
             401: function(){
                 $(errorMessage).html("<p>Incorrect Username/Password. Please try again!</p>");

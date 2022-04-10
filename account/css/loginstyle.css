@@ -20,6 +20,10 @@ hr{
     border-top:1px solid rgba(86, 46, 0, 0.44);
 }
 
+footer, h1{
+    text-align: center;
+}
+
 li a{
     font-weight: bold;
 }
@@ -30,7 +34,6 @@ h1{
 
 li a, p, h1{
     color: #613C11FF;
-    text-align: center;
 }
 
 .nav{

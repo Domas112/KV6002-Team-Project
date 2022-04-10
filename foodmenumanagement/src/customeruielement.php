@@ -20,6 +20,9 @@ class CustomerUIElement extends UIElement
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
+                            <a class="nav-link" href="http://unn-w19030982.newnumyspace.co.uk/kv6002/index.php">Back to Homepage</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" id="0">All</a>
                         </li>
 EOT;

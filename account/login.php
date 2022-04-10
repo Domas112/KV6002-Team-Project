@@ -9,7 +9,6 @@ include "config/config.php";
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Importing CSS -->
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
-        <link rel='stylesheet' href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css'>
         <link rel="stylesheet" href="css/loginstyle.css">
         <!-- Importing Scripts -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -21,7 +20,7 @@ include "config/config.php";
     </head>
     <body>
         <div class="container-sm-logo">
-            <img src="assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
+            <img src="../assets/logo.png" alt="Amaysia Restaurant The Uniquely Asian" id="logo">
         </div>
         <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -31,7 +30,7 @@ include "config/config.php";
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:history.back()">< Back to Previous Page</a>
+                            <a class="nav-link" href="../index.php">Back to Home</a>
                         </li>
                     </ul>
                 </div>

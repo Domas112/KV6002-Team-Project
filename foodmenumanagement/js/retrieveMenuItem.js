@@ -1,5 +1,5 @@
 let foodMenu = "#foodMenu";
-let url = '../foodmenuadmin.php/api/dish';
+let url = 'http://unn-w19030982.newnumyspace.co.uk/kv6002/foodmenumanagement/foodmenuadmin.php/api/dish';
 let retrievingMenu = url + '?retrieveDishMenu';
 
 $("document").ready(function() {
