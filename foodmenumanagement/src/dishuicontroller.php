@@ -3,6 +3,7 @@
 class DishUIController extends DishUIElement
 {
     public function __construct($path){
+        session_start();
         echo $this->generateHeader("Food Menu Management");
         echo $this->generateLogo();
         echo $this->generateNavigation();

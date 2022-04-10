@@ -4,9 +4,9 @@ class LogDBHandler extends Database
 {
 
     public function createLog($log){
-        $query = "INSERT INTO logRecord (userID, logDescription)
-                  VALUES (:userID, :description)";
-        $parameter = ["userID" => $log->getUserID(),
+        $query = "INSERT INTO logRecord (username, logDescription)
+                  VALUES (:username, :description)";
+        $parameter = ["username" => $log->getUserName(),
                       "description" => $log->getLogDescription()];
         if(!$this->executeSQL($query, $parameter)){
             return false;
@@ -26,9 +26,9 @@ class LogDBHandler extends Database
         return true;
     }
 
-    public function retrieveLatestLogID($userID){
-        $query = "SELECT logID FROM logRecord WHERE userID = :userID ORDER BY logID DESC LIMIT 1";
-        $parameter = ["userID" => $userID];
+    public function retrieveLatestLogID($username){
+        $query = "SELECT logID FROM logRecord WHERE username = :username ORDER BY logID DESC LIMIT 1";
+        $parameter = ["username" => $username];
         $result = $this->executeSQL($query,$parameter)->fetch();
         if(!empty($result)){
             return $result[0];

@@ -31,7 +31,7 @@ function displayLogData(data) {
             "<tr>\n" +
             "<td data-title='Log ID'>" + data[index].logID + "</td>\n" +
             "<td data-title='Timestamp'>" + data[index].logTimestamp + "</td>\n" +
-            "<td data-title='User ID'>" + data[index].userID + "</td>\n" +
+            "<td data-title='User ID'>" + data[index].username + "</td>\n" +
             "<td data-title='Description'>" + data[index].logDescription + "</td>\n";
 
         if(data[index].logDescription.includes("edit")){

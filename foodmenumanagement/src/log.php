@@ -2,19 +2,19 @@
 
 class Log
 {
-    private $userID, $logDescription;
+    private $userName, $logDescription;
 
-    public function __construct($userID, $logType, $dishID){
-        $this->setUserID($userID);
+    public function __construct($username, $logType, $dishID){
+        $this->setUserName($username);
         $this->setLogDescription($logType, $dishID);
     }
 
-    public function setUserID($userID){
-        $this->userID = $userID;
+    public function setUserName($userName){
+        $this->userName = $userName;
     }
 
-    public function getUserID(){
-        return $this->userID;
+    public function getUserName(){
+        return $this->userName;
     }
 
     public function setLogDescription($logType,$dishName){

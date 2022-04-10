@@ -58,7 +58,7 @@ class DishDBHandler extends Database
             };
         }
 
-        $newLog = new Log(1,"add",$dish->getDishName());
+        $newLog = new Log($_SESSION['username'],"add",$dish->getDishName());
         if(!$logDB->createLog($newLog)){
             return false;
         }
@@ -225,7 +225,7 @@ class DishDBHandler extends Database
             $logDB = new LogDBHandler();
 
             //Set a new Log object
-            $newLog = new Log(1,"edit",$dish->getDishName());
+            $newLog = new Log($_SESSION['username'],"edit",$dish->getDishName());
 
             //Execute the logging query
             if(!$logDB->createLog($newLog)){
@@ -233,7 +233,7 @@ class DishDBHandler extends Database
             }
 
             //Get the latest log ID
-            $currentLogID = $logDB->retrieveLatestLogID(1);
+            $currentLogID = $logDB->retrieveLatestLogID($_SESSION['username']);
             if(!$currentLogID){
                 return false;
             }
@@ -270,7 +270,7 @@ class DishDBHandler extends Database
         $logDB = new LogDBHandler();
 
         //Set a new Log object
-        $newLog = new Log(1,"delete",$name);
+        $newLog = new Log($_SESSION['username'],"delete",$name);
 
         //Execute the logging query
         if(!$logDB->createLog($newLog)){
@@ -288,7 +288,7 @@ class DishDBHandler extends Database
             $logDB = new LogDBHandler();
 
             //Set a new Log object
-            $newLog = new Log(1,"availability",$name);
+            $newLog = new Log($_SESSION['username'],"availability",$name);
 
             //Execute the logging query
             if(!$logDB->createLog($newLog)){
