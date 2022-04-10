@@ -233,9 +233,7 @@ EOT;
             $dish->setRetrievedPrice($this->checkEmptyOption("retrievedPrice"));
             $dish->setRetrievedID($this->checkEmptyOption("retrievedID"));
 
-            $retrievedDish = new Dish(null,$_POST['previousName'],$_POST['previousDescription'],$_POST['previousCategory'],null,null,null,null);
-
-            if($dishDB->editDish($retrievedDish,$dish,$this->checkEmptyOption("removedOption"))){
+            if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
                 header('Location: '.$this->viewPath);
             }else{
                 header('Location: ' . $this->errPath);
@@ -356,8 +354,6 @@ EOT;
         }
     }
 
-
-
     /**
      * imageToBlob
      *
@@ -394,4 +390,5 @@ EOT;
             }
         }
     }
+
 }

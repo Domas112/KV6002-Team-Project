@@ -28,6 +28,10 @@ class APIResponse
                 return array("Message" => "Not authorised!");
             case 204:
                 http_response_code($errorCode);
+                break;
+            case 500:
+                http_response_code($errorCode);
+                return array("Message" => "Internal Server Error!");
         }
     }
 }

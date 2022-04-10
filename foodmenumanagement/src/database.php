@@ -18,8 +18,12 @@ class Database
     }
 
     public function executeSQL($sql, $params=[]){
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute($params);
-        return $stmt;
+        try{
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute($params);
+            return $stmt;
+        }catch(PDOException $pdo){
+            return false;
+        }
     }
 }
