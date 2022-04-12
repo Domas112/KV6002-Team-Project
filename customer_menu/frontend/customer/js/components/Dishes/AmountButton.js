@@ -48,7 +48,7 @@ export class AmountButton extends HTMLElement{
 
     render(){
         this.innerHTML = `
-            <div class='row-format mt-4'>
+            <div class='row-format'>
                 <button id='dcrBtn-${this.dishId}' class='btn dcrBtn'>
                     <i class="fas fa-minus"></i>
                 </button>

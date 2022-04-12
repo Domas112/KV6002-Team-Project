@@ -9,7 +9,7 @@
 
         public function setConnection(){
             try{
-                $this->connection = new PDO("mysql:host=localhost;dbname=team_project", "root", "");
+                $this->connection = new PDO("mysql:host=localhost;dbname=unn_w19030982", "unn_w19030982", "qwerty81");
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }catch(PDOException $e){
                 echo "Database Connection Error: " . $e->getMessage();

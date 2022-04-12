@@ -58,8 +58,8 @@ export class DishOptions extends HTMLElement{
                     }
 
                     this.optionsTemplate+= `
-                        <option value='${res[i].optionID}'>${res[i].optionName} (£${res[i].optionPrice})</option>
-                    `;
+                        <option value='${res[i].optionID}'>${res[i].optionName}</option>
+                        `;
                 }
 
                 if( this.currentOptionPrice == 0 &&
@@ -135,10 +135,19 @@ export class DishOptions extends HTMLElement{
 
     render(){
         this.innerHTML = `
-            <select ${this.hasOptions?'enabled':'disabled'} id="dish-options-select-${this.dishId}" placeholder="select an option">
-                ${this.optionsTemplate}
-            </select>
-            <amount-button id='amount-btn-${this.dishId}' amount='${this.currentDishAmount}'></amount-button>
+            <div class='row'>
+                <div class='col-12'>
+                    <select ${this.hasOptions?'enabled':'disabled'} id="dish-options-select-${this.dishId}" placeholder="select an option">
+                    ${this.optionsTemplate}
+                    </select>
+                </div>
+                <div class='col-12'>
+                    £${this.currentOptionPrice}
+                </div>
+                <div class='col-12'>
+                    <amount-button id='amount-btn-${this.dishId}' amount='${this.currentDishAmount}'></amount-button>
+                </div>
+            </div>
         `;
     }
 }

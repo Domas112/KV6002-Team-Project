@@ -7,55 +7,55 @@
             $this->db = new Database();
         }
 
-        public function insertOrder(array $order) : void{
-            $sql = <<<SQLSTMT
-                INSERT INTO activeorders
+        public function insertOrder($order){
+            $sql = "
+                INSERT INTO activeOrders
                 (dishID, optionID, amount, tableID)
                 VALUES
                 (:dishID, :optionID, :amount, :tableID);
-            SQLSTMT;
+            ";
             $this->db->executeSQL($sql, $order);
         }
 
-        public function selectAllOrders() : array{
-            $sql = <<<SQLSTMT
+        public function selectAllOrders(){
+            $sql = "
                 SELECT
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName,
                     ord.amount, ord.completed, ord.viewed
                 FROM
-                    activeorders ord
+                    activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
-                JOIN dishoption opt on opt.optionID = ord.optionID
+                JOIN dishOption opt on opt.optionID = ord.optionID
                 ORDER BY ord.tableID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql);
             return $result->fetchAll(PDO::FETCH_CLASS, 'Order');
         }
 
-        public function selectAllOrdersByTableId(int $tableID) : array|false{
-            $sql = <<<SQLSTMT
+        public function selectAllOrdersByTableId($tableID){
+            $sql = "
                 SELECT
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName, opt.optionPrice,
                     ord.amount, ord.completed, ord.viewed
                 FROM
-                    activeorders ord
+                    activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
-                JOIN dishoption opt on opt.optionID = ord.optionID
+                JOIN dishOption opt on opt.optionID = ord.optionID
                 WHERE ord.tableID = :tableID
                 ORDER BY ord.orderID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql, array('tableID'=>$tableID));
             return $result->fetchAll(PDO::FETCH_CLASS, 'OrderCustomerView');
         }
 
-        public function selectAllTableIds() : array{
-            $sql = <<<SQLSTMT
-                SELECT DISTINCT tableID FROM activeorders
-            SQLSTMT;
+        public function selectAllTableIds(){
+            $sql = "
+                SELECT DISTINCT tableID FROM activeOrders
+            ";
 
             $results = $this->db->executeSQL($sql);
             $response = $results->fetchAll(PDO::FETCH_ASSOC);
@@ -63,38 +63,38 @@
             return $response;
         }
 
-        public function completeOrder(int $orderID) : void {
-            $sql = <<<SQLSTMT
-                UPDATE activeorders
+        public function completeOrder($orderID) {
+            $sql = "
+                UPDATE activeOrders
                 SET
                     completed = 1
                 WHERE
                     orderID = :orderID;
-            SQLSTMT;
+            ";
             $this->db->executeSQL($sql, array(
                 'orderID'=>$orderID
             ));
         }
 
-        public function deleteTable(int $tableID) : void {
-            $sql = <<<SQLSTMT
+        public function deleteTable($tableID){
+            $sql = "
                 DELETE FROM
-                    activeorders
+                    activeOrders
                 WHERE
                     tableID = :tableID;
-            SQLSTMT;
+            ";
             $this->db->executeSQL($sql, array(
                 'tableID' => $tableID
             ));
         }
 
         
-        public function viewOrder(int $tableID) : void{
-            $sql = <<<SQLSTMT
-                UPDATE activeorders
+        public function viewOrder($tableID){
+            $sql = "
+                UPDATE activeOrders
                 SET viewed = 1
                 WHERE tableID = :tableID;
-            SQLSTMT;
+            ";
 
             $this->db->executeSQL($sql, array(
                 'tableID' => $tableID

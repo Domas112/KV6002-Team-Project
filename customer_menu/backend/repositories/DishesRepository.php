@@ -10,31 +10,31 @@
         }
 
         public function selectAllDishes(){
-            $sql = <<<SQLSTMT
+            $sql = "
                 SELECT 
                     d.dishID, d.dishName, d.dishDescription, d.dishCategoryID, d.dishAvailability,
                     c.categoryName as dishCategoryName
                 FROM dish d
                 JOIN category c
                 ON d.dishCategoryID = c.categoryID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql);
             return $result->fetchAll(PDO::FETCH_CLASS, 'Dish');
         }
 
         public function selectAllDishOptions($dishID){
-            $sql = <<<SQLSTMT
+            $sql = "
                 SELECT
                     o.optionID, o.dishID, o.optionName, o.optionPrice
-                FROM dishoption o
+                FROM dishOption o
                 WHERE o.dishID = :dishID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql, array('dishID'=> $dishID));
             return $result->fetchAll(PDO::FETCH_CLASS, 'DishOption');
         }
 
         public function selectAllByCategory($category){
-            $sql = <<<SQLSTMT
+            $sql = "
                 SELECT
                     d.dishID, d.dishName, d.dishDescription, d.dishCategoryID, d.dishAvailability,
                     c.categoryName as dishCategoryName
@@ -42,28 +42,28 @@
                 JOIN category c
                 ON d.dishCategoryID = c.categoryID
                 WHERE d.dishCategoryID = :dishCategoryID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql, array('dishCategoryID'=>$category));
             return $result->fetchAll(PDO::FETCH_CLASS, 'Dish');
         }
 
         public function selectImageByDishId($dishID){
-            $sql = <<<SQLSTMT
+            $sql = "
                 SELECT i.imageData as dishImage
                 FROM image i
                 JOIN dish d
                 ON i.imageID = d.dishImg
                 WHERE d.dishID = :dishID;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql, array('dishID'=>$dishID));
             return $result->fetchAll()[0]['dishImage'];
         }
 
         public function selectAllCategories(){
-            $sql = <<<SQLSTMT
+            $sql = "
                 SELECT c.categoryID, c.categoryName
                 FROM category c;
-            SQLSTMT;
+            ";
             $result = $this->db->executeSQL($sql);
             return $result->fetchAll(PDO::FETCH_CLASS, 'Category');
 
