@@ -28,8 +28,9 @@ class RetrieveDishAPI extends APIResponse
     }
 
     private function retrieveAllDish(){
-        try{
-            $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
+        if(isset($_SESSION['username'])){
+            try{
+                $query = "SELECT dish.*, category.categoryName, image.*, COUNT(dishOption.optionID) as numberOfDishOption
                   FROM dish
                   INNER JOIN category
                   ON category.categoryID = dish.dishCategoryID
@@ -38,35 +39,43 @@ class RetrieveDishAPI extends APIResponse
                   LEFT OUTER JOIN dishOption
                   ON dishOption.dishID = dish.dishID
                   GROUP BY dishID";
-            $result = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
-            if(!empty($result)){
-                return $result;
-            }else{
-                return $this->showError(204);
+                $result = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
+                if(!empty($result)){
+                    return $result;
+                }else{
+                    return $this->showError(204);
+                }
+            }catch(Exception $e){
+                return $this->showError(500);
             }
-        }catch(Exception $e){
-            return $this->showError(500);
+        }else{
+            return $this->showError(401);
         }
+
     }
 
     private function retrieveOneDish($id){
-        try{
-            $query = "SELECT dish.dishID, dish.dishName, dish.dishDescription, dish.dishCategoryID, dish.dishImg, dishOption.optionID, dishOption.optionName, dishOption.optionPrice
+        if(isset($_SESSION['username'])) {
+            try {
+                $query = "SELECT dish.dishID, dish.dishName, dish.dishDescription, dish.dishCategoryID, dish.dishImg, dishOption.optionID, dishOption.optionName, dishOption.optionPrice
                       FROM dish
                       LEFT JOIN dishOption ON (dish.dishID = dishOption.dishID)
                       WHERE dish.dishID = :id";
-            $parameter = ["id" => $id];
-            $result = $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
-            if(!empty($result)){
-                $_SESSION['retrievedName'] = $result[0]['dishName'];
-                $_SESSION['retrievedDescription'] = $result[0]['dishDescription'];
-                $_SESSION['retrievedCategory'] = $result[0]['dishCategoryID'];
-                return $result;
-            }else{
-                return $this->showError(204);
+                $parameter = ["id" => $id];
+                $result = $this->database->executeSQL($query, $parameter)->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($result)) {
+                    $_SESSION['retrievedName'] = $result[0]['dishName'];
+                    $_SESSION['retrievedDescription'] = $result[0]['dishDescription'];
+                    $_SESSION['retrievedCategory'] = $result[0]['dishCategoryID'];
+                    return $result;
+                } else {
+                    return $this->showError(204);
+                }
+            } catch (Exception $e) {
+                return $this->showError(500);
             }
-        }catch(Exception $e){
-            return $this->showError(500);
+        }else{
+            return $this->showError(401);
         }
     }
 

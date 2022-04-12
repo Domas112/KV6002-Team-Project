@@ -6,13 +6,14 @@ class RetrieveLogAPI extends APIResponse
     private $database;
 
     public function __construct(){
+        session_start();
         $this->database = new Database();
-        if($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if(isset($_REQUEST['retrieveAll'])){
+        if(isset($_SESSION['username'])) {
+            if (isset($_REQUEST['retrieveAll'])) {
                 $this->setResponse($this->retrieveAllLog());
-            }else if(isset($_REQUEST['retrieveLogDetail'])){
+            } else if (isset($_REQUEST['retrieveLogDetail'])) {
                 $this->setResponse($this->retrieveLogDetail($_GET['id']));
-            }else{
+            } else {
                 $this->setResponse($this->showError(400));
             }
         }else{
@@ -22,31 +23,39 @@ class RetrieveLogAPI extends APIResponse
     }
 
     private function retrieveAllLog(){
-        try{
-            $query = "SELECT * FROM logRecord";
-            $result = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
-            if(!empty($result)){
-                return $result;
-            }else{
-                return $this->showError(204);
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            try {
+                $query = "SELECT * FROM logRecord";
+                $result = $this->database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($result)) {
+                    return $result;
+                } else {
+                    return $this->showError(204);
+                }
+            } catch (Exception $e) {
+                return $this->showError(500);
             }
-        }catch(Exception $e){
-            return $this->showError(500);
+        }else{
+            return $this->showError(401);
         }
     }
 
     private function retrieveLogDetail($logID){
-        try{
-            $query = "SELECT logChanges FROM logDetail WHERE logID = :logID";
-            $parameter = ["logID" => $logID];
-            $result = $this->database->executeSQL($query,$parameter)->fetchAll(PDO::FETCH_ASSOC);
-            if(!empty($result)){
-                return $result;
-            }else{
-                return $this->showError(204);
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            try {
+                $query = "SELECT logChanges FROM logDetail WHERE logID = :logID";
+                $parameter = ["logID" => $logID];
+                $result = $this->database->executeSQL($query, $parameter)->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($result)) {
+                    return $result;
+                } else {
+                    return $this->showError(204);
+                }
+            } catch (Exception $e) {
+                return $this->showError(500);
             }
-        }catch(Exception $e){
-            return $this->showError(500);
+        }else{
+            return $this->showError(401);
         }
     }
 }
