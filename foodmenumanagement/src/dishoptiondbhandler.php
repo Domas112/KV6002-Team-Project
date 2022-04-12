@@ -5,7 +5,7 @@ class DishOptionDBHandler extends Database
     public function uploadDishOption($dishID,$dishOption,$dishPrice){
         try{
             foreach($dishOption as $index => $optionName){
-                if($optionName == "" || $dishPrice[$index]){
+                if($optionName == "" || $dishPrice[$index] == ""){
                     return false;
                 }else{
                     $query = "INSERT INTO dishOption (dishID, optionName, optionPrice)

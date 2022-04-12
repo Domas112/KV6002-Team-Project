@@ -11,25 +11,31 @@ $("document").ready(function() {
 function displayMenuData(data){
     let foodMenuList = "";
     if(data !== undefined){
-        $.each(data, function (index) {
+        let paginatedData = pagePagination(currentPage,data);
+        $.each(paginatedData, function (index) {
             foodMenuList +=
                 "<section class='dishItem'>" +
                 "<div class='dishImage'>" +
-                "<img src='data:image;base64," + data[index].dishImageData + "' class='dishThumbnail'/>" +
+                "<img src='data:image;base64," + paginatedData[index].dishImageData + "' class='dishThumbnail'/>" +
                 "</div>" +
                 "<div class='dishInfo'>" +
-                "<h4>"+data[index].dishName+"</h4>" +
-                "<p>"+data[index].dishDescription+"</p>" +
+                "<h4>"+paginatedData[index].dishName+"</h4>" +
+                "<p>"+paginatedData[index].dishDescription+"</p>" +
                 "<br>" +
                 "<h6>Option Available:</h6>"
-            $.each(data[index].dishOption, function(optIndex){
+            $.each(paginatedData[index].dishOption, function(optIndex){
                 foodMenuList +=
-                    "<p>"+data[index].dishOption[optIndex].optionName+" (£"+data[index].dishOption[optIndex].optionPrice+")</p>";
+                    "<p>"+paginatedData[index].dishOption[optIndex].optionName+" (£"+paginatedData[index].dishOption[optIndex].optionPrice+")</p>";
             })
             foodMenuList +=
                 "</div>" +
                 "</section>"
         })
+        foodMenuList +=
+            "<div class='d-flex justify-content-center' id='page-navigator'>" +
+            "<input type='button' class='btn btn-sm previous' value='Previous' name='previous' onclick='navigatePage(this)'>" +
+            "<input type='button' class='btn btn-sm next' value='Next' name='next' onclick='navigatePage(this)'>" +
+            "</div>"
     }else{
         foodMenuList +=
             "<div id='emptyMenuMessage'>\n" +
@@ -47,5 +53,6 @@ $("ul li a").on("click",function(){
     }else{
         result = retrieveData(retrievingMenu+"&category="+id);
     }
+    resetCurrentPage();
     displayMenuData(result);
 })

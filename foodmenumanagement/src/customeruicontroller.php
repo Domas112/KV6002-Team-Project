@@ -23,6 +23,7 @@ class CustomerUIController extends CustomerUIElement
         $menuPage .= $this->generateMenuItem("foodMenu");
         $menuPage .= $this->includeJavascript($this->getResourceBasePath()."/js/retrieveMenuItem.js");
         $menuPage .= $this->includeJavascript($this->getResourceBasePath()."/js/dataRetrieve.js");
+        $menuPage .= $this->includeJavascript($this->getResourceBasePath()."/js/pagination.js");
 
         echo $menuPage;
     }

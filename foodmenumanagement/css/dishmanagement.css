@@ -56,12 +56,12 @@ td img {
 }
 
 .dishItem {
-    border: 1px solid rgba(97, 60, 17, 0.5);
     border-radius: 5px;
     display: flex;
     flex-direction: row;
     padding:20px;
     margin:20px 0;
+    background-color: rgba(255, 255, 255, 0.78);
 }
 
 li a{
@@ -75,11 +75,6 @@ li a{
 
 .dishItem h4,h6{
     margin-bottom: 5px;
-}
-
-.dishItem:hover{
-    transition: 0.2s ease;
-    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .dishParagraph {
