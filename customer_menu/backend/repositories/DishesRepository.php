@@ -41,7 +41,7 @@
                 FROM dish d
                 JOIN category c
                 ON d.dishCategoryID = c.categoryID
-                WHERE d.dishCategoryID = :dishCategoryID;
+                WHERE d.dishCategoryID = :dishCategoryID AND d.dishAvailability = 1;
             ";
             $result = $this->db->executeSQL($sql, array('dishCategoryID'=>$category));
             return $result->fetchAll(PDO::FETCH_CLASS, 'Dish');

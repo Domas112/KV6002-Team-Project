@@ -1,2 +1,0 @@
-When ordered, the orders first arrive to "pending orders". The staff view periodically checks for pending orders. If pending order is found, it is retrieved and moved to "active orders", while the order contents are displayed in the staff side of the app. When the order is retrieved by the frontend, instead of replacing the existing array of tables and their orders, the new order is appended to the existing list and 
-this.innerHTML += newOrderContent is called in the same function as the new order is fetched from, rather than calling this.render button 

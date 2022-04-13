@@ -1,8 +1,5 @@
-import {Table} from './components/Orders/Table.js';
-import {Orders} from './components/Orders/Orders.js';
-import {Controls} from './components/Orders/Controls.js';
-import {TablesList} from './components/Orders/TablesList.js';
-
+import {TablesList} from './components/TablesList.js';
+import {TablesForm} from './components/TablesForm.js';
 window.addEventListener('load', ()=>{
     //Check if the user is logged in as a staff member
     fetch('../../../account/loginapi.php?isLoggedIn',{
@@ -26,14 +23,11 @@ window.addEventListener('load', ()=>{
         .then(res=>window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/index.php")
         .catch(err=>console.error(err));
     })
-
-
+    
     defineElements();
-})
+});
 
 function defineElements(){
-    window.customElements.define('controls-component', Controls);
-    window.customElements.define('orders-component', Orders);
-    window.customElements.define('table-component', Table);
-    window.customElements.define('tables-lists-component', TablesList);
+    window.customElements.define('tables-form', TablesForm);
+    window.customElements.define('tables-list', TablesList);
 }

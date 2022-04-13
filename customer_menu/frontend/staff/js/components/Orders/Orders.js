@@ -30,7 +30,6 @@ export class Orders extends HTMLElement {
     }
 
     connectedCallback(){
-        console.log(this.tableId, 'ORDERS connected callback, show is ', this.show);
         this.populateOrders();
         let interval = setInterval(() => {
             this.populateOrders();
@@ -110,7 +109,6 @@ export class Orders extends HTMLElement {
     }
 
     render() {
-        // console.log(this.tableId, 'orders rendered, show is:', this.show);
         let placeholder = `
             <div id="table-${this.tableId}-orders-collapse" class='container collapse ${this.show ? "show" : ""} col-12'>       
                 <div class='row card-body'>

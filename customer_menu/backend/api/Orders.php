@@ -18,7 +18,6 @@
     elseif(isset($_GET['post_order'])){
         $jsonData = file_get_contents('php://input');
         $ordersController->postOrder($jsonData);
-        echo "something";
     }
     else{
         echo "nothing here";

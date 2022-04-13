@@ -14,6 +14,21 @@ export class Checkout extends HTMLElement{
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.tableId = urlParams.get('tableId');
+
+        fetch('../../backend/api/Tables.php?get_table_ids')
+        .then(res=>res.json())
+        .then(res=>{
+            let tableExists = false;
+            res.forEach(table=>{
+                if(table.tableID==this.tableId){
+                    tableExists=true;
+                }
+            })
+
+            if(!tableExists){
+                window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=404";
+            }
+        }).catch(err=>console.error(err))
     }
 
     get newOptionId(){return this.getAttribute('new-option-id');}

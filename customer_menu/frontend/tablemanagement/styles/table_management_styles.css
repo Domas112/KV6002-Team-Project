@@ -1,0 +1,10 @@
+#add-table-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-table-form > * {
+    margin: 0 1% 0 1%;
+}

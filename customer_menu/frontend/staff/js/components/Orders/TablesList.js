@@ -18,7 +18,6 @@ export class TablesList extends HTMLElement{
                 this.deleted = 'false';
             }
         }
-        console.log(prop)
         if(prop == 'show-table'){
             this.showTables[newVal] = !this.showTables[newVal];
             console.log(this.showTables);
@@ -44,9 +43,6 @@ export class TablesList extends HTMLElement{
                         this.innerHTML += `<table-component table-id=${res[i].tableID} show=${this.showTables[res[i].tableID]}></table-component>`;
                     }
                 }
-                
-                console.log("populate tables");
-
             })
             .catch(err=>console.error(err));
     }
@@ -72,7 +68,6 @@ export class TablesList extends HTMLElement{
     }
 
     render(){
-        console.log('rendered');
         let placeholder = ``;
         Object.keys(this.tables).forEach(key=>{
             placeholder += `

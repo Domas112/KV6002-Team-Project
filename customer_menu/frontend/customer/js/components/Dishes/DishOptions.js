@@ -38,7 +38,7 @@ export class DishOptions extends HTMLElement{
     }
 
     async getDishOptions(){
-        await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&options=1`)
+        await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&options`)
             .then(res=>res.json())
             .then(res=>{
                 if(res.length > 1 ) this.hasOptions=true;

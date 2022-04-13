@@ -7,3 +7,26 @@ header{
     box-shadow: 2px 0px 9px rgb(131 122 122 / 37%);
 }
 
+.nav-container{
+    background-color: #EFB71AFF;
+}
+
+li a {
+    color: #613C11FF;
+    font-weight: bold;
+}
+
+li a:hover{
+    transition:0.3s ease;
+    color: #ffffff;
+}
+
+.mr-auto{
+    margin-right: auto;
+}
+
+.logout{
+    border: 0 !important;
+    color: #ffffff !important;
+    background-color: rgb(86,46,0) !important;
+}

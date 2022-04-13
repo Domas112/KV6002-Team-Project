@@ -24,7 +24,7 @@ export class Dish extends HTMLElement{
     }
 
     async getImage(){
-        let results = await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&image=1`)
+        let results = await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&image`)
                             .then(res=>res.json())
                             .catch(err=>console.error(err));
         

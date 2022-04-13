@@ -38,8 +38,6 @@ export class Controls extends HTMLElement{
     }
     
     connectedCallback(){
-        
-        console.log(this.tableId, 'ORDERS connected callback, show is ', this.show);
         this.render();
         this.addClickListeners();
     }
