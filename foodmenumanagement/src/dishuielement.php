@@ -368,8 +368,14 @@ EOT;
         if(!is_uploaded_file($_FILES[$mode.'-imgPath']['tmp_name'])){
             return 1;
         }else{
-            $image = $_FILES[$mode.'-imgPath']['tmp_name'];
-            return base64_encode(file_get_contents(addslashes($image)));
+            $path = $_FILES[$mode.'-imgPath']['name'];
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            if($extension == "png" || $extension == "jpg" || $extension == "jpeg"){
+                $image = $_FILES[$mode.'-imgPath']['tmp_name'];
+                return base64_encode(file_get_contents(addslashes($image)));
+            }else{
+                return 1;
+            }
         }
     }
 
