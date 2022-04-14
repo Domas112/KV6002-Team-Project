@@ -1,8 +1,6 @@
 const dataPerPage = 5;
 let currentPage = 1;
 let totalPage;
-let nextPageBtn = "input[name='next']";
-let prevPageBtn = "input[name='previous']";
 
 function resetCurrentPage(){
     currentPage = 1;

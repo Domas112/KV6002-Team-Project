@@ -118,6 +118,10 @@ li a{
     }
 }
 
+#dishDataTable tr, #logDataTable tr {
+    border: 1px solid #ccc;
+}
+
 @media only screen and (max-width: 1310px) {
 
     h1{
@@ -143,10 +147,6 @@ li a{
         position: absolute;
         top: -9999px;
         left: -9999px;
-    }
-
-    #dishDataTable tr, #logDataTable tr {
-        border: 1px solid #ccc;
     }
 
     #dishDataTable td, #logDataTable td {
@@ -322,11 +322,16 @@ thead, .modal-header{
 
 .logout{
     width:200px;
+    margin-right: 20px;
 }
 
-@media only screen and (max-width: 1310px) {
+@media only screen and (max-width: 991px) {
     .logout{
-        margin-top:30px;
         width:100%;
+        margin:30px 20px 0px 20px;
+    }
+
+    #add-newDish{
+        width: 100%;
     }
 }

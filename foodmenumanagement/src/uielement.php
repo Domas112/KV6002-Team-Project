@@ -6,6 +6,7 @@ class UIElement
     protected $viewPath = FOODMENUMANAGEMENT_VIEWPATH;
     protected $logPath = FOODMENUMANAGEMENT_LOGPATH;
     protected $errPath = ERROR_BASEPATH;
+    protected $adminPath = ADMINPANEL_BASEPATH;
 
     /**
      * generateHeader
@@ -25,7 +26,7 @@ class UIElement
                     <meta name="viewport" content="width=device-width, initial-scale=1">
                     
                     <!-- Importing CSS -->
-                    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
                     <link rel='stylesheet' href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css'>
                     <link rel="stylesheet" href="{$this->resourceBasePath}/css/dishmanagement.css">
                     
@@ -147,7 +148,7 @@ EOT;
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="$labelID">$title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 EOT;

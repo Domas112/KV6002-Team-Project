@@ -28,12 +28,15 @@ class DishUIElement extends UIElement
     protected function generateNavigation(){
         return <<<EOT
         <div class="nav-container">
-            <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
+            <nav class="navbar navbar-expand-lg navbar-light">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href={$this->adminPath}>Back to Admin Panel</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href={$this->viewPath}>View All Dishes</a>
                         </li>
@@ -41,7 +44,7 @@ class DishUIElement extends UIElement
                             <a class="nav-link" href={$this->logPath}>System Log</a>
                         </li>
                     </ul>
-                    <div class="form-inline">
+                    <div class="d-flex">
                         <button class="btn btn-sm logout">Logout</button>
                     </div>
                 </div>
@@ -106,23 +109,23 @@ EOT;
         $dishForm = <<<EOT
             <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'">
                 {$this->generateDishID($mode)}
-                <div class='form-group'>
+                <div class='mb-3'>
                     <label>Name:</label>
                     <input class='form-control' type='text' name='$mode-name' id='$mode-name' required>
                 </div>
-                <div class='form-group'>
+                <div class='mb-3'>
                     <label>Description:</label>
                     <textarea class='form-control' name='$mode-description' id='$mode-description' required></textarea>
                 </div>
-                <div class='form-group'>
+                <div class='mb-3'>
                     <label>Category:</label>
 EOT;
         $dishForm .= $this->generateCategoryDropdown($mode);
         $dishForm .= <<<EOT
                 </div>
-                <div class='form-group'>
+                <div class='mb-3'>
                     <label>Image Path:</label>
-                    <input class='form-control-file' type='file' name='$mode-imgPath' id='$mode-imgPath'>
+                    <input class='form-control-file' type='file' accept='image/*' name='$mode-imgPath' id='$mode-imgPath'>
                 </div>
                 <hr>
                 <div class='$mode-option'>
@@ -188,7 +191,7 @@ EOT;
     protected function generateCategoryDropdown($mode){
         $category = new CategoryDBHandler();
         $result = $category->retrieveAllCategory();
-        $categoryDropdown = "<select class='form-control' name='$mode-category' id='$mode-category'>";
+        $categoryDropdown = "<select class='form-select form-select mb-3' name='$mode-category' id='$mode-category'>";
         foreach($result as $rows){
             $categoryDropdown .= "<option value='{$rows['categoryID']}'>{$rows['categoryName']}</option>";
         }
@@ -346,7 +349,7 @@ EOT;
             return null;
         }else if($mode == "edit"){
             return <<<EOT
-                <div class='form-group'>
+                <div class='mb-3'>
                     <label>ID:</label>
                     <input class='form-control' type='text' name='edit-id' id='edit-id' readonly>
                 </div>

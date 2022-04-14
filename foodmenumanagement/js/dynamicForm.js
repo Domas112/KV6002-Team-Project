@@ -39,11 +39,11 @@ function addNewOption(mode,optionID,optionName,optionPrice,buttonMode){
     let newOption =
         "<div class='"+mode+"-newOption'>" +
         "   <input type='hidden' "+changeInputHiddenID(optionID)+insertValue(optionID)+">" +
-        "   <div class='form-group'>" +
+        "   <div class='mb-3'>" +
             "   <label>Option Title:</label>\n" +
             "   <input class='form-control' type='text' "+changeInputName(mode,optionID)+insertValue(optionName)+" required>" +
         "   </div>" +
-        "   <div class='form-group'>" +
+        "   <div class='mb-3'>" +
             "   <label>Price:</label>\n" +
             "   <input class='form-control' type='number' min='0.00' max='10000.00' step='0.01'"+changeInputPriceName(mode,optionID)+insertValue(optionPrice)+" required>" +
         "   </div>" +
