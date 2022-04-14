@@ -1,5 +1,9 @@
 <?php
 include "config/config.php";
+session_start();
+if(isset($_SESSION['username'])){
+    header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/adminindex.php');
+}
 ?>
 <!doctype html>
 <html lang="en">

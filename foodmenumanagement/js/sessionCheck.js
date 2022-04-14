@@ -51,7 +51,7 @@ function logout(){
         url: logoutURL,
         async: false,
         success: function(){
-            window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/foodmenumanagement/foodmenucustomer.php/";
+            window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/index.php";
         }
     })
 }

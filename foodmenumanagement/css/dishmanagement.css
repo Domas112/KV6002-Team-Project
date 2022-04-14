@@ -122,6 +122,10 @@ li a{
     border: 1px solid #ccc;
 }
 
+.td-action{
+    width:200px;
+}
+
 @media only screen and (max-width: 1310px) {
 
     h1{
@@ -183,11 +187,16 @@ li a{
     #dishDataTable td:before, #logDataTable td:before {
         content: attr(data-title);
     }
+
+    .td-action{
+        width:auto;
+    }
 }
 
 #manage-button button{
-    width:150px;
     margin: 2% 0;
+    border-radius: 3px;
+    align-items: center;
 }
 
 #viewlog-button, #manage-button{
@@ -275,10 +284,7 @@ li a{
 
 .table{
     background-color: white;
-}
-
-.btn-sm:hover{
-    color: #dadada;
+    table-layout: inherit;
 }
 
 .input-group-text{
@@ -286,7 +292,7 @@ li a{
 }
 
 .container-fluid{
-    width:90%;
+    width:97%;
 }
 
 .fixed-bottom{

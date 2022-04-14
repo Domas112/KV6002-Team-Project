@@ -59,13 +59,13 @@ class DishOptionDBHandler extends Database
         }
     }
 
-    public function retrieveDishOptionName($optionID){
+    public function retrieveDishOption($optionID){
         try {
-            $query = "SELECT optionName FROM dishOption WHERE optionID = :id";
+            $query = "SELECT optionName, optionPrice FROM dishOption WHERE optionID = :id";
             $parameter = ["id" => $optionID];
             $result = $this->executeSQL($query, $parameter)->fetch();
             if (!empty($result)) {
-                return $result[0];
+                return $result;
             } else {
                 return false;
             }

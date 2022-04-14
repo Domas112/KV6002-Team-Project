@@ -4,19 +4,26 @@ class DishUIController extends DishUIElement
 {
     public function __construct($path){
         session_start();
-        echo $this->generateHeader("Food Menu Management");
-        echo $this->generateLogo();
-        echo $this->generateNavigation();
-        switch($path){
-            case "view":
-                $this->generateViewDishUI();
-                break;
-            case "log":
-                $this->generateLoggingUI();
-                break;
+        if(isset($_SESSION['username'])){
+            if($_SESSION['accountType'] == 1){
+                echo $this->generateHeader("Food Menu Management");
+                echo $this->generateLogo();
+                echo $this->generateNavigation();
+                switch($path){
+                    case "view":
+                        $this->generateViewDishUI();
+                        break;
+                    case "log":
+                        $this->generateLoggingUI();
+                        break;
+                }
+                echo $this->generateFooter("Food Menu Management");
+            }else{
+                header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');
+            }
+        }else{
+            header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401');
         }
-        echo $this->includeJavascript($this->getResourceBasePath()."/js/sessionCheck.js");
-        echo $this->generateFooter("Food Menu Management");
     }
 
     //UI Generating

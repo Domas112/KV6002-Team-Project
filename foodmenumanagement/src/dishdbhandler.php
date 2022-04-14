@@ -174,13 +174,13 @@ class DishDBHandler extends Database
                     foreach (json_decode($removedOption) as $removed) {
 
                         //Retrieve option name using the Option ID
-                        $optionName = $optionDB->retrieveDishOptionName($removed);
-                        if (!$optionName) {
+                        $option = $optionDB->retrieveDishOption($removed);
+                        if (!$option) {
                             return false;
                         }
 
                         //Pushing a new log message into array
-                        array_push($logChangesDetail, "Option \"" . $optionName . "\" has been deleted!");
+                        array_push($logChangesDetail, "Option \"" . $option['optionName'] . "\" has been deleted!");
                     }
 
                     //Execute option deletion
@@ -192,17 +192,21 @@ class DishDBHandler extends Database
                 //Edit dish option information to existed dish on submit
                 if ($dish->getRetrievedID() != null) {
                     $optionDB = new DishOptionDBHandler();
-                    foreach ($dish->getRetrievedID() as $index => $changes) {
+                    foreach ($dish->getRetrievedID() as $index => $changesID) {
 
                         //Retrieve option name using the Option ID
-                        $optionName = $optionDB->retrieveDishOptionName($changes);
-                        if (!$optionName) {
+                        $option = $optionDB->retrieveDishOption($changesID);
+                        if (!$option) {
                             return false;
                         }
 
                         //Pushing a new log message if the option ID has been changed
-                        if ((strcmp($optionName, $dish->getRetrievedOption()[$index])) != 0) {
-                            array_push($logChangesDetail, "Option \"" . $optionName . "\" has been updated to \"" . $dish->getRetrievedOption()[$index] . "\"!");
+                        if ((strcmp($option['optionName'], $dish->getRetrievedOption()[$index])) != 0) {
+                            array_push($logChangesDetail, "Option \"" . $option['optionName'] . "\" has been updated to \"" . $dish->getRetrievedOption()[$index] . "\"!");
+                        }
+
+                        if((strcmp($option['optionPrice'], $dish->getRetrievedPrice()[$index])) != 0) {
+                            array_push($logChangesDetail, "Option \"" . $option['optionName'] . "\" price has been changed from \"" . $option['optionPrice'] . "\" to \"" . $dish->getRetrievedPrice()[$index] . "\"!");
                         }
                     }
 

@@ -38,7 +38,9 @@ function displayLogData(data) {
             viewLogTable +=
                 "<td data-title='Action' class='viewBtn'>" +
                 "   <div class='btn-group-vertical' id='viewlog-button'>" +
-                "       <button type='button' class='btn btn-sm logDetail' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"' onclick='loadLogDetailData(this)'>View Log</button></td>\n" +
+                "       <button type='button' class='btn btn-primary logDetail' data-bs-toggle='modal' data-bs-target='#logModal' id='"+data[index].logID+"' onclick='loadLogDetailData(this)'>" +
+                "           <i class='fi fi-rr-eye'></i> View Log" +
+                "       </button>" +
                 "   </div>" +
                 "</td>";
         }else{
