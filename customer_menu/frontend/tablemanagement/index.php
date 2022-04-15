@@ -1,3 +1,16 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401');
+    }
+    
+    if (isset($_SESSION['accountType'])) {
+        if($_SESSION['accountType'] != 1){
+            header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');       
+        }
+    }    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +23,8 @@
     <link rel='stylesheet' href='../shared.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="https://kit.fontawesome.com/d45f07fbca.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class='sticky-top'>
@@ -29,6 +44,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../../../foodmenumanagement/foodmenuadmin.php/log">System Log</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../staff">Food ordering system</a>
                         </li>
                     </ul>
                     <div class="form-inline">

@@ -89,6 +89,7 @@ export class Controls extends HTMLElement{
                 
                 <div class="col-5">
                     <button id="delete-${this.tableId}-btn" class="float-end btn btn-danger">
+                        Delete
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>

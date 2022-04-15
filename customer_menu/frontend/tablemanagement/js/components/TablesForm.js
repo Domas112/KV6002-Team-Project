@@ -38,7 +38,7 @@ export class TablesForm extends HTMLElement{
 
                 <label>VIP table?</label>
                 <input name="vip" type='checkbox'/>
-                <button class="btn btn-warning" type="submit">Add table</button>
+                <button class="btn functionality-button" type="submit">Add table</button>
             </form>
         `;
     }

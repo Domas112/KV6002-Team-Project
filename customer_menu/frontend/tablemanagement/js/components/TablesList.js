@@ -111,8 +111,11 @@ export class TablesList extends HTMLElement{
                             <td>${table.VIP==1?"Yes":"No"}</td>
                             <td>${table.active==1?"Yes":"No"}</td>
                             <td>
-                                <button id='delete-btn-${table.tableID}' class='btn btn-danger'>Delete</button>
-                                <button id='update-btn-${table.tableID}' class='btn btn-info' data-bs-toggle="modal" data-bs-target="#update-modal-${table.tableID}">Update</button>
+                                <button id='delete-btn-${table.tableID}' class='btn btn-danger'>
+                                    Delete
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <button id='update-btn-${table.tableID}' class='btn functionality-button' data-bs-toggle="modal" data-bs-target="#update-modal-${table.tableID}">Update</button>
                             </td>
                         </tr>
                 `;
