@@ -1,6 +1,6 @@
 <?php
 
-class DishUIController extends DishUIElement
+class ManagementUIController extends ManagementUIElement
 {
     public function __construct($path){
         session_start();
@@ -17,6 +17,7 @@ class DishUIController extends DishUIElement
                         $this->generateLoggingUI();
                         break;
                 }
+                echo $this->includeJavascript("../js/logout.js");
                 echo $this->generateFooter("Food Menu Management");
             }else{
                 header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');

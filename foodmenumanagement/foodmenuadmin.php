@@ -5,10 +5,10 @@ $errorPage = ERROR_BASEPATH;
 switch($request->getPath()){
     case '':
     case 'view':
-        $dishUI = new DishUIController("view");
+        $dishUI = new ManagementUIController("view");
         break;
     case 'log':
-        $dishUI = new DishUIController("log");
+        $dishUI = new ManagementUIController("log");
         break;
     case 'api/dish':
         $dishAPI = new RetrieveDishAPI();
