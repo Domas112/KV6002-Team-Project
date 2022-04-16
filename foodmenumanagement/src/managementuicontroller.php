@@ -111,13 +111,16 @@ class ManagementUIController extends ManagementUIElement
 
     private function generateLoggingUI()
     {
-        //Generate the title and subtitle
         $logPage = $this->generateDiv(array(
+            //Generate the title and subtitle
             $this->generateTitle("System Log"),
             $this->generateSubtitle("View all the changes made to the system"),
             $this->generateHorizontalLine(),
-            $this->generateSearchBar(),
-            $this->generateHorizontalLine()
+
+            //Generating the search bar
+            $this->generateDiv(array(
+                $this->generateSearchBar()
+            ),"d-flex justify-content-end")
         ), "container-fluid");
 
         //Generating the empty div to hold item later retrieved using JavaScript
