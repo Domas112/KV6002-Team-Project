@@ -114,7 +114,10 @@ EOT;
      * To generate a modal and preset all the properties
      */
     protected function generateModal($id,$title,$modalContent){
+        //Presetting the label ID variable
         $labelID = $id . "Label";
+
+        //Generating the modal
         $modal = <<<EOT
             <!-- $title Modal -->
             <div class="modal fade" id="$id" tabindex="-1" aria-labelledby="$labelID" aria-hidden="true">
@@ -126,9 +129,13 @@ EOT;
                         </div>
                         <div class="modal-body">
 EOT;
+
+        //Add each contents into the modal container
         for($i = 0; $i<count($modalContent); $i++){
             $modal .= $modalContent[$i];
         }
+
+        //Generating closing tags for the modal
         $modal .= <<<EOT
                         </div>
                     </div>
@@ -136,6 +143,7 @@ EOT;
             </div>
 EOT;
 
+        //Return the generated modal
         return $modal;
     }
 
@@ -157,12 +165,18 @@ EOT;
      * To create a division to wrap around HTML contents
      */
     protected function generateDiv(array $containerContent, $class){
+        //Generate the container and uses checkClass to check if a class property has been provided (Check checkClass function)
         $div = "<div {$this->checkClass($class)}'>";
+
+        //Add each content provided into the container
         for($i = 0; $i<count($containerContent); $i++){
             $div .= $containerContent[$i];
         }
+
+        //Generate the closing tag
         $div .= "</div>";
 
+        //Return the generated container
         return $div;
     }
 
@@ -176,7 +190,7 @@ EOT;
 
     /**
      * getResourceBasePath
-     *
+     * A getter function to retrieve the resource base path
      */
     protected function getResourceBasePath(){
         return $this->resourceBasePath;

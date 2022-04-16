@@ -1,41 +1,64 @@
+/**
+ * dynamicForm.js
+ * A script used to handle the form changes dynamically
+ *
+ * @author Teck Xun Tan W20003691
+ */
 let addAddButton = "#add-addOption";
 let editAddButton = "#edit-addOption";
-let removeButton = "#removeOption";
 let divEditOption = "div.edit-option";
 let divAddOption = "div.add-option";
 let deletedOption = [];
 
-// $("form[name='dishForm']").submit(function(e){
-//     e.preventDefault();
-// })
-
-
 $("document").ready(function(){
+
     $(addAddButton).click(function(){
+        //Call the addNewOption function onClick
         addNewOption("add",null,null,null,"add");
     })
 
     $(editAddButton).click(function(){
+        //Call the addNewOption function onClick
         addNewOption("edit",null,null,null,"edit");
     })
 
     $(divAddOption).on('click','#removeOption',function(){
+        //Remove the parent of the element onClick
         $(this).parent().parent().remove();
     })
 
     $(divEditOption).on('click','#removeOption',function(){
+        //Remove the parent of the element onClick
         $(this).parent().parent().remove();
     })
 
+    /**
+     * The following block of cods is used to handle the deletion of a existing dish option. Whenever the user
+     * clicked on deleting a dish option, the dish option ID is retrieved and placed in a hidden input element for
+     * later use.
+     */
     $(divEditOption).on('click','#removeRetrievedOption',function(){
+        //Push the value of the parent element into the deletedOption array onClick
         deletedOption.push($(this).parent().parent().find("input[type='hidden']").val());
+
+        //Stringify the array
         let result = JSON.stringify(deletedOption);
+
+        //Change the element value into the stringified array
         $("input[id='deletedOption']").val(result);
+
+        //Remove the parent of the element
         $(this).parent().parent().remove();
     });
 })
 
+/**
+ * addNewOption
+ * The function is used for creating a new option panel into the existing option container. The function will create a
+ * option panel where user may type in the option title and price.
+ */
 function addNewOption(mode,optionID,optionName,optionPrice,buttonMode){
+    //Generating a new option
     let newOption =
         "<div class='"+mode+"-newOption'>" +
         "   <input type='hidden' "+changeInputHiddenID(optionID)+insertValue(optionID)+">" +
@@ -52,9 +75,15 @@ function addNewOption(mode,optionID,optionName,optionPrice,buttonMode){
         "   </div>" +
         "</div>";
 
+    //Append the new option container into the existing container
     $("div."+mode+"-option").append(newOption);
 }
 
+/**
+ * generateOptionButton
+ * The function is used to change the id property of the remove button in the option panel above depending on the
+ * mode provided (e.g. add, edit or retrieved)
+ */
 function generateOptionButton(mode){
     if(mode === "add" || mode === "edit"){
         return "id='removeOption'";
@@ -63,6 +92,10 @@ function generateOptionButton(mode){
     }
 }
 
+/**
+ * insertValue
+ * The function is to add value property into the input element in the option panel created
+ */
 function insertValue(value){
     if(value != null){
         return "value='"+value+"'";
@@ -71,6 +104,10 @@ function insertValue(value){
     }
 }
 
+/**
+ * changeInputHiddenID
+ * The function is to change the name property of the hidden input element in the option panel
+ */
 function changeInputHiddenID(value){
     if(value != null){
         return "name='retrievedID[]'";
@@ -79,6 +116,10 @@ function changeInputHiddenID(value){
     }
 }
 
+/**
+ * changeInputName
+ * The function is to change the name property of any input element in the option panel
+ */
 function changeInputName(mode,value){
     if(value != null){
         return "name='retrievedName[]'";
@@ -87,6 +128,10 @@ function changeInputName(mode,value){
     }
 }
 
+/**
+ * changeInputPriceName
+ * The function is to change the name property of option price input element in the option panel
+ */
 function changeInputPriceName(mode,value){
     if(value != null){
         return "name='retrievedPrice[]'";

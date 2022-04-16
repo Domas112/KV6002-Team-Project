@@ -2,9 +2,6 @@
 
 /**
  * managementuielement.php
- *
- * PHP class to handle and generating webpage component for Food Menu Management subsystem (Admin View).
- *
  * This PHP script has been used to handle all the webpage component such as creating navigation bar, search bar
  * and more. The purpose of this class is to minimise redundant code by reusing the code to generate elements necessary
  * to the website and to keep the code consistency over the pages. The class is extended to UIElement class
@@ -18,11 +15,7 @@ class ManagementUIElement extends UIElement
 
     /**
      * generateNav
-     *
      * To generate the navigation section of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated nav component
      */
     protected function generateNavigation(){
         return <<<EOT
@@ -55,12 +48,7 @@ EOT;
 
     /**
      * generateSearchBar
-     *
-     * To generate the search bar section of the webpage by combining
-     * <span> and <input>.
-     *
-     * @visibility protected
-     * @return string The generated search bar component
+     * To generate the search bar section of the webpage by combining <span> and <input>.
      */
     protected function generateSearchBar(){
         return <<<EOT
@@ -76,13 +64,8 @@ EOT;
 
     /**
      * generateDataPageNavigator
-     *
-     * To generate the data page navigator section for the datatable (E.g. Next, Previous).
-     * The function only generate the <div> required to generate the buttons later
-     * using Javascript (Check retrieveDish.js and retrieveLog.js).
-     *
-     * @visibility protected
-     * @return string The generated page navigation component
+     * To generate the data page navigator section for the datatable (E.g. Next, Previous). The function only generate
+     * the <div> required to generate the buttons later using Javascript (Check retrieveDish.js and retrieveLog.js).
      */
     protected function generatePageNavigator(){
         return <<<EOT
@@ -95,27 +78,26 @@ EOT;
 
     /**
      * generateDishManageForm
-     *
-     * To generate the form to manage the selected dish by combining with different elements
-     * such as <input>, <textarea> and <select>. Note that the category of the form is generated
-     * using a built function (Check generateCategoryDropdown function)
-     *
-     * @visibility protected
-     * @param string $mode The mode of the management form (E.g. "add" for generating adding form, "edit" for generating editing form)
-     * @return string The generated management form
+     * To generate the form to manage the selected dish by combining with different elements such as <input>, <textarea>
+     * and <select>. Note that the category of the form is generated using a built function (Check
+     * generateCategoryDropdown function)
      */
     protected function generateDishManageForm($mode){
+        //Start generating the form
         $dishForm = <<<EOT
             <form class='container-fluid' name='dishForm' method='post' enctype='multipart/form-data'">
                 {$this->generateDishID($mode)}
+                <!--Name-->
                 <div class='mb-3'>
                     <label>Name:</label>
                     <input class='form-control' type='text' name='$mode-name' id='$mode-name' required>
                 </div>
+                <!--Description-->
                 <div class='mb-3'>
                     <label>Description:</label>
                     <textarea class='form-control' name='$mode-description' id='$mode-description' required></textarea>
                 </div>
+                <!--Category-->
                 <div class='mb-3'>
                     <label>Category:</label>
 EOT;
@@ -123,36 +105,35 @@ EOT;
         //Generate the category dropdown
         $dishForm .= $this->generateCategoryDropdown($mode);
 
+        //Continue generating the rest of the form
         $dishForm .= <<<EOT
                 </div>
+                <!--Image-->
                 <div class='mb-3'>
                     <label>Image Path:</label>
                     <input class='form-control-file' type='file' accept='image/*' name='$mode-imgPath' id='$mode-imgPath'>
                 </div>
                 <hr>
+                <!--Dish Option-->
                 <div class='$mode-option'>
                     <input class="btn btn-lg" type='button' id='$mode-addOption' value='+ Add New Option'>
                     <hr>
                 </div>
                 {$this->generateHiddenInput($mode)}
+                <!--Submit-->
                 <div>
                     <input class="btn btn-lg" type='submit' name='$mode-submit' id='$mode-submit' value='{$this->submitTextChange($mode)}' onclick="">
                 </div>
             </form>
 EOT;
+
+        //Return the generated form
         return $dishForm;
     }
 
     /**
      * generateConfirmation
-     *
-     * To generate a confirmation message using the combination of <form> and
-     * <input> tags.
-     *
-     * @visibility protected
-     * @param string $confirmationFormName The name of the form
-     * @param int $id The ID of the form
-     * @return string The generated form
+     * To generate a confirmation message using the combination of <form> and <input> tags.
      */
     protected function generateConfirmation($confirmationFormName, $id){
         return <<<EOT
@@ -170,11 +151,7 @@ EOT;
 
     /**
      * generateAddButton
-     *
      * To generate the add button that will be used to display the add new dish modal on click.
-     *
-     * @visibility protected
-     * @return string The generated add button
      */
     protected function generateAddButton(){
         return <<<EOT
@@ -184,14 +161,9 @@ EOT;
 
     /**
      * generateCategoryDropdown
-     *
      * To generate the category dropdown menu that will be used in the management form for identifying and categorising
      * the food item. The function will retrieve the categories (such as Drinks, Starters, Soup and A la carte) from the
      * database and generate the category dropdown menu using the category name and ID.
-     *
-     * @visibility protected
-     * @param string $mode The mode of the category dropdown (E.g. "add" for generating adding dropdown, "edit" for generating editing dropdown)
-     * @return string
      */
     protected function generateCategoryDropdown($mode){
         //Initialise the CategoryDB class
@@ -200,25 +172,22 @@ EOT;
         //Retrieve the category available from database
         $result = $category->retrieveAllCategory();
 
-        //Generate the category dropdown list
+        //Generate the category dropdown list for each available category
         $categoryDropdown = "<select class='form-select form-select mb-3' name='$mode-category' id='$mode-category'>";
         foreach($result as $rows){
             $categoryDropdown .= "<option value='{$rows['categoryID']}'>{$rows['categoryName']}</option>";
         }
         $categoryDropdown .= "</select>";
 
+        //Return the generated category dropdown
         return $categoryDropdown;
     }
 
     /**
      * generateModalAdd
-     *
      * To generate modal and handle form on submit event for the adding new dish modal. The function also checks for
      * form on submit even where it will execute the addDish database function (refer to dishdbhandler.php) to upload
      * the dish into the database.
-     *
-     * @visibility private
-     * @return string The generated add new dish modal
      */
     protected function generateModalAdd(){
         //Handle management form on submit event
@@ -231,10 +200,10 @@ EOT;
 
             //Execute upload dish function
             if($dishDB->addDish($dish)){
-                //If returns true, redirect back to View Dishes page
+                //If addDish returns true, redirect back to View Dishes page
                 header('Location: '.$this->viewPath);
             }else{
-                //If returns false, redirect to error page
+                //If addDish caught an error and returned false, redirect to error page
                 header('Location: ' . $this->errPath);
             }
         }
@@ -248,13 +217,9 @@ EOT;
 
     /**
      * generateModalEdit
-     *
      * To generate modal and handle form on submit event for the editing dish modal. The function also checks for form
      * on submit event where it will execute the editDish database function (refer to dishdbhandler.php) to editing
      * the dish from database.
-     *
-     * @visibility protected
-     * @return string The generated edit dish modal
      */
     protected function generateModalEdit(){
         //Handle management form on submit event
@@ -270,10 +235,10 @@ EOT;
 
             //Execute edit dish function
             if($dishDB->editDish($dish,$this->checkEmptyOption("removedOption"))){
-                //If returns true, redirect back to View Dishes page
+                //If editDish returns true, redirect back to View Dishes page
                 header('Location: '.$this->viewPath);
             }else{
-                //If returns false, redirect to error page
+                //If editDish caught an error and returned false, redirect to error page
                 header('Location: ' . $this->errPath);
             }
         }
@@ -287,13 +252,9 @@ EOT;
 
     /**
      * generateModalDelete
-     *
      * To generate modal and handle button on click event for the delete dish modal. The function also checks for
      * button on click event where it will execute the deleteDish using the preset hidden ID and Name to delete the
      * dish from database.
-     *
-     * @visibility protected
-     * @return string The generated delete confirmation modal
      */
     protected function generateModalDelete(){
         //Handle delete confirm button on click event
@@ -303,10 +264,10 @@ EOT;
 
             //Execute delete dish function
             if ($dishDB->deleteDish($_POST['delete-hiddenID'],$_POST['delete-hiddenName'])) {
-                //If returns true, redirect back to View Dishes page
+                //If deleteDish returns true, redirect back to View Dishes page
                 header('Location: ' . $this->viewPath);
             }else{
-                //If returns false, redirect to error page
+                //If deleteDish caught an error and returned false, redirect to error page
                 header('Location: ' . $this->errPath);
             }
         }
@@ -320,13 +281,9 @@ EOT;
 
     /**
      * generateModalAvailability
-     *
      * To generate modal and handle button on click event for the change dish availability modal. The function also
      * checks for button on click event where it will execute the updateDishAvailability using the preset hidden ID
      * and Name to update the dish availability from database.
-     *
-     * @visibility protected
-     * @return string The generated change availability confirmation modal
      */
     protected function generateModalAvailability(){
         //Handle change availability confirm button on click event
@@ -336,10 +293,10 @@ EOT;
 
             //Execute update dish availability function
             if($dishDB->updateDishAvailability($_POST['availability-hiddenID'],$_POST['availability-hiddenName'])){
-                //If returns true, redirect back to View Dishes page
+                //If updateDishAvailability returns true, redirect back to View Dishes page
                 header('Location: '.$this->viewPath);
             }else{
-                //If returns false, redirect to error page
+                //If updateDishAvailability returns caught an error and returned false, redirect to error page
                 header('Location: ' . $this->errPath);
             }
         }
@@ -353,13 +310,9 @@ EOT;
 
     /**
      * generateModalLogDetail
-     *
      * To generate modal for the log detail modal. The function uses generateDataTable function to generate a complete
      * table to display a list of log details. Note that generateDataTable will only create the <div> tags required
      * to generate the data later with retrieveLogDetail.js.
-     *
-     * @visibility protected
-     * @return string The generated log detail modal
      */
     protected function generateModalLogDetail(){
         //Generate modal (Function from UIElement Class)
@@ -371,13 +324,8 @@ EOT;
 
     /**
      * submitTextChange
-     *
      * To change the text of the submit button for the dish management form depending on the mode specified (E.g. "add" and
      * "edit")
-     *
-     * @visibility protected
-     * @param string $mode The mode of the form
-     * @return string The text of the submit button
      */
     private function submitTextChange($mode){
         if($mode == "add"){
@@ -389,13 +337,8 @@ EOT;
 
     /**
      * generateHiddenInput
-     *
      * To generate the hidden input required to holds the ID of the deleted option when an option is removed in the
      * edit dish modal
-     *
-     * @visibility private
-     * @param string $mode The mode of the form
-     * @return string|null The generated hidden input or null
      */
     private function generateHiddenInput($mode){
         if($mode == "add"){
@@ -409,12 +352,7 @@ EOT;
 
     /**
      * generateDishID
-     *
      * To generate an readonly text input that will be used to hold the dish ID on the edit dish modal
-     *
-     * @visibility private
-     * @param string $mode The mode of the form
-     * @return string|null The generated readonly text input or null
      */
     private function generateDishID($mode){
         if($mode == "add"){
@@ -431,12 +369,7 @@ EOT;
 
     /**
      * imageToBlob
-     *
      * To convert the uploaded image into a long blob before uploading to the database
-     *
-     * @visibility private
-     * @param string $mode The mode of the form
-     * @return int|string The converted long blob
      */
     private function imageToBlob($mode){
         if(!is_uploaded_file($_FILES[$mode.'-imgPath']['tmp_name'])){
@@ -462,12 +395,7 @@ EOT;
 
     /**
      * checkEmptyOption
-     *
      * To check if the POST variable are empty
-     *
-     * @visibility private
-     * @param string $value The POST parameter to check for empty value
-     * @return mixed|null The POST variable or null
      */
     private function checkEmptyOption($value){
         if($value == "edit-optionName" || $value == "edit-optionPrice" || $value == "add-optionName" ||
@@ -476,14 +404,18 @@ EOT;
             if(isset($_POST[$value])){
                 //If the POST variable is set, return the variable
                 return $_POST[$value];
+
             }else{
+                //Return null if the variable is not set
                 return null;
             }
         }else if($value == "removedOption"){
             if(isset($_POST['deletedOption'])){
                 //If the POST deletedOption variable is set, return the variable
                 return $_POST['deletedOption'];
+
             }else{
+                //Return null if the variable is not set
                 return null;
             }
         }

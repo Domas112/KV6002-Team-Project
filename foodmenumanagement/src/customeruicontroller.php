@@ -2,7 +2,6 @@
 
 /**
  * customeruicontroller.php
- *
  * The class will be used to generate the appropriate webpage according to the path parameter received. For example,
  * if the path requested for 'menu' webpage, the class will call the generateMenuUI function to generate the food menu
  * webpage. The class is extended to CustomerUIElement class in reason to use the element generation function implemented

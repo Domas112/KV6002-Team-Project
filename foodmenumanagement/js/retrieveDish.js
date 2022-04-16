@@ -14,44 +14,44 @@ $("document").ready(function() {
 function displayDishData(data){
     let viewDishTable =
         "<div class='table-responsive'>" +
-        "<table class='table' id='sortTable'>\n" +
-        "<thead>\n" +
-        "<tr>\n" +
-        "<th>ID</th>\n" +
-        "<th>Name</th>\n" +
-        "<th>Description</th>\n" +
-        "<th>Category</th>\n" +
-        "<th>Option Available</th>\n" +
-        "<th>Image</th>\n" +
-        "<th>Availability</th>\n" +
-        "<th>Actions</th>\n" +
-        "</tr>" +
-        "</thead>" +
-        "<tbody>";
+            "<table class='table' id='sortTable'>\n" +
+                "<thead>\n" +
+                    "<tr>\n" +
+                        "<th>ID</th>\n" +
+                        "<th>Name</th>\n" +
+                        "<th>Description</th>\n" +
+                        "<th>Category</th>\n" +
+                        "<th>Option Available</th>\n" +
+                        "<th>Image</th>\n" +
+                        "<th>Availability</th>\n" +
+                        "<th>Actions</th>\n" +
+                    "</tr>" +
+                "</thead>" +
+                "<tbody>";
 
     $.each(data, function (index) {
         viewDishTable +=
             "<tr>\n" +
-            "<td data-title='Dish ID'>" + data[index].dishID + "</td>\n" +
-            "<td data-title='Dish Name'>" + data[index].dishName + "</td>\n" +
-            "<td data-title='Dish Description'>" + data[index].dishDescription + "</td>\n" +
-            "<td data-title='Category'>" + data[index].categoryName + "</td>\n" +
-            "<td data-title='Number of Option'>" + data[index].numberOfDishOption + "</td>\n" +
-            "<td data-title='Image'><img src='data:image;base64," + data[index].imageData + "'/></td>\n" +
-            "<td data-title='Availability'>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
-            "<td data-title='Action' class='td-action'>\n" +
-            "<div class='btn-group-vertical' id='manage-button'>" +
-            "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>" +
-            "<i class='fi fi-rr-pencil'></i> Edit" +
-            "</button>\n" +
-            "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#deleteModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='deleteModal(this);'>" +
-            "<i class='fi fi-rr-trash'></i> Delete" +
-            "</button>\n" +
-            "<button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#availabilityModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='availableModal(this);'>" +
-            "<i class='fi fi-rr-checkbox'></i> Change Availability" +
-            "</button>\n" +
-            "</div>\n" +
-            "</td>\n" +
+                "<td data-title='Dish ID'>" + data[index].dishID + "</td>\n" +
+                "<td data-title='Dish Name'>" + data[index].dishName + "</td>\n" +
+                "<td data-title='Dish Description'>" + data[index].dishDescription + "</td>\n" +
+                "<td data-title='Category'>" + data[index].categoryName + "</td>\n" +
+                "<td data-title='Number of Option'>" + data[index].numberOfDishOption + "</td>\n" +
+                "<td data-title='Image'><img src='data:image;base64," + data[index].imageData + "'/></td>\n" +
+                "<td data-title='Availability'>" + interpretAvailability(parseInt(data[index].dishAvailability)) + "</td>\n" +
+                "<td data-title='Action' class='td-action'>\n" +
+                    "<div class='btn-group-vertical' id='manage-button'>" +
+                        "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id='"+data[index].dishID+"' onclick='retrieveOneDishData(this);'>" +
+                            "<i class='fi fi-rr-pencil'></i> Edit" +
+                        "</button>\n" +
+                        "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#deleteModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='deleteModal(this);'>" +
+                            "<i class='fi fi-rr-trash'></i> Delete" +
+                        "</button>\n" +
+                        "<button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#availabilityModal' id='"+data[index].dishID+"' name='"+data[index].dishName+"' onclick='availableModal(this);'>" +
+                            "<i class='fi fi-rr-checkbox'></i> Change Availability" +
+                        "</button>\n" +
+                    "</div>\n" +
+                "</td>\n" +
             "</tr>\n";
     })
 
