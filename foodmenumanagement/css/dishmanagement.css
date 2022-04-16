@@ -3,7 +3,7 @@ body, .modal-body{
 }
 
 li{
-    margin: 0 10px;
+    margin-left:20px;
     font-weight: bold;
 }
 
@@ -40,6 +40,10 @@ footer{
     box-shadow: 0 4px 4px #888888;
     margin-bottom: 2%;
     background-color: #EFB71AFF;
+}
+
+.input-group{
+    width: 25%;
 }
 
 #page-navigator input{
@@ -126,6 +130,16 @@ li a{
     width:200px;
 }
 
+.add-button{
+    margin-top:20px;
+    width:20%;
+    float:right;
+}
+
+#add-newDish{
+    width:100%;
+}
+
 @media only screen and (max-width: 1310px) {
 
     h1{
@@ -191,6 +205,14 @@ li a{
     .td-action{
         width:auto;
     }
+
+    .input-group{
+        width: 100%;
+    }
+
+    .add-button{
+        width:100%;
+    }
 }
 
 #manage-button button{
@@ -235,11 +257,6 @@ li a{
 
 #delete-yes, #availability-yes, #no{
     width:10%;
-}
-
-#add-newDish{
-    width:200px;
-    margin-bottom:10px;
 }
 
 #no{
@@ -331,13 +348,17 @@ thead, .modal-header{
     margin-right: 20px;
 }
 
+.title{
+    float:left;
+}
+
+.title p{
+    margin: 0;
+}
+
 @media only screen and (max-width: 991px) {
     .logout{
         width:100%;
         margin:30px 20px 0px 20px;
-    }
-
-    #add-newDish{
-        width: 100%;
     }
 }

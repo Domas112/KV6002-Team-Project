@@ -24,7 +24,8 @@ footer, h1{
     text-align: center;
 }
 
-li a{
+li{
+    margin-left: 20px;
     font-weight: bold;
 }
 

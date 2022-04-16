@@ -1,7 +1,21 @@
 <?php
+
+/**
+ * foodmenuadmin.php
+ *
+ * The PHP script will be used to retrieve the request path and display the appropriate webpage or response by using
+ * ManagementUIController class.
+ *
+ * @author Teck Xun Tan W20003691
+ */
+
 include "config/config.php";
-$request = new Request("admin");
 $errorPage = ERROR_BASEPATH;
+
+//Initialise the Request class
+$request = new Request("admin");
+
+//Display the appropriate webpage or response
 switch($request->getPath()){
     case '':
     case 'view':
@@ -17,7 +31,7 @@ switch($request->getPath()){
         $logAPI = new RetrieveLogAPI();
         break;
     default:
-        header('Location: '.$errorPage."/404/");
+        header('Location: '.$errorPage."?error=404");
         break;
 }
 

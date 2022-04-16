@@ -3,9 +3,9 @@
 /**
  * managementuielement.php
  *
- * PHP class to handle and generating webpage elements for Food Menu Management subsystem.
+ * PHP class to handle and generating webpage component for Food Menu Management subsystem (Admin View).
  *
- * This PHP script has been used to handle all the webpage elements such as creating title with <h1>, subtitle with <p>,
+ * This PHP script has been used to handle all the webpage component such as creating navigation bar, search bar
  * and more. The purpose of this class is to minimise redundant code by reusing the code to generate elements necessary
  * to the website and to keep the code consistency over the pages. The class is extended to UIElement class
  * (refer to uielement.php) to reuse the shared elements that will also be used in other sites.
@@ -178,9 +178,7 @@ EOT;
      */
     protected function generateAddButton(){
         return <<<EOT
-            <div class='container-fluid'>
-                <button type='button' class='btn btn-lg' id='add-newDish' data-bs-toggle='modal' data-bs-target='#addModal'>+ Add New Dish</button>
-            </div>
+            <button type='button' class='btn btn-lg' id='add-newDish' data-bs-toggle='modal' data-bs-target='#addModal'>+ Add New Dish</button>
 EOT;
     }
 

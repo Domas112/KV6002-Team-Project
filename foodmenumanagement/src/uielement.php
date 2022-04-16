@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * uielement.php
+ * This PHP script has been used to handle all the webpage elements such as creating title with <h1>, subtitle with <p>,
+ * and more to minimise redundant code by reusing the code to generate elements necessary to the website and to keep the
+ * code consistency over the pages.
+ *
+ * @author Teck Xun Tan W20003691
+ */
+
 class UIElement
 {
     protected $resourceBasePath = FOODMENUMANAGEMENT_RESOURCEBASEPATH;
@@ -10,11 +19,7 @@ class UIElement
 
     /**
      * generateHeader
-     *
      * To generate the header of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated header component
      */
     protected function generateHeader($title){
         return <<<EOT
@@ -46,11 +51,7 @@ EOT;
 
     /**
      * generateFooter
-     *
      * To generate the footer of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated footer component
      */
     protected function generateFooter($footerTitle){
         return <<<EOT
@@ -66,11 +67,7 @@ EOT;
 
     /**
      * generateLogo
-     *
      * To generate the logo section of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated logo component
      */
     protected function generateLogo(){
         return <<<EOT
@@ -82,13 +79,7 @@ EOT;
 
     /**
      * generateTitle
-     *
-     * To add the specified text in the parameter into the body as a
-     * title using <h1> tag.
-     *
-     * @visibility protected
-     * @param string $title The text to be added into the body as new title
-     * @return string The generated title component
+     * To add the specified text in the parameter into the body as a title using <h1> tag.
      */
     protected function generateTitle($title){
         return "<h1>$title</h1>";
@@ -96,13 +87,7 @@ EOT;
 
     /**
      * generateSubtitle
-     *
-     * To add the specified text in the parameter into the body as a
-     * subtitle using <p> tag.
-     *
-     * @visibility protected
-     * @param string $subtitle The text to be added into the body as new subtitle
-     * @return string The generated subtitle component
+     * To add the specified text in the parameter into the body as a subtitle using <p> tag.
      */
     protected function generateSubtitle($subtitle){
         return "<p>$subtitle</p>";
@@ -110,11 +95,7 @@ EOT;
 
     /**
      * generateHorizontalLine
-     *
      * To generate a horizontal line using <hr>.
-     *
-     * @visibility protected
-     * @return string The <hr> tag element
      */
     protected function generateHorizontalLine(){
         return "<hr>";
@@ -122,10 +103,7 @@ EOT;
 
     /**
      * generateDataTable
-     *
-     * @visibility protected
-     * @param $tableName
-     * @return string
+     * To generate a div for holding datatable.
      */
     protected function generateDataTable($tableName){
         return "<div class='container-fluid' id='$tableName'>Loading data...</div>";
@@ -133,12 +111,7 @@ EOT;
 
     /**
      * generateModal
-     *
-     * @visibility protected
-     * @param $id
-     * @param $title
-     * @param $modalContent
-     * @return string
+     * To generate a modal and preset all the properties
      */
     protected function generateModal($id,$title,$modalContent){
         $labelID = $id . "Label";
@@ -168,25 +141,8 @@ EOT;
 
     /**
      * checkClass
-     *
-     * To check if a class has been provided to be included as an attribute
-     *
-     * This function is used to check if a class is provided, if the class parameter
-     * is not null, it will add a 'class' attribute into the tags, as shown in the
-     * example below.
-     *
-     * (Example code to generate a paragraph:)
-     * public function addParagraph($text,$class){
-     *      return "<p " . $this->checkClass($class) . ">$text</p>";
-     * }
-     *
-     * (Result:)
-     * <p class="main-container"></p> (with class provided)
-     * <p></p> (without class provided / NULL)
-     *
-     * @visibility private
-     * @param string $class The name of the class to a specific CSS
-     * @return string This will return a class attribute or null if $class is NULL
+     * This function is used to check if a class is provided, if the class parameter is not null, it will add a 'class'
+     * attribute into the tags, as shown in the example below.
      */
     protected function checkClass($class){
         if($class != null){
@@ -198,28 +154,7 @@ EOT;
 
     /**
      * generateDiv
-     *
      * To create a division to wrap around HTML contents
-     *
-     * This function could be used to wrap division around contents.
-     * (Example Code:)
-     * generateDiv(
-     *      array(
-     *          addHeader("Hello World");
-     *          addParagraph("Hello World 2");
-     *      )
-     * );
-     *
-     * (Result:)
-     * <div>
-     *      <h1>Hello World</h1>
-     *      <p>Hello World 2</p>
-     * </div>
-     *
-     * @visibility protected
-     * @param array $containerContent accepting array of generated HTML contents
-     * @param string $class The class of the div element
-     * @return string This will return the generated division
      */
     protected function generateDiv(array $containerContent, $class){
         $div = "<div {$this->checkClass($class)}'>";
@@ -233,9 +168,7 @@ EOT;
 
     /**
      * includeJavascript
-     *
-     * @param $scriptPath
-     * @return string
+     * To generate tags to include a JavaScript
      */
     protected function includeJavascript($scriptPath){
         return "<script type='text/javascript' src='".$scriptPath."'></script>";
@@ -244,8 +177,6 @@ EOT;
     /**
      * getResourceBasePath
      *
-     * @visibility protected
-     * @return string
      */
     protected function getResourceBasePath(){
         return $this->resourceBasePath;

@@ -1,16 +1,25 @@
 <?php
 
+/**
+ * managementuielement.php
+ *
+ * PHP class to handle and generating webpage component for Food Menu Management subsystem (Customer View).
+ *
+ * This PHP script has been used to handle all the webpage component such as creating navigation bar and generating
+ * <div> section. The purpose of this class is to minimise redundant code by reusing the code to generate elements
+ * necessary to the website and to keep the code consistency over the pages. The class is extended to UIElement class
+ * (refer to uielement.php) to reuse the shared elements that will also be used in other sites.
+ *
+ * @author Teck Xun Tan W20003691
+ */
 class CustomerUIElement extends UIElement
 {
     /**
      * generateNav
-     *
      * To generate the navigation section of the webpage.
-     *
-     * @visibility protected
-     * @return string The generated nav component
      */
     protected function generateNavigation(){
+        //Generate the container for navbar
         $menuNavigation = <<<EOT
         <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -26,7 +35,11 @@ class CustomerUIElement extends UIElement
                             <a class="nav-link" id="0">All</a>
                         </li>
 EOT;
+
+        //Retrieve the category available
         $categoryDB = new CategoryDBHandler();
+
+        //Generate a new nav item for each item available in the retrieved result
         foreach($categoryDB->retrieveAllCategory() as $category){
             $menuNavigation .= <<<EOT
                         <li class="nav-item">
@@ -35,6 +48,7 @@ EOT;
 EOT;
         }
 
+        //Generate the closing tag
         $menuNavigation .= <<<EOT
                     </ul>
                 </div>
@@ -42,10 +56,17 @@ EOT;
         </div>
 EOT;
 
+        //Return the generated navbar
         return $menuNavigation;
     }
 
+    /**
+     * generateMenuItem
+     * To generate an empty div container that will be used to handle all the food item in the menu retrieved using
+     * JavaScript (refer to retrieveMenuItem.js).
+     */
     protected function generateMenuItem($menuClass){
+        //Return the generated <div> container
         return "<div class='container-fluid' id='$menuClass'></div>";
     }
 }

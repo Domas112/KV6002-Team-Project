@@ -30,13 +30,21 @@ class ManagementUIController extends ManagementUIElement
     //UI Generating
     private function generateViewDishUI(){
         $viewPage = $this->generateDiv(array(
-            $this->generateTitle("View All Dishes"),
-            $this->generateSubtitle("View and manage all available dishes"),
+            $this->generateDiv(array(
+                $this->generateDiv(array(
+                    $this->generateTitle("View All Dishes"),
+                    $this->generateSubtitle("View all the available dishes here.")
+                ),"title"),
+                $this->generateDiv(array(
+                    $this->generateAddButton()
+                ),"add-button"),
+            ),null),
+            "<br style='clear:both;'>",
             $this->generateHorizontalLine(),
-            $this->generateSearchBar(),
-            $this->generateHorizontalLine()
+            $this->generateDiv(array(
+                $this->generateSearchBar()
+            ),"d-flex justify-content-end")
         ),"container-fluid");
-        $viewPage .= $this->generateAddButton();
         $viewPage .= $this->generateDataTable("dishDataTable");
         $viewPage .= $this->generatePageNavigator();
         $viewPage .= $this->generateModalAdd();
