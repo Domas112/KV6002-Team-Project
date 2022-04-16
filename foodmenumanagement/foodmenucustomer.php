@@ -2,7 +2,6 @@
 
 /**
  * foodmenucustomer.php
- *
  * The PHP script will be used to retrieve the request path and display the appropriate webpage or response by using
  * ManagementUIController class.
  *
