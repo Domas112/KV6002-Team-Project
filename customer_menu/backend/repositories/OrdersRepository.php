@@ -10,9 +10,9 @@
         public function insertOrder($order){
             $sql = "
                 INSERT INTO activeOrders
-                (dishID, optionID, amount, tableID)
+                    (dishID, optionID, amount, tableID)
                 VALUES
-                (:dishID, :optionID, :amount, :tableID);
+                    (:dishID, :optionID, :amount, :tableID);
             ";
             $this->db->executeSQL($sql, $order);
         }
@@ -52,9 +52,11 @@
             return $result->fetchAll(PDO::FETCH_CLASS, 'OrderCustomerView');
         }
 
-        public function selectAllTableIds(){
+        public function selectAllTables(){
             $sql = "
-                SELECT DISTINCT tableID FROM activeOrders
+                SELECT DISTINCT ao.tableID, t.VIP
+                FROM activeOrders ao
+                JOIN tables t on t.tableID = ao.tableID;
             ";
 
             $results = $this->db->executeSQL($sql);

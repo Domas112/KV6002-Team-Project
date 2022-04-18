@@ -3,6 +3,12 @@ export class TablesList extends HTMLElement{
         super();
         this.tables = {};
         this.showTables = {};
+        this.hasOrders = false;
+        this.needsClearing = true;
+
+        this.noOrdersTemplate = `
+            <h1 class='text-center'>No orders placed</h1>
+        `;
     }
     get deleted(){return this.getAttribute('deleted');}
     set deleted(val){this.setAttribute('deleted',val);}
@@ -20,7 +26,6 @@ export class TablesList extends HTMLElement{
         }
         if(prop == 'show-table'){
             this.showTables[newVal] = !this.showTables[newVal];
-            console.log(this.showTables);
         }
     }
 
@@ -35,14 +40,33 @@ export class TablesList extends HTMLElement{
         fetch('../../backend/api/Orders.php?get_tables')
             .then(res=>res.json())
             .then(res=>{
-                console.log(this.showTables)
-                for(const i in res){
-                    if(!(res[i].tableID in this.tables)){
-                        this.tables[res[i].tableID] = res[i];
-                        this.showTables[res[i].tableID] = false;
-                        this.innerHTML += `<table-component table-id=${res[i].tableID} show=${this.showTables[res[i].tableID]}></table-component>`;
+                if(this.needsClearing){
+                    this.innerHTML = '';
+                }
+
+                if(Object.keys(res).length > 0){
+                    for(const i in res){
+                        if(!(res[i].tableID in this.tables)){
+                            this.tables[res[i].tableID] = res[i];
+                            this.showTables[res[i].tableID] = false;
+                            this.innerHTML += `<table-component table-id=${res[i].tableID} show=${this.showTables[res[i].tableID]} vip=${res[i].VIP}></table-component>`;
+                        }
                     }
                 }
+
+                if(Object.keys(this.tables).length > 0){
+                    this.hasOrders = true;
+                    this.needsClearing = false;
+                }
+
+                if(!this.hasOrders){
+                    this.innerHTML = this.noOrdersTemplate;
+                }
+
+                this.hasOrders = false;
+
+                console.log(this.tables);
+                console.log(Object.keys(this.tables).length);
             })
             .catch(err=>console.error(err));
     }
@@ -51,17 +75,28 @@ export class TablesList extends HTMLElement{
         fetch('../../backend/api/Orders.php?get_tables')
         .then(res=>res.json())
         .then(res=>{
-            console.log(this.showTables);
+            
             this.tables = {};
             let newShowTables = {};
-            for(const i in res){
-                this.tables[res[i].tableID] = res[i];
-                newShowTables[res[i].tableID] = this.showTables[res[i].tableID];
+            this.hasOrders = false;
+
+            if(Object.keys(res).length > 0){
+                for(const i in res){
+                    this.tables[res[i].tableID] = res[i];
+                    newShowTables[res[i].tableID] = this.showTables[res[i].tableID];
+                }
+                
+                this.hasOrders = true;
             }
+
             this.showTables = newShowTables;
-            this.render();
-            console.log("populate tables after delete");
-            console.log(this.showTables)
+
+            if(!this.hasOrders){
+                this.innerHTML = this.noOrdersTemplate;
+                this.needsClearing = true;
+            }else{
+                this.render();
+            }
         })
         .catch(err=>console.error(err));
         
@@ -71,7 +106,7 @@ export class TablesList extends HTMLElement{
         let placeholder = ``;
         Object.keys(this.tables).forEach(key=>{
             placeholder += `
-                <table-component table-id=${key} show=${this.showTables[key]} ></table-component>
+                <table-component table-id=${key} show=${this.showTables[key]} vip=${this.tables[key].vip}></table-component>
             `;
         })
 

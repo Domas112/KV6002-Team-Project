@@ -20,6 +20,8 @@ export class Controls extends HTMLElement{
     get tableOrdersCompleted(){return this.getAttribute('table-orders-completed');}
     set tableOrdersCompleted(val){this.setAttribute('table-orders-completed',val);}
 
+    get vip(){return (this.getAttribute('vip') === 'true');}
+
     static get observedAttributes(){
         return ['new-order', 'table-orders-completed'];
     }
@@ -71,9 +73,8 @@ export class Controls extends HTMLElement{
                 <div class="col-3">
                     <h2 class="
                         ${this.newOrder=='true'?'new-order':''}
-                        ${this.tableOrdersCompleted == '1'?'table-orders-completed':''}    
                     ">
-                        Table ${this.tableId} ${this.tableOrdersCompleted == '1'?'(Completed)':''}
+                        Table ${this.tableId} ${this.vip?'(VIP)':''}
                     </h2>
                 </div>
                 <div class="col-4">

@@ -8,6 +8,7 @@ export class Table extends HTMLElement {
     get index() {return this.getAttribute("index");}
 
     get show(){return (this.getAttribute("show") === 'true');}
+    get vip(){return (this.getAttribute('vip')==='1')}
 
     static get observedAttributes() {
         return [];
@@ -26,7 +27,7 @@ export class Table extends HTMLElement {
     render() {
         let placeholder = `
         <div class="row orders-table border-bottom border-dark pt-2">
-            <controls-component id="table-${this.tableId}-controls" table-id=${this.tableId} show=${this.show} new-order="false"></controls-component>
+            <controls-component id="table-${this.tableId}-controls" table-id=${this.tableId} show=${this.show} new-order="false" vip=${this.vip}></controls-component>
             <orders-component id="table-${this.tableId}-orders" table-id=${this.tableId} show=${this.show}></orders-component> 
         </div>
         `;

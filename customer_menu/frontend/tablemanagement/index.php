@@ -40,10 +40,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../../../foodmenumanagement/foodmenuadmin.php/view">View All Dishes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../../../foodmenumanagement/foodmenuadmin.php/log">System Log</a>
+                            <a class="nav-link" href="../../../adminindex.php">Back to Admin Panel</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../staff">Food ordering system</a>

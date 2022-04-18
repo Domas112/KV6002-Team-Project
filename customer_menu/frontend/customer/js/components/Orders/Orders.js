@@ -60,9 +60,6 @@ export class Orders extends HTMLElement{
                             <th scole='col'>
                                 Total cost(£)
                             </th>
-                            <th scope='col'>
-                                Finished
-                            </th>
                         </tr>
                     </thead
                     <tbody>
@@ -83,9 +80,6 @@ export class Orders extends HTMLElement{
                         </td>
                         <td>
                             ${(order.optionPrice * order.amount).toFixed(2)}
-                        </td>
-                        <td>
-                            ${order.completed?"Yes":"No"}
                         </td>
                     </tr>
                 `; 

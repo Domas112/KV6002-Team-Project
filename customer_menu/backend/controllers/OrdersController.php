@@ -22,7 +22,7 @@
         }
 
         function getAllOrders(){
-            $tableIds = $this->ordersRepo->selectAllTableIds();
+            $tableIds = $this->ordersRepo->selectAllTables();
             $orders = array();
             foreach ($tableIds as $key => $value) {
                 $ordersOfTable = $this->ordersRepo->selectAllOrdersByTableId($value[0]);
@@ -32,7 +32,7 @@
         }
 
         function getAllTables(){
-            $tables = $this->ordersRepo->selectAllTableIds();
+            $tables = $this->ordersRepo->selectAllTables();
             return json_encode($tables);
         }
 
