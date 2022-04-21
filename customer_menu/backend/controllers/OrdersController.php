@@ -52,5 +52,9 @@
         function viewOrder($tableID){
             $this->ordersRepo->viewOrder($tableID);
         }
+
+        function deleteOrder($orderID){
+            $this->ordersRepo->deleteOrder($orderID);
+        }
     }
 ?>

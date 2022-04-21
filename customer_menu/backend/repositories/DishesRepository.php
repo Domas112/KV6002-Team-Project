@@ -49,10 +49,10 @@
 
         public function selectImageByDishId($dishID){
             $sql = "
-                SELECT i.imageData as dishImage
+                SELECT 
+                    i.imageData as dishImage
                 FROM image i
-                JOIN dish d
-                ON i.imageID = d.dishImg
+                JOIN dish d ON i.imageID = d.dishImg
                 WHERE d.dishID = :dishID;
             ";
             $result = $this->db->executeSQL($sql, array('dishID'=>$dishID));

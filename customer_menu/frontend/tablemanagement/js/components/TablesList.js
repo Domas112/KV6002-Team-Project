@@ -67,8 +67,8 @@ export class TablesList extends HTMLElement{
     render(){
         let placeholder = `
        
-            <table id='tables-table' class="table">
-                <thead>
+            <table id='tables-table' class="table table-responsive mt-2">
+                <thead class="custom-table-header">
                     <tr>
                         <th scope="col">Table ID</th>
                         <th scope="col">Seat count</th>
@@ -77,7 +77,7 @@ export class TablesList extends HTMLElement{
                         <th scope="col">Controls</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="custom-table-body">
             `;
         this.tables.forEach(table=>{
             

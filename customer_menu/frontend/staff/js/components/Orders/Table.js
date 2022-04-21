@@ -11,10 +11,15 @@ export class Table extends HTMLElement {
     get vip(){return (this.getAttribute('vip')==='1')}
 
     static get observedAttributes() {
-        return [];
+        return ['render'];
     }
 
-    attributeChangedCallback(prop, oldVal, newVal) {}
+    attributeChangedCallback(prop, oldVal, newVal) {
+        console.log(prop);
+        if(prop == 'render'){
+            this.render();
+        }
+    }
 
     connectedCallback() {
         this.render();

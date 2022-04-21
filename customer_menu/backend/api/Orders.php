@@ -12,6 +12,8 @@
         echo $ordersController->getAllTables();
     }elseif(isset($_GET['delete_table']) && isset($_GET['id'])){
         $ordersController->deleteTable($_GET['id']);
+    }elseif(isset($_GET['delete_order']) && isset($_GET['id'])){
+        $ordersController->deleteOrder($_GET['id']);
     }elseif(isset($_GET['view_order']) && isset($_GET['id'])){
         $ordersController->viewOrder($_GET['id']);
     }

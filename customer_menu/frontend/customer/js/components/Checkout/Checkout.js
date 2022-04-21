@@ -97,10 +97,8 @@ export class Checkout extends HTMLElement{
                 })
                 .then(res=>{
                     if(res.status == 200){
-                        console.log('success');
-                        window.location.href = window.location.href;
+                        window.location.href = '../../../payment/PaymentUI.php'
                     }
-                    console.log(res.status);
                 })
                 .catch(err=>console.error(err));
             });

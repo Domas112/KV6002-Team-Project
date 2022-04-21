@@ -42,19 +42,6 @@ export class Orders extends HTMLElement {
             .then((res) => res.json())
             .then((res) => {
                 this.orders = res;
-                for(let i = 0; i < res.length; i++){    
-                    if(res[i].viewed == 0){
-                        this.controlsComponent.setAttribute('new-order', 'true');
-                    }
-                    if(res[i].completed == 0){
-                        this.tableOrdersCompleted = false;
-                        this.controlsComponent.setAttribute('table-orders-completed', 0);
-                    }
-                }
-
-                if(this.tableOrdersCompleted){
-                    this.controlsComponent.setAttribute('table-orders-completed', 1);
-                }
 
                 this.parentElement.parentElement.setAttribute('orders-count', this.orders.length);
                 this.render();
@@ -78,7 +65,16 @@ export class Orders extends HTMLElement {
 
                 this.render();
                 this.addClickListeners();
-            })
+            });
+
+            this.querySelector(`#cancel-${order.orderID}`).addEventListener('click', ()=>{
+                fetch(`../../backend/api/Orders.php?delete_order&&id=${order.orderID}`)
+                    .then(res=>{
+                        this.populateOrders();
+                    })
+                    .catch(err=>console.error(err));
+
+            });
         })
 
         document.querySelector(`#show-${this.tableId}`).addEventListener('click', ()=>{
@@ -113,7 +109,7 @@ export class Orders extends HTMLElement {
             <div id="table-${this.tableId}-orders-collapse" class='container collapse ${this.show ? "show" : ""} col-12'>       
                 <div class='row card-body'>
                     <table class="table">
-                        <thead class='orders-table-header'>
+                        <thead class='custom-table-header'>
                             <tr>
                                 <th scope="col" >
                                     Dish title
@@ -127,9 +123,12 @@ export class Orders extends HTMLElement {
                                 <th scope="col">
                                     Completed
                                 </th>
+                                <th scope="col">
+                                    Controls
+                                </th>
                             </tr>
                         </thead>
-                        <tbody class='orders-table-body'>`;
+                        <tbody class='custom-table-body'>`;
 
         this.orders.forEach((order) => {
             placeholder += `
@@ -149,6 +148,11 @@ export class Orders extends HTMLElement {
                                         ${order.completed == 1 ? "checked" : ""}
                                         ${order.completed == 1 ? "disabled" : ""}
                                     />
+                                </td>
+                                <td>
+                                    <button id="cancel-${order.orderID}" class='btn functionality-button'>
+                                        Cancel order
+                                    </button>
                                 </td>
                             </tr>
                 `;

@@ -8,3 +8,7 @@
 #add-table-form > * {
     margin: 0 1% 0 1%;
 }
+
+.main-container{
+    width:40%;
+}

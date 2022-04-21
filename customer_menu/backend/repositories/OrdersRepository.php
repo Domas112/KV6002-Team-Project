@@ -45,7 +45,7 @@
                     activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
                 JOIN dishOption opt on opt.optionID = ord.optionID
-                WHERE ord.tableID = :tableID
+                WHERE ord.tableID = :tableID AND ord.paid = 1
                 ORDER BY ord.orderID;
             ";
             $result = $this->db->executeSQL($sql, array('tableID'=>$tableID));
@@ -68,10 +68,8 @@
         public function completeOrder($orderID) {
             $sql = "
                 UPDATE activeOrders
-                SET
-                    completed = 1
-                WHERE
-                    orderID = :orderID;
+                SET completed = 1
+                WHERE orderID = :orderID;
             ";
             $this->db->executeSQL($sql, array(
                 'orderID'=>$orderID
@@ -80,10 +78,8 @@
 
         public function deleteTable($tableID){
             $sql = "
-                DELETE FROM
-                    activeOrders
-                WHERE
-                    tableID = :tableID;
+                DELETE FROM activeOrders
+                WHERE tableID = :tableID;
             ";
             $this->db->executeSQL($sql, array(
                 'tableID' => $tableID
@@ -100,6 +96,18 @@
 
             $this->db->executeSQL($sql, array(
                 'tableID' => $tableID
+            ));
+        }
+
+        
+        public function deleteOrder($orderID){
+            $sql = "
+                DELETE FROM activeOrders
+                WHERE orderID = :orderID;
+            ";
+
+            $this->db->executeSQL($sql, array(
+                'orderID' => $orderID
             ));
         }
     }

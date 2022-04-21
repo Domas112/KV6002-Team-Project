@@ -59,8 +59,9 @@
             <tables-lists-component/>
         </div>
     </main>
-    <footer>
-
+    <footer class='container-fluid'>
+        <hr>
+        <p>© Amaysia Restaurant | Orders Management | Developed by Team 30 </p>
     </footer>
     <script src="js/main.js" type="module"></script>
 

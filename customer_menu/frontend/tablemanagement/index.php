@@ -19,12 +19,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amaysia</title>
     
-    <link rel='stylesheet' href='./styles/table_management_styles.css'>
-    <link rel='stylesheet' href='../shared.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script src="https://kit.fontawesome.com/d45f07fbca.js" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='./styles/table_management_styles.css'>
+    <link rel='stylesheet' href='../shared.css'>
 </head>
 <body>
     <header class='sticky-top'>
@@ -53,7 +53,7 @@
             </nav>
         </div>
 	</header>
-    <main class="container mt-2">
+    <main class="main-container container mt-2">
 
         <div class="mx-2">
             <tables-form id="tables-form"></tables-form>
@@ -61,6 +61,11 @@
         <tables-list id="tables-list"></tables-list>
         
     </main>
+
+    <footer class='container-fluid'>
+        <hr>
+        <p>© Amaysia Restaurant | Table Managemenet | Developed by Team 30 </p>
+    </footer>
     <script src="js/main.js" type="module"></script>
 </body>
 </html>

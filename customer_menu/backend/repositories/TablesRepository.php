@@ -11,8 +11,7 @@
             $sql = "
                 SELECT
                     tableID, seatCount, VIP, active
-                FROM
-                    tables;
+                FROM tables;
             ";
             $result = $this->db->executeSQL($sql);
             return $result->fetchAll(PDO::FETCH_CLASS, 'Table');
@@ -32,8 +31,7 @@
             $sql = "
                 DELETE FROM 
                     tables
-                WHERE
-                    tableID = :tableID;
+                WHERE tableID = :tableID;
 
                 SET @m = (SELECT MAX(tableID) + 1 FROM tables);
                 SET @s = CONCAT('ALTER TABLE tables AUTO_INCREMENT=', @m);
@@ -46,8 +44,7 @@
 
         public function updateTable($updatedTable){
             $sql = "
-                UPDATE 
-                    tables
+                UPDATE tables
                 SET 
                     seatCount = :seatCount,
                     VIP = :VIP

@@ -75,11 +75,11 @@ export class Dish extends HTMLElement{
 
                 <div class='row card-body'>
 
-                    <div class='col-8'>
+                    <div class='col-6'>
                         <img class='dish-image' src='data:image;base64,${this.image}'>
                     </div>
 
-                    <div class='col-4 dish-extra-info'>
+                    <div class='col-6 dish-extra-info'>
                         ${this.description}                        
                     </div>
                 </div>
