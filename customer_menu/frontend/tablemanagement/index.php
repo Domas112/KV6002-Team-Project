@@ -28,7 +28,7 @@
 </head>
 <body>
     <header class='sticky-top'>
-        <div class='px-2 py-4'>
+        <div class='container-sm-logo'>
             <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
         </div>
 
@@ -54,7 +54,8 @@
         </div>
 	</header>
     <main class="main-container container mt-2">
-
+        <h1>Table management system</h1>
+        <p>Here you can manage how many tables there are in the restaurant, as well as specify seat count of every table and if the table is for VIPs</p>
         <div class="mx-2">
             <tables-form id="tables-form"></tables-form>
         </div>

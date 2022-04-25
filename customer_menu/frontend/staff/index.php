@@ -28,7 +28,7 @@
 </head>
 <body>
     <header class='sticky-top'>
-        <div class='px-2 py-4'>
+        <div class='container-sm-logo'>
                 <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
         </div>
 
@@ -52,9 +52,12 @@
                 </div>
             </nav>
         </div>
-    
+
 	</header>
     <main class="container">
+            <h1>Orders Management System</h1>
+            <p>Here you can view and manage the incoming orders of each active table</p>
+        
         <div class='pt-2'>
             <tables-lists-component/>
         </div>

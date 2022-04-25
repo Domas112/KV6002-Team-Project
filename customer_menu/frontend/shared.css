@@ -6,7 +6,7 @@ body{
 
 header{
     background-color: white;
-    box-shadow: 2px 0px 9px rgb(131 122 122 / 37%);
+    box-shadow: 0 4px 4px #888888;
 }
 
 .nav-container{
@@ -60,4 +60,8 @@ footer{
 
 .custom-table-body > tr{
     background: rgb(255, 238, 219);
+}
+
+.container-sm-logo{
+    padding: 10px;
 }

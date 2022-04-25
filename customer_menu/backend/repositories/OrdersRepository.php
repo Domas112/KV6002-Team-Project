@@ -23,7 +23,7 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName,
-                    ord.amount, ord.completed, ord.viewed
+                    ord.amount, ord.completed, ord.viewed, ord.paid
                 FROM
                     activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
@@ -40,12 +40,12 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName, opt.optionPrice,
-                    ord.amount, ord.completed, ord.viewed
+                    ord.amount, ord.completed, ord.viewed, ord.paid
                 FROM
                     activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
                 JOIN dishOption opt on opt.optionID = ord.optionID
-                WHERE ord.tableID = :tableID AND ord.paid = 1
+                WHERE ord.tableID = :tableID
                 ORDER BY ord.orderID;
             ";
             $result = $this->db->executeSQL($sql, array('tableID'=>$tableID));
@@ -108,6 +108,19 @@
 
             $this->db->executeSQL($sql, array(
                 'orderID' => $orderID
+            ));
+        }
+        
+
+        public function manuallyPayForOrder($orderID){
+            $sql = "
+                UPDATE activeOrders
+                SET paid = 1
+                WHERE orderID = :orderID;
+            ";
+
+            $this->db->executeSQL($sql, array(
+                'orderID'=>$orderID
             ));
         }
     }

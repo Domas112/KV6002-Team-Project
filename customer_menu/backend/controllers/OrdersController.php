@@ -56,5 +56,9 @@
         function deleteOrder($orderID){
             $this->ordersRepo->deleteOrder($orderID);
         }
+
+        function payForOrder($orderID){
+            $this->ordersRepo->manuallyPayForOrder($orderID);
+        }
     }
 ?>

@@ -42,7 +42,7 @@ export class Orders extends HTMLElement {
             .then((res) => res.json())
             .then((res) => {
                 this.orders = res;
-
+                console.log(this.orders);
                 this.parentElement.parentElement.setAttribute('orders-count', this.orders.length);
                 this.render();
                 this.addClickListeners();
@@ -52,14 +52,14 @@ export class Orders extends HTMLElement {
 
     addClickListeners(){
         this.orders.forEach((order) => {
-            this.querySelector(`#checkbox-${order.orderID}`).addEventListener('change', (e)=>{
-                fetch(`../../backend/api/Orders.php?complete_order&&id=${order.orderID}`)
+            this.querySelector(`#paid-${order.orderID}`).addEventListener('change', (e)=>{
+                fetch(`../../backend/api/Orders.php?order_paid&&id=${order.orderID}`)
                     .catch(err=>console.error(err));
                 
                 let orderID = e.target.getAttribute('id').split("-")[1];
                 this.orders.forEach(order=>{
                     if(order.orderID == orderID){
-                        order.completed = 1;
+                        order.paid = 1;
                     }
                 })
 
@@ -121,7 +121,7 @@ export class Orders extends HTMLElement {
                                     Amount
                                 </th>
                                 <th scope="col">
-                                    Completed
+                                    Paid
                                 </th>
                                 <th scope="col">
                                     Controls
@@ -143,10 +143,10 @@ export class Orders extends HTMLElement {
                                     ${order.amount}
                                 </td>
                                 <td>
-                                    <input id="checkbox-${order.orderID}"
+                                    <input id="paid-${order.orderID}"
                                         type='checkbox' 
-                                        ${order.completed == 1 ? "checked" : ""}
-                                        ${order.completed == 1 ? "disabled" : ""}
+                                        ${order.paid == '1' ? "checked" : ""}
+                                        ${order.paid == '1' ? "disabled" : ""}
                                     />
                                 </td>
                                 <td>

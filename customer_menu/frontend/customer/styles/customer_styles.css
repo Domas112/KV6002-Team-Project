@@ -29,12 +29,16 @@
 .scrollmenu > button{
     border: none;
     border-radius: 7%;
-    background-color: #ffe5C7;
-    
+    /* background-color: #ffe5C7; */
+    background-color: #EFB71AFF;
+    font-weight: bold;
+    color: rgba(0,0,0,.55);
+/*     
     font-size: 1em;
     letter-spacing: .1em;
-    text-transform: uppercase;
+    text-transform: uppercase; */
 }
+
 
 .scrollmenu > button:hover{
     background-color: #EFB71AFF;
@@ -42,11 +46,6 @@
 
 .scrollmenu > button:active{
     background-color: #EFB71AFF;
-}
-
-nav{
-    background-color: #ffe5C7;
-    width: 100%;
 }
 
 .btn-checkout{
@@ -67,4 +66,11 @@ nav{
 
 .btn-description:active{
     color:white;
+}
+
+.categories-navigation{
+    
+    /* background-color: #ffe5C7; */
+    background-color: #EFB71AFF;
+    width: 100%;
 }

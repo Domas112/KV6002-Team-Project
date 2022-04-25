@@ -7,6 +7,7 @@ class Order{
     public $amount;
     public $completed;
     public $viewed;
+    public $paid;
 }
 
 class OrderCustomerView extends Order{

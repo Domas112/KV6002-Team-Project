@@ -16,6 +16,8 @@
         $ordersController->deleteOrder($_GET['id']);
     }elseif(isset($_GET['view_order']) && isset($_GET['id'])){
         $ordersController->viewOrder($_GET['id']);
+    }elseif(isset($_GET['order_paid']) && isset($_GET['id'])){
+        $ordersController->payForOrder($_GET['id']);
     }
     elseif(isset($_GET['post_order'])){
         $jsonData = file_get_contents('php://input');
