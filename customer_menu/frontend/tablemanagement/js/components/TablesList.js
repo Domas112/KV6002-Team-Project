@@ -22,7 +22,6 @@ export class TablesList extends HTMLElement{
                 .then(res=>res.json())
                 .then(res=>{
                     this.tables = res;
-                    console.log(res);
                     this.render();
                     this.addEventListeners();
                 })

@@ -11,8 +11,6 @@ export class TablesForm extends HTMLElement{
         this.render();
         this.querySelector('#add-table-form').addEventListener('submit', (e)=>{
             e.preventDefault();
-            console.log(e.target.seats.value);
-            console.log(e.target.vip.checked);
             fetch(`../../backend/api/Tables.php?post_table`,{
                 method: 'POST',
                 headers: {

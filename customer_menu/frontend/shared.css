@@ -65,3 +65,7 @@ footer{
 .container-sm-logo{
     padding: 10px;
 }
+
+tr{
+    text-align: center;
+}

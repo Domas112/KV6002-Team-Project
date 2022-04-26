@@ -52,9 +52,6 @@ export class Checkout extends HTMLElement{
     }
 
     attributeChangedCallback(prop, oldVal, newVal){
-        console.log(prop);
-        console.log(newVal);
-
         if(prop == 'new-option-id'){
             if(this.newOrderAmount != 0){
                 this.orders[this.newOptionId] = {

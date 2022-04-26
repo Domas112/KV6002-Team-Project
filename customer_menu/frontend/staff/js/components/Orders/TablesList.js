@@ -64,9 +64,6 @@ export class TablesList extends HTMLElement{
                 }
 
                 this.hasOrders = false;
-
-                console.log(this.tables);
-                console.log(Object.keys(this.tables).length);
             })
             .catch(err=>console.error(err));
     }

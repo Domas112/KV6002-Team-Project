@@ -41,8 +41,13 @@ export class Orders extends HTMLElement {
         fetch(`../../backend/api/Orders.php?get_orders_by_table_id&&id=${this.tableId}`)
             .then((res) => res.json())
             .then((res) => {
+                for(let i = 0; i < res.length; i++){
+                    if(res[i].viewed == 0){
+                        this.controlsComponent.setAttribute('new-order', 'true');
+                        break;
+                    }
+                }
                 this.orders = res;
-                console.log(this.orders);
                 this.parentElement.parentElement.setAttribute('orders-count', this.orders.length);
                 this.render();
                 this.addClickListeners();

@@ -15,7 +15,6 @@ export class Table extends HTMLElement {
     }
 
     attributeChangedCallback(prop, oldVal, newVal) {
-        console.log(prop);
         if(prop == 'render'){
             this.render();
         }

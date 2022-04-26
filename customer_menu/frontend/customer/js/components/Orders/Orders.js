@@ -40,7 +40,7 @@ export class Orders extends HTMLElement{
         let placeholder = `
         <div class="modal-content">
             <div class='modal-header'>
-                <h2>You have ordered</h2>
+                <h2>Table ${this.tableId} orders</h2>
                 <button id="modal-close-btn" type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 

@@ -17,7 +17,7 @@ export class CategoriesCarousel extends HTMLElement{
                         <h2>Welcome to the restaurant Amaysia</h2>
                         <p>This is a digital menu, here you may order food from your mobile device!</p>
                         <p>Feel free to browse through the categories of our offered food. 
-                        Once you find something you would like to order, specify the amount, by clicking the + or - buttons to increase or decrease the amount
+                        Once you find something you would like to order, specify the amount, by clicking the + or - buttons to increase or decrease the amount of that dish.
                         Some dishes may have different options, so don't forget to check them out, they can be found above the amount buttons!
                         </p>
                         <p>
