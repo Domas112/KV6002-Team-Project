@@ -21,7 +21,7 @@ $("#loginForm").on("submit", function(e){
                 window.location.href = "http://unn-w19030982.newnumyspace.co.uk/kv6002/adminindex.php";
             },
             401: function(){
-                $(errorMessage).html("<p>Incorrect Username/Password. Please try again!</p>");
+                $(errorMessage).html("Incorrect Username/Password. Please try again!");
             }
         }
     })

@@ -42,6 +42,14 @@ footer{
     background-color: #EFB71AFF;
 }
 
+.active{
+    background-color: #442500;
+}
+
+.navbar-light .navbar-nav .nav-link.active{
+    color:white;
+}
+
 .input-group{
     width: 25%;
 }

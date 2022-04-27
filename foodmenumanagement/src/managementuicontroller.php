@@ -18,6 +18,7 @@ class ManagementUIController extends ManagementUIElement
     public function __construct($path){
         //Start the session
         session_start();
+        ob_start();
 
         //Check if the user is logged in
         if(isset($_SESSION['username'])){
@@ -28,7 +29,7 @@ class ManagementUIController extends ManagementUIElement
                 //Generating the necessary components
                 echo $this->generateHeader("Food Menu Management");
                 echo $this->generateLogo();
-                echo $this->generateNavigation();
+                echo $this->generateNavigation($path);
 
                 //Generate the appropriate UI depending to the path requested
                 switch($path){

@@ -17,7 +17,7 @@ class ManagementUIElement extends UIElement
      * generateNav
      * To generate the navigation section of the webpage.
      */
-    protected function generateNavigation(){
+    protected function generateNavigation($path){
         return <<<EOT
         <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -27,13 +27,25 @@ class ManagementUIElement extends UIElement
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href={$this->adminPath}>Back to Admin Panel</a>
+                            <a class="nav-link" href={$this->adminPath}>Admin Panel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={$this->viewPath}>View All Dishes</a>
+                            <a class="nav-link" href="http://unn-w19030982.newnumyspace.co.uk/kv6002/customer_menu/frontend/staff/index.php">Customer Food Ordering</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={$this->logPath}>System Log</a>
+                            <a class="nav-link" href="http://unn-w19030982.newnumyspace.co.uk/kv6002/feedback/admin.php">Feedback</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {$this->activeNav($path,"view")}" href={$this->viewPath}>Food Menu Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {$this->activeNav($path,"log")}" href={$this->logPath}>Food Menu Management Log</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://unn-w19030982.newnumyspace.co.uk/kv6002/payment/adminside.php">Payment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://unn-w19030982.newnumyspace.co.uk/kv6002/reservsys/view.php">Reservation Management</a>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -421,4 +433,9 @@ EOT;
         }
     }
 
+    private function activeNav($path,$property){
+        if($path == $property){
+            return "active";
+        }
+    }
 }
