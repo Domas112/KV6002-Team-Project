@@ -1,0 +1,198 @@
+/* Gokul Gampala @ Team 30 | w18031735 | Northumbria University | Team Project and Professionalism KV6002 */
+/* General Styling for the Webpage */
+body{
+    background: #ffe5C7;
+}
+/* Styling to the logo and name of the company, Begin */
+.container-sm-logo {
+    padding: 10px;
+    box-shadow: 0px 4px 4px #888888;
+}
+
+#logo {
+    width: 223px;
+    height: 65px;
+    left: 19px;
+    top: 61px;
+}
+/* Styling to the logo and name of the company, End */
+/* Styling for Top navigation of the website, Begin */
+.navbar{
+    padding: 1px 1px ;
+    line-height: 2;
+}
+
+nav {
+    display: inline-block;
+    font-weight: bold;
+    width: 100%;
+    background-color: #efb71a;
+    /*color: rgb(68, 37, 0);*/
+    color: #613C11FF;
+    box-shadow: 0 4px 4px #888888;
+    padding: 1rem 1rem;
+}
+
+.nav-link{
+    /*color: rgb(68, 37, 0);*/
+    color: rgb(215, 105, 26)
+}
+
+nav ul {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: space-evenly;
+    background-color: #efb71a;
+    /*color: rgb(68, 37, 0);*/
+    color: #613C11FF;
+
+}
+
+nav ul li {
+    margin: 0;
+    /*width:16.6%;*/
+    text-align:center;
+}
+
+nav a {
+    /* font-family: Gill Sans, sans-serif;*/
+    font-family: sans-serif;
+    /* font-size: 18px;*/
+    display: block;
+    /*color: rgb(68, 37, 0);*/
+    color: #613C11FF;
+    text-decoration: none !important;
+    padding: 5px 5px;
+
+}
+
+nav a:hover {
+    color: rgb(68, 37, 0);
+}
+
+.active {
+    color: white;
+    background-color: rgb(68, 37, 0);
+}
+
+.active:hover{
+    color:white;
+}
+/* Styling for Top navigation of the website, End */
+/* Styling to the header image and heading, Begin */
+.container-sm-header{
+    padding: 10px;
+    background-color: rgba(255, 229, 199, 0.25);
+}
+
+#feedbackimg {
+    width: 50px;
+    height: 50px;
+    left: 19px;
+    top: 168px;
+}
+
+h1{
+    font-family: Verdana;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+}
+/* Styling to the header image and heading, Begin */
+/* Styling for Feedback form, Begin */
+.reqfield {
+    float: right;
+    font-size: 12px;
+    //padding: 10px;
+    color: red;
+}
+
+#feedform {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+#submitted{
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.starsymbol{
+color: red;
+}
+
+.container-sm-form{
+padding: 10px;
+background: #ffe5C7;
+}
+
+#reviewqsn{
+margin-top: 10px !important;
+}
+.uploadbtn {
+background: #ffbb8e;
+}
+
+.btn{
+background: #ff870c;
+align-content: center;
+text-align: center;
+color: #ffffff;
+}
+
+p{
+font-family: Verdana;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+}
+/* Styling for star icons in rating, Begin */
+*{
+margin: 0;
+padding: 0;
+}
+
+.rating {
+float: left;
+height: 26px;
+padding: 0 10px;
+margin-top: -35px;
+}
+.rating:not(:checked) > input {
+position:absolute;
+top:-9999px;
+}
+.rating:not(:checked) > label {
+float:right;
+width:1em;
+overflow:hidden;
+white-space:nowrap;
+cursor:pointer;
+font-size:30px;
+color:#ccc;
+}
+.rating:not(:checked) > label:before {
+content: '★ ';
+}
+.rating > input:checked ~ label {
+color: #ff870c;
+}
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+color: #ff870c;
+}
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+color: #ff870c;
+}
+/* Styling for star icons in rating, End */
+/* Styling for Feedback form, End */
