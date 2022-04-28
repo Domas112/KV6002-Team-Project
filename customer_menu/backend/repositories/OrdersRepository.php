@@ -23,7 +23,7 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName,
-                    ord.amount, ord.completed, ord.viewed, ord.paid
+                    ord.amount, ord.completed, ord.viewed, ord.paid, ord.time
                 FROM
                     activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID
@@ -40,7 +40,7 @@
                     ord.orderID, ord.tableID,
                     d.dishName,
                     opt.optionName, opt.optionPrice,
-                    ord.amount, ord.completed, ord.viewed, ord.paid
+                    ord.amount, ord.completed, ord.viewed, ord.paid, ord.time
                 FROM
                     activeOrders ord
                 JOIN dish d ON d.dishID = ord.dishID

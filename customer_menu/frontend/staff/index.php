@@ -41,7 +41,7 @@
                             <a class="nav-link" href="../../../adminindex.php">Admin Panel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Customer Food Ordering</a>
+                            <a class="nav-link active-nav" href="#">Customer Food Ordering</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../../../feedback/admin.php">Feedback</a>

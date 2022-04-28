@@ -117,6 +117,9 @@ export class Orders extends HTMLElement {
                         <thead class='custom-table-header'>
                             <tr>
                                 <th scope="col" >
+                                    Time
+                                </th>
+                                <th scope="col" >
                                     Dish title
                                 </th>
                                 <th scope="col">
@@ -139,6 +142,9 @@ export class Orders extends HTMLElement {
             placeholder += `
                             <tr class='${(order.viewed==0) && (order.completed==0) ?"new-order":""}'>
                                 <td scope='row'>
+                                    ${order.time.split(" ")[1]}
+                                </td>
+                                <td>
                                     ${order.dishName}
                                 </td>
                                 <td>

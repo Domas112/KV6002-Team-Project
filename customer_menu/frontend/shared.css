@@ -72,7 +72,7 @@ tr{
     text-align: center;
 }
 
-.active{
+.active-nav{
     color: white !important;
     background-color: rgb(68, 37, 0);
 }
