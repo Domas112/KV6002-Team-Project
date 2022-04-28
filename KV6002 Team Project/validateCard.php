@@ -13,24 +13,24 @@ function validatecard($number)
     if (preg_match($cardtype['visa'],$number))
     {
 	$type= "visa";
-        return 'visa';
+        return true;
 	
     }
     else if (preg_match($cardtype['mastercard'],$number))
     {
 	$type= "mastercard";
-        return 'mastercard';
+        return true;
     }
     else if (preg_match($cardtype['amex'],$number))
     {
 	$type= "amex";
-        return 'amex';
+        return true;
 	
     }
     else if (preg_match($cardtype['discover'],$number))
     {
 	$type= "discover";
-        return 'discover';
+        return true;
     }
     else
     {

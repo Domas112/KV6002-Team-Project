@@ -2,16 +2,17 @@
 class Order extends Database
 {
     function getOrder(){
-        $table = $_POST['table'];
+        $table = $_SESSION['table'];
         $database = new Database();
-        $query = "SELECT dishOption.optionName
-        FROM ActiveOrders
-        INNER JOIN dishOption ON dishOption.optionID = ActiveOrders.optionID
-        INNER JOIN Tables ON Tables.ID = ActiveOrders.TableID
-        WHERE Tables.Active = 1 AND Tables.ID = {$table}";
-        $result = $database->executeSQL($query)->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT dishOption.optionName, dish.dishName, dishOption.optionPrice, activeOrders.amount
+        FROM activeOrders
+        JOIN dish ON dish.dishID = activeOrders.dishID
+        JOIN dishOption ON dishOption.optionID = activeOrders.optionID
+        JOIN tables ON tables.tableID = activeOrders.tableID
+        WHERE  tables.tableID = {$table} AND activeOrders.paid = 0";
+        $result = $database->executeSQL($query,array('tableID'=>$table))->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $result): 
-        echo $result['optionName'],"</br>"; 
+        echo $result['amount']," x ",$result['optionName']," ",$result['dishName']," ", $result['optionPrice'],"</br>"; 
             endforeach; 
             
 }
