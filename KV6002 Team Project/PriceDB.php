@@ -1,6 +1,7 @@
 <?php
 class Price extends Database
 {
+    //
     function getPrice(){
         $database = new Database();
         //query which will get the sum of the price depending on the table 

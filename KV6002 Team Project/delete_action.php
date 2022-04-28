@@ -1,5 +1,6 @@
 <?php
-//delete.php
+//php for deleteion of row on pyament table.
+//used once called from payment button being pressed - admin side
 $post_ids = $_POST['pay_id'];
  foreach($post_ids as $paymentID)
  {

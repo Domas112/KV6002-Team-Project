@@ -1,4 +1,5 @@
 <?php
+//validation of card, checks card numbers eo link to one of 4 card options
 function validatecard($number)
  {
     global $type;

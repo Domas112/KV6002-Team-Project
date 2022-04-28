@@ -4,6 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
 <?php
+//creates the table showing the payment - for admin side
 class paymentTable extends Database
 {
     function paymentTable(){  
@@ -24,8 +25,10 @@ class paymentTable extends Database
             $query = "SELECT paymentID, cardDetails,customerName, price FROM payment";
             $result = $database->executeSQL($query);
             // output data of each row
+            //checks to see if rows can be created - if not then error message shows
             if($result->rowCount() >0){
             while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                //rows created from table
                 ?>            
              <tr pay_id="<?php echo $row['paymentID']; ?>" >                         
                     <td><?php echo $row['paymentID']; ?></td>

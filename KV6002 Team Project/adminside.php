@@ -1,4 +1,5 @@
 <?php
+//needed to check the status of whether the user can view this page - admin side
     session_start();
     if(!isset($_SESSION['username'])){
         header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401');
