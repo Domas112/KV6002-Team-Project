@@ -4,10 +4,8 @@
         header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401');
     }
     
-    if (isset($_SESSION['accountType'])) {
-        if($_SESSION['accountType'] != 1){
-            header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');       
-        }
+    if (!isset($_SESSION['accountType'])) {
+        header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');       
     }    
 ?>
 
@@ -32,18 +30,33 @@
                 <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
         </div>
 
-        <div class="px-4 nav-container">
+        <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../../../adminindex.php">Back to Admin Panel</a>
+                            <a class="nav-link" href="../../../adminindex.php">Admin Panel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../tablemanagement">Table management system</a>
+                            <a class="nav-link active" href="#">Customer Food Ordering</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../feedback/admin.php">Feedback</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../foodmenumanagement/foodmenuadmin.php/view">Food Menu Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../payment/adminside.php">Payment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../reservsys/view.php">Reservation Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../tablemanagement">Table Management</a>
                         </li>
                     </ul>
                     <div class="form-inline">
@@ -54,7 +67,7 @@
         </div>
 
 	</header>
-    <main class="container">
+    <main class="container mt-2">
             <h1>Orders Management System</h1>
             <p>Here you can view and manage the incoming orders of each active table</p>
         

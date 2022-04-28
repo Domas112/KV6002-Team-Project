@@ -16,6 +16,7 @@ header{
 li a {
     color: #613C11FF;
     font-weight: bold;
+    margin-left: 20px;
 }
 
 li a:hover{
@@ -32,6 +33,7 @@ li a:hover{
     color: #ffffff !important;
     background-color: rgb(86,46,0) !important;
     width: 200px;
+    margin-right: 20px;
 }
 
 .functionality-button{
@@ -68,4 +70,9 @@ footer{
 
 tr{
     text-align: center;
+}
+
+.active{
+    color: white !important;
+    background-color: rgb(68, 37, 0);
 }

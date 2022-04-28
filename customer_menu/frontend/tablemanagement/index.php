@@ -32,18 +32,33 @@
             <img id="logo" src="../../resources/images/Logo.png" alt="Amaysia logo" />
         </div>
 
-        <div class="px-4 nav-container">
+        <div class="nav-container">
             <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../../../adminindex.php">Back to Admin Panel</a>
+                    <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                            <a class="nav-link" href="../../../adminindex.php">Admin Panel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../staff">Food ordering system</a>
+                            <a class="nav-link" href="../staff/">Customer Food Ordering</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../feedback/admin.php">Feedback</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../foodmenumanagement/foodmenuadmin.php/view">Food Menu Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../payment/adminside.php">Payment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../reservsys/view.php">Reservation Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Tables Management</a>
                         </li>
                     </ul>
                     <div class="form-inline">
