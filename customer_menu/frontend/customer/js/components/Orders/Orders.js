@@ -24,6 +24,7 @@ export class Orders extends HTMLElement{
     }
 
     async populateOrders(){
+        //get all orders, which were ordered by the table
         await fetch(`../../backend/api/Orders.php?get_orders_by_table_id&id=${this.tableId}`)
         .then(res=>res.json())
         .then(res=>{

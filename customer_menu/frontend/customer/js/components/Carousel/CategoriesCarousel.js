@@ -7,11 +7,14 @@ export class CategoriesCarousel extends HTMLElement{
 
     }
 
+    //As the carousel is not expected to dynamically change, it is only rendered once, 
+    //at the start of the component's lifecycle
     async connectedCallback(){
         this.render();
         fetch('../../backend/api/Dishes.php?category')
             .then(res=>res.json())
             .then(res=>{
+                //The very first item of the carousel
                 let carouselContentPlaceholder = `
                     <div class="carousel-item active">
                         <h2>Welcome to the restaurant Amaysia</h2>
@@ -36,7 +39,7 @@ export class CategoriesCarousel extends HTMLElement{
                     </button>
                 
                 `;
-                let dontSkip = false;
+                //populate the carousel with the categories of items
                 for (const key in res) {
                     
                     carouselIndicatorsPlaceholder += `
@@ -56,7 +59,6 @@ export class CategoriesCarousel extends HTMLElement{
                     </div>
                     `;
                     
-                    dontSkip = true;
 
                     document.querySelector('.carousel-inner').innerHTML = carouselContentPlaceholder;
                     document.querySelector('.scrollmenu').innerHTML = carouselIndicatorsPlaceholder;

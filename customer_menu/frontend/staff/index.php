@@ -2,11 +2,10 @@
     session_start();
     if(!isset($_SESSION['username'])){
         header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=401');
-    }
-    
-    if (!isset($_SESSION['accountType'])) {
+    }elseif (!isset($_SESSION['accountType'])) {
         header('Location: http://unn-w19030982.newnumyspace.co.uk/kv6002/error.php?error=403');       
     }    
+    
 ?>
 
 <!DOCTYPE html>

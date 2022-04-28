@@ -46,7 +46,6 @@ export class Controls extends HTMLElement{
 
     addClickListeners(){
         this.querySelector(`#delete-${this.tableId}-btn`).addEventListener('click', async ()=>{
-            // this.ordersComponent.setAttribute('clear-intervals', 1);
             fetch(`../../backend/api/Orders.php?delete_table&&id=${this.tableId}`)
                 .then((res)=>{
                     //traveling to the tables list element;
@@ -59,6 +58,9 @@ export class Controls extends HTMLElement{
             setTimeout(() => {
                 this.newOrder = 'false';
             }, 5000);
+
+            //parent elements have to know about the change in "show" value
+            //as only then the orders can be rendered in the "show" state 
             this.show = !this.show;
             this.ordersComponent.setAttribute('show', this.show);
             this.parentElement.parentElement.setAttribute('show', this.show);

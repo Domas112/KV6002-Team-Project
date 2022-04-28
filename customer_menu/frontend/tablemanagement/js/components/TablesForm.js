@@ -11,6 +11,8 @@ export class TablesForm extends HTMLElement{
         this.render();
         this.querySelector('#add-table-form').addEventListener('submit', (e)=>{
             e.preventDefault();
+            //send the new table information to the server
+            //so it would be inserted to the database
             fetch(`../../backend/api/Tables.php?post_table`,{
                 method: 'POST',
                 headers: {

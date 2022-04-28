@@ -37,11 +37,15 @@ export class TablesList extends HTMLElement{
                 })
                 .catch(err=>console.error(err));
             })
-
+            
+            //handle the update logic
             document.querySelector(`#submit-btn-${table.tableID}`).addEventListener('click', ()=>{
+                //get the values directly from inputs
+                //this is done this way, as a form was not working properly inside a modal.
                 let newSeatCount = document.querySelector(`#update-seatcount-${table.tableID}`).value;
                 let newVipStatus = document.querySelector(`#update-vip-${table.tableID}`).checked;
 
+                //send the new information to the server
                 fetch(`../../backend/api/Tables.php?update_table`,{
                     method: 'POST',
                     headers: {
@@ -72,7 +76,6 @@ export class TablesList extends HTMLElement{
                         <th scope="col">Table ID</th>
                         <th scope="col">Seat count</th>
                         <th scope="col">VIP?</th>
-                        <th scope="col">Active?</th>
                         <th scope="col">Controls</th>
                     </tr>
                 </thead>
@@ -108,7 +111,6 @@ export class TablesList extends HTMLElement{
                             <td scope="row">${table.tableID}</td>
                             <td>${table.seatCount}</td>
                             <td>${table.VIP==1?"Yes":"No"}</td>
-                            <td>${table.active==1?"Yes":"No"}</td>
                             <td>
                                 <button id='delete-btn-${table.tableID}' class='btn btn-danger'>
                                     Delete

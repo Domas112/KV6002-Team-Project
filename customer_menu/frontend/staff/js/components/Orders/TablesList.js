@@ -36,6 +36,10 @@ export class TablesList extends HTMLElement{
         }, 10000);
     }
 
+
+    //Populating the tables and rendering children components with the relevant information.
+    //NOTE: instead of rerendering the view, additional, new tables are instead appended to the existing innerHTML
+    //so the view would not twitch with every populate attempt.
     populateTables(){
         fetch('../../backend/api/Orders.php?get_tables')
             .then(res=>res.json())
@@ -68,7 +72,11 @@ export class TablesList extends HTMLElement{
             .catch(err=>console.error(err));
     }
 
+    //If a table of orders was deleted, the whole list of active tables has to be retrieved once again
+    //and the view has to be rerendered. It is important to rerender all the tables with the same viewing
+    //states as they were before deleting the table of orders.
     populateAfterDelete(){
+        
         fetch('../../backend/api/Orders.php?get_tables')
         .then(res=>res.json())
         .then(res=>{

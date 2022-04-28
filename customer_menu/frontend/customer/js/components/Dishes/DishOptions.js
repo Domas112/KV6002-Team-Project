@@ -38,6 +38,7 @@ export class DishOptions extends HTMLElement{
     }
 
     async getDishOptions(){
+        //Get all dish options and apply some preprocessing
         await fetch(`../../backend/api/Dishes.php?dishId=${this.dishId}&&options`)
             .then(res=>res.json())
             .then(res=>{
@@ -90,6 +91,7 @@ export class DishOptions extends HTMLElement{
             this.addAmountListeners();
         }
 
+        //send the new dish information to the checkout component
         if(prop == 'current-dish-amount'){
             const checkoutComponent = document.querySelector(`checkout-component`);
             checkoutComponent.setAttribute('new-order-name', this.parent.getAttribute('title'));

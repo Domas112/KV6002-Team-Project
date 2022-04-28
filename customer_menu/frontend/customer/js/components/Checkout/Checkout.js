@@ -15,6 +15,7 @@ export class Checkout extends HTMLElement{
         const urlParams = new URLSearchParams(queryString);
         this.tableId = urlParams.get('tableId');
 
+        //Check if the current table exists in the database. Else - redirect the user.
         fetch('../../backend/api/Tables.php?get_table_ids')
         .then(res=>res.json())
         .then(res=>{
@@ -51,7 +52,9 @@ export class Checkout extends HTMLElement{
         return ["new-option-id"];
     }
 
+    
     attributeChangedCallback(prop, oldVal, newVal){
+        //once a new order has been added, append it to the new orders list.
         if(prop == 'new-option-id'){
             if(this.newOrderAmount != 0){
                 this.orders[this.newOptionId] = {
@@ -71,7 +74,9 @@ export class Checkout extends HTMLElement{
         
         let checkoutButton = this.querySelector('#checkout-button');
         if(checkoutButton != null){
-
+            
+            //once the checkout button has been clicked,
+            //send the order to the server.
             checkoutButton.addEventListener('click', ()=>{
                 let parsedOrders = [];
 
@@ -93,6 +98,7 @@ export class Checkout extends HTMLElement{
                     body: body
                 })
                 .then(res=>{
+                    //If the orders post was successful, redirect the user to the payment page
                     if(res.status == 200){
                         window.location.href = '../../../payment/PaymentUI.php'
                     }

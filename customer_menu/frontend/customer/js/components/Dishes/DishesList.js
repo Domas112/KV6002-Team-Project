@@ -6,6 +6,7 @@ export class DishesList extends HTMLElement{
     }
 
     async getDishes(){
+        //asynchronously populate the dishes 
         let results = await fetch(`../../backend/api/Dishes.php?category=${this.category}&&dishes`)
                             .then(res=>res.json())
                             .catch(err=>console.error(err));
@@ -41,17 +42,5 @@ export class DishesList extends HTMLElement{
                 />
             `;
         }
-        // this.dishes.category_1.forEach(element => {
-        //     this.innerHTML+=`
-        //         <dish-component
-        //             id="${element.id}"
-        //             title="${element.title}"
-        //             price="${element.price}"
-        //             description="${element.description}"
-        //             image-path="${element.imagePath}"
-        //         />
-        //     `;
-           
-        // });
     }
 }

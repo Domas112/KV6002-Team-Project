@@ -28,16 +28,21 @@ export class AmountButton extends HTMLElement{
         this.addEventListeners();
     }
 
+    //Event listeners include only the amount buttons
     addEventListeners(){
+        
         let increaseBtn = this.querySelector(`#incBtn-${this.dishId}`);
         increaseBtn.addEventListener('click', ()=>{
+            //change the amount here, so the changes would be displayed
             this.amount++;
-            this.parentElement.amount++;
             
         })
 
         let decreaseBtn = this.querySelector(`#dcrBtn-${this.dishId}`);
         decreaseBtn.addEventListener('click', ()=>{
+            
+            //change the amount here, so the changes would be displayed
+            //as well as do not allow the amount to go below 0
             if(this.amount > 0){
                 this.amount--;
             }

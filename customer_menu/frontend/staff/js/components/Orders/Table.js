@@ -30,7 +30,7 @@ export class Table extends HTMLElement {
 
     render() {
         let placeholder = `
-        <div class="row orders-table border-bottom border-dark pt-2">
+        <div class="row orders-table border-top border-dark pt-2">
             <controls-component id="table-${this.tableId}-controls" table-id=${this.tableId} show=${this.show} new-order="false" vip=${this.vip}></controls-component>
             <orders-component id="table-${this.tableId}-orders" table-id=${this.tableId} show=${this.show}></orders-component> 
         </div>
