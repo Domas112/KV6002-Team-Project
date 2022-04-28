@@ -1,0 +1,182 @@
+nav.navbar.brand {
+    background: rgb(235 235 235 / 0%);
+    margin-bottom: 3rem;
+    box-shadow: 2px 0px 9px rgb(131 122 122 / 37%);
+    padding: 1%;
+}
+
+Html,body {
+min-height: -webkit-fill-available;
+background: #ffe5C7 !important;
+
+}
+
+
+.hidden {
+    display: none;
+  }
+
+input[type="search"] {
+    margin-bottom: 2rem;
+}
+
+
+  
+  form#resBook {
+    margin: 5%;
+}
+
+.container.block {
+  background: rgb(237 221 159 / 8%);
+  padding: 2%;
+  border-radius: 4%;
+}
+
+
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+	font-size: 0.84em;
+  }
+  
+  table td {
+    border-bottom: 1px solid rgb(185 185 185 / 38%);
+    display: block;
+    font-size: .8em;
+    text-align: right !important;
+  }
+  
+
+ table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+    text-align: right;
+  
+
+}
+}
+
+
+
+
+
+input#myInput {
+    float: right;
+    margin-bottom: 1rem;
+    border: 0;
+    border-bottom: 2px solid #eeb700;
+    padding: 5px;
+transition: 0.22s ease-in border-bottom;
+}
+
+
+
+input#myInput:focus-visible {
+    outline: 0 !important;
+    border-bottom: 2px solid maroon;
+}
+
+
+
+
+button.btn.btn-sm.logout {
+    background: #553120;
+    color: #fff;
+}
+
+@media screen and (min-width: 1024px) {
+section.section.custom {
+   margin-bottom: -4rem !important;
+}
+
+}
+
+.dataTables_wrapper .dataTables_info {
+  
+    padding-top: 2.755em !important;
+}
+
+div#myTable_paginate {
+    padding-top: 2.755em !important;
+}
+
+
+.inline-disp {
+    display: inline-flex;
+    gap: 1rem;
+}
+
+input.btn-btn-large {
+    background: #553120;
+    color: #fff;
+    margin-top: 2rem;
+    /* margin: 0 auto; */
+    border: 0px;
+    padding: 0.8rem 5rem;
+    /* display: inline-block; */
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.sbt-div {
+    text-align: center;
+}
+
